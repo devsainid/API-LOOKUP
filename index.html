@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details Lookup by DEV</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            padding: 28px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-size: 24px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        /* Box ka Green Color */
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #22c55e; /* Green Border */
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.2s;
+            background-color: #f0fdf4; /* Light Green Background */
+        }
+        input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Help Text */
+        .help-text {
+            font-size: 13px;
+            color: #64748b;
+            padding-left: 5px;
+            margin-bottom: 8px;
+        }
+
+        /* Button ka Red Color */
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            background-color: #ef4444; /* Red Button */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #dc2626;
+        }
+        button:disabled {
+            background-color: #fca5a5;
+            cursor: not-allowed;
+        }
+
+        #result-container {
+            display: none;
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 10px;
+            word-break: break-word;
+        }
+        .loading {
+            background: #f8fafc;
+            color: #6b7280;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        .error {
+            color: #dc2626;
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+        }
+        .success {
+            color: #1e293b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        pre {
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-top: 10px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        /* DEV SAINI Text Styling */
+        .dev-saini-tag {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1e293b;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px dashed #cbd5e1;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Details Finder</h2>
+    <div class="input-group">
+        <input type="text" id="phoneInput" placeholder="Yahan 10-digit number daalein..." />
+        <div class="help-text">💡 Kripya bina +91 lagaye sirf number likhein.</div>
+        <button id="searchBtn" onclick="fetchData()">Search Details</button>
+    </div>
+    
+    <div id="result-container"></div>
+</div>
+
+<script>
+    const API_BASE = "https://lynx.mireiariosss.workers.dev/api/search/";
+
+    async function fetchData() {
+        const inputField = document.getElementById('phoneInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultContainer = document.getElementById('result-container');
+        const queryVal = inputField.value.trim();
+
+        if (!queryVal) {
+            alert("Kripya pehle koi number daalein!");
+            return;
+        }
+
+        resultContainer.style.display = "block";
+        resultContainer.className = "loading";
+        resultContainer.innerHTML = "Fetching details, please wait...";
+        searchBtn.disabled = true;
+
+        try {
+            const targetUrl = `${API_BASE}${encodeURIComponent(queryVal)}`;
+            
+            const response = await fetch(targetUrl, {
+                method: "GET"
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server status ${response.status}`);
+            }
+
+            const rawText = await response.text();
+
+            let displayText = rawText;
+            
+            const firstBrace = rawText.indexOf('{');
+            const lastBrace = rawText.lastIndexOf('}');
+            
+            if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+                const jsonString = rawText.substring(firstBrace, lastBrace + 1);
+                try {
+                    const parsed = JSON.parse(jsonString);
+                    displayText = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    displayText = rawText;
+                }
+            }
+
+            // Yahan par DEV SAINI tag add kiya gaya hai
+            resultContainer.className = "success";
+            resultContainer.innerHTML = `
+                <strong>Details Found:</strong>
+                <pre>${displayText}</pre>
+                <div class="dev-saini-tag">"DEV SAINI"</div>
+            `;
+        } catch (err) {
+            resultContainer.className = "error";
+            resultContainer.innerHTML = `<strong>Error:</strong> ${err.message}`;
+        } finally {
+            searchBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+  </html>
