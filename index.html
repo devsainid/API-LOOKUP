@@ -3,192 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details Finder by DEV</title>
+    <title>DEV OSINT TERMINAL</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        
-        /* Background Video Setup */
-        .bg-video {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            object-fit: cover;
-            opacity: 0.9;
+            /* Asli Hacker Font */
+            font-family: "Courier New", Courier, monospace; 
         }
 
         body {
+            /* Hacker Grid Background */
+            background-color: #050505;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.15) 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #00ff00;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            /* Fallback dark background if video takes time to load */
-            background-color: #0f172a; 
         }
 
-        /* Glassmorphism Card (Shishe Jaisa Transparent) */
+        /* Terminal Box */
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 15, 0, 0.9);
             width: 100%;
             max-width: 480px;
-            padding: 28px 24px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 30px 20px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2), inset 0 0 15px rgba(0, 255, 0, 0.1);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 20px;
-            color: #0f172a;
+            margin-bottom: 25px;
             font-size: 26px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #00ff00;
+            text-shadow: 0 0 8px #00ff00;
+            letter-spacing: 2px;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 15px;
         }
 
         input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px;
             font-size: 16px;
-            border: 2px solid #22c55e;
-            border-radius: 10px;
+            background: #000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
             outline: none;
-            transition: all 0.2s;
-            background-color: rgba(255, 255, 255, 0.9);
+            font-weight: bold;
         }
 
         input:focus {
-            border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+            background: #051a05;
         }
 
-        .help-text {
-            font-size: 13px;
-            color: #334155;
-            padding-left: 5px;
-            margin-bottom: 8px;
-            font-weight: 500;
+        input::placeholder {
+            color: rgba(0, 255, 0, 0.4);
         }
 
         button {
             width: 100%;
             padding: 14px;
-            font-size: 16px;
+            font-size: 18px;
+            background: #00ff00;
+            color: #000;
             font-weight: bold;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
             border: none;
-            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.2s;
         }
 
         button:active {
             transform: scale(0.98);
         }
 
-        button:disabled {
-            background: #fca5a5;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
         #result-container {
             display: none;
-            margin-top: 15px;
-            padding: 16px;
-            border-radius: 10px;
-            max-height: 400px;
-            overflow-y: auto;
+            margin-top: 25px;
         }
 
-        .loading { background: rgba(248, 250, 252, 0.9); color: #6b7280; text-align: center; }
-        .error { color: #dc2626; background: rgba(254, 226, 226, 0.9); border: 1px solid #fca5a5; }
-        .success { background: transparent; }
-
-        /* VIP Data Cards Style */
+        /* Hacker Data Card */
         .data-card {
-            background: #ffffff;
-            border-left: 5px solid #22c55e;
+            background: rgba(0, 30, 0, 0.8);
+            border-left: 4px solid #00ff00;
             padding: 15px;
-            margin-top: 12px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 15px;
+            border-top: 1px solid rgba(0, 255, 0, 0.2);
+            border-right: 1px solid rgba(0, 255, 0, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
         }
 
         .data-row {
             display: flex;
             margin-bottom: 10px;
-            border-bottom: 1px dashed #e2e8f0;
+            border-bottom: 1px dashed rgba(0, 255, 0, 0.3);
             padding-bottom: 6px;
-        }
-        
-        .data-row:last-child {
-            margin-bottom: 0;
-            border-bottom: none;
-            padding-bottom: 0;
         }
 
         .data-label {
-            font-weight: 700;
-            color: #475569;
+            color: #00ff00;
             width: 35%;
-            text-transform: capitalize;
-            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 13px;
         }
 
         .data-value {
-            color: #0f172a;
+            color: #ffffff;
             width: 65%;
             font-size: 14px;
-            font-weight: 500;
             word-break: break-word;
+            text-shadow: 0 0 3px rgba(255,255,255,0.4);
         }
 
         .dev-saini-tag {
             font-size: 24px;
-            font-weight: 900;
-            color: #1e293b;
             text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 2px solid rgba(0,0,0,0.1);
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            margin-top: 30px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
 
-<video autoplay loop muted playsinline class="bg-video">
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-network-of-connections-31518-large.mp4" type="video/mp4">
-</video>
-
 <div class="card">
-    <h2>Details Finder</h2>
+    <h2>[ OSINT_DATABASE ]</h2>
     <div class="input-group">
-        <input type="text" id="phoneInput" placeholder="Yahan 10-digit number daalein..." />
-        <div class="help-text">💡 Kripya bina +91 lagaye sirf number likhein.</div>
-        <button id="searchBtn" onclick="fetchData()">Search Details</button>
+        <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." />
+        <button id="searchBtn" onclick="fetchData()">INITIALIZE SEARCH</button>
     </div>
     <div id="result-container"></div>
 </div>
@@ -204,14 +168,15 @@ async function fetchData() {
     const queryVal = inputField.value.trim();
 
     if (!queryVal) {
-        alert("Kripya pehle koi number daalein!");
+        alert("ACCESS DENIED: Enter Target Number.");
         return;
     }
 
     resultContainer.style.display = "block";
-    resultContainer.className = "loading";
-    resultContainer.innerHTML = "Fetching details, please wait...";
+    resultContainer.innerHTML = "<div style='text-align:center; color:#00ff00;'>FETCHING TARGET DATA...</div>";
     searchBtn.disabled = true;
+    searchBtn.style.background = "#005500";
+    searchBtn.innerText = "SEARCHING...";
 
     try {
         const targetUrl = `${API_BASE}${encodeURIComponent(queryVal)}`;
@@ -222,46 +187,43 @@ async function fetchData() {
         const rawText = await response.text();
         let finalHTML = "";
         
-        // JSON ko format karke VIP UI banana
         try {
             const firstBrace = rawText.indexOf('{');
             const lastBrace = rawText.lastIndexOf('}');
             const jsonString = rawText.substring(firstBrace, lastBrace + 1);
             const parsed = JSON.parse(jsonString);
 
-            // Agar result array exist karta hai
             if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
                 parsed.results.forEach((item) => {
                     finalHTML += `<div class="data-card">`;
                     for (const [key, value] of Object.entries(item)) {
-                        let cleanKey = key.replace(/_/g, ' '); // father_name ko father name banayega
+                        let cleanKey = key.replace(/_/g, ' '); 
                         finalHTML += `
                         <div class="data-row">
                             <span class="data-label">${cleanKey}</span>
-                            <span class="data-value">${value || '-'}</span>
+                            <span class="data-value">${value || 'N/A'}</span>
                         </div>`;
                     }
                     finalHTML += `</div>`;
                 });
             } else {
-                // Agar data nahi mila ya format alag hai
-                finalHTML = `<div class="data-card"><pre style="font-size:12px; white-space:pre-wrap;">${JSON.stringify(parsed, null, 2)}</pre></div>`;
+                finalHTML = `<div class="data-card" style="color:red;">NO RECORD FOUND FOR THIS TARGET.</div>`;
             }
         } catch (e) {
-            finalHTML = `<div class="data-card"><p>Data couldn't be formatted nicely. Raw Data:</p><pre>${rawText}</pre></div>`;
+            finalHTML = `<div class="data-card"><p>RAW DATA:</p><pre>${rawText}</pre></div>`;
         }
 
-        resultContainer.className = "success";
         resultContainer.innerHTML = `
-            <div style="font-weight:bold; font-size:18px; color:#0f172a; margin-top:10px;">Details Found:</div>
+            <div style="font-weight:bold; font-size:16px; margin-top:10px; text-decoration:underline;">> DATA_MATCH_FOUND:</div>
             ${finalHTML}
-            <div class="dev-saini-tag">"DEV SAINI"</div>
+            <div class="dev-saini-tag">DEV SAINI</div>
         `;
     } catch (err) {
-        resultContainer.className = "error";
-        resultContainer.innerHTML = `<strong>Error:</strong> ${err.message}`;
+        resultContainer.innerHTML = `<div style="color:red; margin-top:10px;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
     } finally {
         searchBtn.disabled = false;
+        searchBtn.style.background = "#00ff00";
+        searchBtn.innerText = "INITIALIZE SEARCH";
     }
 }
 </script>
