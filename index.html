@@ -136,24 +136,20 @@
             overflow: hidden; 
         }
 
-        /* Blue Line for Primary */
         .data-card .data-row::before {
             content: ''; position: absolute; bottom: 0; left: 0; width: 100%;
             border-bottom: 1px dashed rgba(0, 229, 255, 0.25);
         }
-        /* Red Line for ALT */
         .alt-card .data-row::before {
             content: ''; position: absolute; bottom: 0; left: 0; width: 100%;
             border-bottom: 1px dashed rgba(255, 51, 51, 0.25);
         }
 
-        /* Blue Scan for Primary */
         .data-card .data-row::after {
             content: ''; position: absolute; bottom: -1px; left: -50%; width: 40%; height: 2px;
             background: linear-gradient(90deg, transparent, #00e5ff, #ffffff, transparent);
             animation: cyberScan 2.5s infinite linear;
         }
-        /* Red Scan for ALT */
         .alt-card .data-row::after {
             content: ''; position: absolute; bottom: -1px; left: -50%; width: 40%; height: 2px;
             background: linear-gradient(90deg, transparent, #ff3333, #ffffff, transparent);
@@ -207,7 +203,6 @@
 </div>
 
 <script>
-// Yahan maine tera ASLI API LINK wapas daal diya hai! Ab error nahi aayega.
 const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
 async function fetchTargetData(number) {
@@ -273,30 +268,44 @@ async function initiateSearch() {
 
     try {
         let finalHTML = "";
-        let altNumberFound = null;
+        let altNumbersList = new Set();
 
+        // STEP 1: Main Number ki detail nikalo
         const primaryData = await fetchTargetData(mainNumber);
 
         if (primaryData && primaryData.results && primaryData.results.length > 0) {
             finalHTML += `<div class="section-title primary-title">> PRIMARY TARGET DATA:</div>`;
             finalHTML += generateCardHTML(primaryData.results, false);
             
-            let possibleAlt = primaryData.results[0].alternate;
-            if (possibleAlt && possibleAlt !== "N/A" && possibleAlt !== null) {
-                altNumberFound = possibleAlt.split(',')[0].trim();
-            }
+            // SARE records me se alternate numbers collect karo
+            primaryData.results.forEach(rec => {
+                if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
+                    // Agar comma ya space se multiple numbers hain toh unhe alag karo
+                    let splitNums = rec.alternate.split(/[,,\s]+/);
+                    splitNums.forEach(num => {
+                        let cleanNum = num.trim();
+                        // Sirf 10 digit wale valid numbers lo jo main number na ho
+                        if (cleanNum.length >= 10 && cleanNum !== mainNumber) {
+                            altNumbersList.add(cleanNum);
+                        }
+                    });
+                }
+            });
         } else {
             finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND FOR PRIMARY TARGET.</div>`;
         }
 
-        if (altNumberFound && altNumberFound.length >= 10) {
-            resultContainer.innerHTML = `<div style='text-align:center; color:#ff3333; font-weight:bold;'>ALT NUMBER DETECTED [${altNumberFound}]...<br>EXTRACTING DEEP DATA...</div>`;
-            
-            const altData = await fetchTargetData(altNumberFound);
-            
-            if (altData && altData.results && altData.results.length > 0) {
-                finalHTML += `<div class="section-title alt-title">> ASSOCIATED ALT NUMBER DATA [ ${altNumberFound} ]:</div>`;
-                finalHTML += generateCardHTML(altData.results, true);
+        // STEP 2: Jitne bhi alternate numbers mile hain, sabki deep details ek-ek karke nikalo!
+        if (altNumbersList.size > 0) {
+            for (let altNum of altNumbersList) {
+                resultContainer.innerHTML = `<div style='text-align:center; color:#ff3333; font-weight:bold;'>ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...</div>`;
+                
+                const altData = await fetchTargetData(altNum);
+                
+                if (altData && altData.results && altData.results.length > 0) {
+                    finalHTML += `<div class="section-title alt-title">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
+                    finalHTML += generateCardHTML(altData.results, true);
+                }
             }
         }
 
