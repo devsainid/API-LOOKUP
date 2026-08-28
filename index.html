@@ -13,12 +13,12 @@
         }
 
         body {
-            background-color: #050505;
+            background-color: #020a14; /* Deep dark blue background */
             background-image: 
-                linear-gradient(rgba(0, 255, 0, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 0, 0.15) 1px, transparent 1px);
+                linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
             background-size: 25px 25px;
-            color: #00ff00;
+            color: #00e5ff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,22 +26,25 @@
             padding: 20px;
         }
 
+        /* Transparent Blue Neon Card */
         .card {
-            background: rgba(0, 15, 0, 0.9);
+            background: rgba(0, 15, 35, 0.45); /* Halka transparent */
+            backdrop-filter: blur(8px); /* Shishe jaisa blur effect */
+            -webkit-backdrop-filter: blur(8px);
             width: 100%;
             max-width: 480px;
             padding: 30px 20px;
-            border-radius: 5px;
-            border: 1px solid #00ff00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2), inset 0 0 15px rgba(0, 255, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-size: 24px;
-            color: #00ff00;
-            text-shadow: 0 0 8px #00ff00;
+            font-size: 22px;
+            color: #00e5ff;
+            text-shadow: 0 0 10px #00e5ff, 0 0 20px rgba(0, 229, 255, 0.5);
             letter-spacing: 2px;
         }
 
@@ -55,38 +58,46 @@
             width: 100%;
             padding: 14px;
             font-size: 16px;
-            background: #000;
-            border: 1px solid #00ff00;
-            color: #00ff00;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 229, 255, 0.5);
+            color: #00e5ff;
             outline: none;
             font-weight: bold;
             text-align: center;
+            border-radius: 5px;
+            transition: 0.3s;
         }
 
         input:focus {
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
-            background: #051a05;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+            background: rgba(0, 20, 45, 0.8);
+            border: 1px solid #00e5ff;
         }
 
         input::placeholder {
-            color: rgba(0, 255, 0, 0.4);
+            color: rgba(0, 229, 255, 0.3);
         }
 
         button {
             width: 100%;
             padding: 14px;
             font-size: 18px;
-            background: #00ff00;
-            color: #000;
+            background: rgba(0, 229, 255, 0.15);
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
             font-weight: bold;
-            border: none;
             cursor: pointer;
             letter-spacing: 1.5px;
-            transition: 0.2s;
+            transition: 0.3s;
+            border-radius: 5px;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.2);
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
+            background: #00e5ff;
+            color: #000;
         }
 
         #result-container {
@@ -95,28 +106,60 @@
         }
 
         .data-card {
-            background: rgba(0, 30, 0, 0.8);
-            border-left: 4px solid #00ff00;
+            background: rgba(0, 25, 50, 0.3); /* Transparent Data Box */
+            border-left: 3px solid #00e5ff;
             padding: 15px;
             margin-top: 15px;
-            border-top: 1px solid rgba(0, 255, 0, 0.2);
-            border-right: 1px solid rgba(0, 255, 0, 0.2);
-            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+            border-top: 1px solid rgba(0, 229, 255, 0.1);
+            border-right: 1px solid rgba(0, 229, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 5px;
         }
 
+        /* Lighting Effect Logic */
         .data-row {
             display: flex;
             margin-bottom: 10px;
-            border-bottom: 1px dashed rgba(0, 255, 0, 0.3);
             padding-bottom: 6px;
+            position: relative;
+            overflow: hidden; /* Light line ke bahar na jaye isliye */
+        }
+
+        /* Niche ki normal line */
+        .data-row::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px dashed rgba(0, 229, 255, 0.25);
+        }
+
+        /* Chamakti hui running light effect */
+        .data-row::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: -50%;
+            width: 40%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00e5ff, #ffffff, transparent);
+            animation: cyberScan 2.5s infinite linear;
+        }
+
+        @keyframes cyberScan {
+            0% { left: -50%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .data-label {
-            color: #00ff00;
+            color: #00e5ff;
             width: 35%;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 13px;
+            text-shadow: 0 0 2px rgba(0, 229, 255, 0.4);
         }
 
         .data-value {
@@ -124,26 +167,26 @@
             width: 65%;
             font-size: 14px;
             word-break: break-word;
-            text-shadow: 0 0 3px rgba(255,255,255,0.4);
+            text-shadow: 0 0 3px rgba(255,255,255,0.5);
         }
 
-        /* Naya VIP Footer Font aur Style */
+        /* Tera VIP Footer Font */
         .dev-saini-tag {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 900;
             text-align: center;
             margin-top: 30px;
             padding-top: 15px;
             color: #ffffff;
-            border-top: 1px dashed rgba(0, 255, 0, 0.4);
+            border-top: 1px dashed rgba(0, 229, 255, 0.4);
             letter-spacing: 1px;
-            text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
-            animation: pulse 2s infinite;
+            text-shadow: 0 0 5px #00e5ff, 0 0 12px #00e5ff;
+            animation: textPulse 2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes textPulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.98); }
+            50% { opacity: 0.75; transform: scale(0.99); }
         }
     </style>
 </head>
@@ -174,9 +217,10 @@ async function fetchData() {
     }
 
     resultContainer.style.display = "block";
-    resultContainer.innerHTML = "<div style='text-align:center; color:#00ff00;'>FETCHING TARGET DATA...</div>";
+    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff;'>FETCHING TARGET DATA...</div>";
     searchBtn.disabled = true;
-    searchBtn.style.background = "#005500";
+    searchBtn.style.background = "rgba(0, 100, 150, 0.3)";
+    searchBtn.style.color = "#00e5ff";
     searchBtn.innerText = "SEARCHING...";
 
     try {
@@ -196,12 +240,10 @@ async function fetchData() {
 
             if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
                 
-                // DUPLICATE REMOVER LOGIC (Ek hi entry 2 baar aane se rokega)
                 const uniqueData = [];
                 const checkDuplicate = new Set();
                 
                 parsed.results.forEach(item => {
-                    // Object ko string banakar check karna ki pehle aa chuka hai ya nahi
                     const stringifiedItem = JSON.stringify(item);
                     if (!checkDuplicate.has(stringifiedItem)) {
                         checkDuplicate.add(stringifiedItem);
@@ -222,22 +264,22 @@ async function fetchData() {
                     finalHTML += `</div>`;
                 });
             } else {
-                finalHTML = `<div class="data-card" style="color:red;">NO RECORD FOUND FOR THIS TARGET.</div>`;
+                finalHTML = `<div class="data-card" style="color:#ff3333; border-left-color:#ff3333;">NO RECORD FOUND FOR THIS TARGET.</div>`;
             }
         } catch (e) {
             finalHTML = `<div class="data-card"><p>RAW DATA:</p><pre>${rawText}</pre></div>`;
         }
 
         resultContainer.innerHTML = `
-            <div style="font-weight:bold; font-size:16px; margin-top:10px; text-decoration:underline;">> DATA_MATCH_FOUND:</div>
+            <div style="font-weight:bold; font-size:15px; margin-top:10px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> DATA_MATCH_FOUND:</div>
             ${finalHTML}
-            <div class="dev-saini-tag">DATA SUCCESSFULLY FETCHED BY DEV SAINI</div>
+            <div class="dev-saini-tag">DATA SUCCESSFULLY FETCHED FROM DEV SAINI'S DATABASE</div>
         `;
     } catch (err) {
-        resultContainer.innerHTML = `<div style="color:red; margin-top:10px;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
+        resultContainer.innerHTML = `<div style="color:#ff3333; margin-top:10px;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
     } finally {
         searchBtn.disabled = false;
-        searchBtn.style.background = "#00ff00";
+        searchBtn.style.background = "rgba(0, 229, 255, 0.15)";
         searchBtn.innerText = "CHECK NUMBER";
     }
 }
