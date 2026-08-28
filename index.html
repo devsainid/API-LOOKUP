@@ -9,12 +9,10 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Asli Hacker Font */
             font-family: "Courier New", Courier, monospace; 
         }
 
         body {
-            /* Hacker Grid Background */
             background-color: #050505;
             background-image: 
                 linear-gradient(rgba(0, 255, 0, 0.15) 1px, transparent 1px),
@@ -28,7 +26,6 @@
             padding: 20px;
         }
 
-        /* Terminal Box */
         .card {
             background: rgba(0, 15, 0, 0.9);
             width: 100%;
@@ -42,7 +39,7 @@
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-size: 26px;
+            font-size: 24px;
             color: #00ff00;
             text-shadow: 0 0 8px #00ff00;
             letter-spacing: 2px;
@@ -63,6 +60,7 @@
             color: #00ff00;
             outline: none;
             font-weight: bold;
+            text-align: center;
         }
 
         input:focus {
@@ -83,8 +81,7 @@
             font-weight: bold;
             border: none;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             transition: 0.2s;
         }
 
@@ -97,7 +94,6 @@
             margin-top: 25px;
         }
 
-        /* Hacker Data Card */
         .data-card {
             background: rgba(0, 30, 0, 0.8);
             border-left: 4px solid #00ff00;
@@ -131,28 +127,33 @@
             text-shadow: 0 0 3px rgba(255,255,255,0.4);
         }
 
+        /* Naya VIP Footer Font aur Style */
         .dev-saini-tag {
-            font-size: 24px;
+            font-size: 14px;
+            font-weight: 900;
             text-align: center;
             margin-top: 30px;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            animation: blink 2s infinite;
+            padding-top: 15px;
+            color: #ffffff;
+            border-top: 1px dashed rgba(0, 255, 0, 0.4);
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>[ OSINT_DATABASE ]</h2>
+    <h2>[ DEV SAINI'S DATABASE ]</h2>
     <div class="input-group">
         <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." />
-        <button id="searchBtn" onclick="fetchData()">INITIALIZE SEARCH</button>
+        <button id="searchBtn" onclick="fetchData()">CHECK NUMBER</button>
     </div>
     <div id="result-container"></div>
 </div>
@@ -194,7 +195,21 @@ async function fetchData() {
             const parsed = JSON.parse(jsonString);
 
             if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
-                parsed.results.forEach((item) => {
+                
+                // DUPLICATE REMOVER LOGIC (Ek hi entry 2 baar aane se rokega)
+                const uniqueData = [];
+                const checkDuplicate = new Set();
+                
+                parsed.results.forEach(item => {
+                    // Object ko string banakar check karna ki pehle aa chuka hai ya nahi
+                    const stringifiedItem = JSON.stringify(item);
+                    if (!checkDuplicate.has(stringifiedItem)) {
+                        checkDuplicate.add(stringifiedItem);
+                        uniqueData.push(item);
+                    }
+                });
+
+                uniqueData.forEach((item) => {
                     finalHTML += `<div class="data-card">`;
                     for (const [key, value] of Object.entries(item)) {
                         let cleanKey = key.replace(/_/g, ' '); 
@@ -216,14 +231,14 @@ async function fetchData() {
         resultContainer.innerHTML = `
             <div style="font-weight:bold; font-size:16px; margin-top:10px; text-decoration:underline;">> DATA_MATCH_FOUND:</div>
             ${finalHTML}
-            <div class="dev-saini-tag">DEV SAINI</div>
+            <div class="dev-saini-tag">DATA SUCCESSFULLY FETCHED BY DEV SAINI</div>
         `;
     } catch (err) {
         resultContainer.innerHTML = `<div style="color:red; margin-top:10px;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
     } finally {
         searchBtn.disabled = false;
         searchBtn.style.background = "#00ff00";
-        searchBtn.innerText = "INITIALIZE SEARCH";
+        searchBtn.innerText = "CHECK NUMBER";
     }
 }
 </script>
