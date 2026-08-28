@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details Lookup by DEV</title>
+    <title>Details Finder by DEV</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,34 +11,59 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
+        
+        /* Background Video Setup */
+        .bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
         body {
-            background: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            /* Fallback dark background if video takes time to load */
+            background-color: #0f172a; 
         }
+
+        /* Glassmorphism Card (Shishe Jaisa Transparent) */
         .card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             width: 100%;
             max-width: 480px;
             padding: 28px 24px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
+
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #1a1a1a;
-            font-size: 24px;
+            color: #0f172a;
+            font-size: 26px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
             margin-bottom: 20px;
         }
+
         input {
             width: 100%;
             padding: 14px 16px;
@@ -47,86 +72,116 @@
             border-radius: 10px;
             outline: none;
             transition: all 0.2s;
-            background-color: #f0fdf4;
+            background-color: rgba(255, 255, 255, 0.9);
         }
+
         input:focus {
             border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
         }
+
         .help-text {
             font-size: 13px;
-            color: #64748b;
+            color: #334155;
             padding-left: 5px;
             margin-bottom: 8px;
+            font-weight: 500;
         }
+
         button {
             width: 100%;
             padding: 14px;
             font-size: 16px;
-            font-weight: 600;
-            background-color: #ef4444;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
         }
-        button:hover {
-            background-color: #dc2626;
+
+        button:active {
+            transform: scale(0.98);
         }
+
         button:disabled {
-            background-color: #fca5a5;
+            background: #fca5a5;
             cursor: not-allowed;
+            box-shadow: none;
         }
+
         #result-container {
             display: none;
             margin-top: 15px;
             padding: 16px;
             border-radius: 10px;
-            word-break: break-word;
-        }
-        .loading {
-            background: #f8fafc;
-            color: #6b7280;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            font-size: 14px;
-        }
-        .error {
-            color: #dc2626;
-            background: #fee2e2;
-            border: 1px solid #fca5a5;
-        }
-        .success {
-            color: #1e293b;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-        pre {
-            white-space: pre-wrap;
-            font-size: 14px;
-            line-height: 1.5;
-            background: #ffffff;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            margin-top: 10px;
-            max-height: 350px;
+            max-height: 400px;
             overflow-y: auto;
         }
+
+        .loading { background: rgba(248, 250, 252, 0.9); color: #6b7280; text-align: center; }
+        .error { color: #dc2626; background: rgba(254, 226, 226, 0.9); border: 1px solid #fca5a5; }
+        .success { background: transparent; }
+
+        /* VIP Data Cards Style */
+        .data-card {
+            background: #ffffff;
+            border-left: 5px solid #22c55e;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .data-row {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 6px;
+        }
+        
+        .data-row:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .data-label {
+            font-weight: 700;
+            color: #475569;
+            width: 35%;
+            text-transform: capitalize;
+            font-size: 14px;
+        }
+
+        .data-value {
+            color: #0f172a;
+            width: 65%;
+            font-size: 14px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
         .dev-saini-tag {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 900;
             color: #1e293b;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             padding-top: 15px;
-            border-top: 2px dashed #cbd5e1;
+            border-top: 2px solid rgba(0,0,0,0.1);
             letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
     </style>
 </head>
 <body>
+
+<video autoplay loop muted playsinline class="bg-video">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-network-of-connections-31518-large.mp4" type="video/mp4">
+</video>
 
 <div class="card">
     <h2>Details Finder</h2>
@@ -138,8 +193,78 @@
     <div id="result-container"></div>
 </div>
 
-<script>const API_BASE=atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");async function fetchData(){const e=document.getElementById("phoneInput"),t=document.getElementById("searchBtn"),n=document.getElementById("result-container"),a=e.value.trim();if(!a)return alert("Kripya pehle koi number daalein!");n.style.display="block",n.className="loading",n.innerHTML="Fetching details, please wait...",t.disabled=!0;try{const e=await fetch(`${API_BASE}${encodeURIComponent(a)}`,{method:"GET"});if(!e.ok)throw new Error(`Server status ${e.status}`);const r=await e.text();let s=r;const c=r.indexOf("{"),o=r.lastIndexOf("}");if(c!==-1&&o!==-1&&o>c)try{s=JSON.stringify(JSON.parse(r.substring(c,o+1)),null,2)}catch(e){s=r}n.className="success",n.innerHTML=`<strong>Details Found:</strong><pre>${s}</pre><div class="dev-saini-tag">"DEV SAINI"</div>`}catch(e){n.className="error",n.innerHTML=`<strong>Error:</strong> ${e.message}`}finally{t.disabled=!1}}</script>
+<script>
+// Tera Safe API Link
+const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
+
+async function fetchData() {
+    const inputField = document.getElementById('phoneInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const resultContainer = document.getElementById('result-container');
+    const queryVal = inputField.value.trim();
+
+    if (!queryVal) {
+        alert("Kripya pehle koi number daalein!");
+        return;
+    }
+
+    resultContainer.style.display = "block";
+    resultContainer.className = "loading";
+    resultContainer.innerHTML = "Fetching details, please wait...";
+    searchBtn.disabled = true;
+
+    try {
+        const targetUrl = `${API_BASE}${encodeURIComponent(queryVal)}`;
+        const response = await fetch(targetUrl, { method: "GET" });
+
+        if (!response.ok) throw new Error(`Server status ${response.status}`);
+
+        const rawText = await response.text();
+        let finalHTML = "";
+        
+        // JSON ko format karke VIP UI banana
+        try {
+            const firstBrace = rawText.indexOf('{');
+            const lastBrace = rawText.lastIndexOf('}');
+            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
+            const parsed = JSON.parse(jsonString);
+
+            // Agar result array exist karta hai
+            if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
+                parsed.results.forEach((item) => {
+                    finalHTML += `<div class="data-card">`;
+                    for (const [key, value] of Object.entries(item)) {
+                        let cleanKey = key.replace(/_/g, ' '); // father_name ko father name banayega
+                        finalHTML += `
+                        <div class="data-row">
+                            <span class="data-label">${cleanKey}</span>
+                            <span class="data-value">${value || '-'}</span>
+                        </div>`;
+                    }
+                    finalHTML += `</div>`;
+                });
+            } else {
+                // Agar data nahi mila ya format alag hai
+                finalHTML = `<div class="data-card"><pre style="font-size:12px; white-space:pre-wrap;">${JSON.stringify(parsed, null, 2)}</pre></div>`;
+            }
+        } catch (e) {
+            finalHTML = `<div class="data-card"><p>Data couldn't be formatted nicely. Raw Data:</p><pre>${rawText}</pre></div>`;
+        }
+
+        resultContainer.className = "success";
+        resultContainer.innerHTML = `
+            <div style="font-weight:bold; font-size:18px; color:#0f172a; margin-top:10px;">Details Found:</div>
+            ${finalHTML}
+            <div class="dev-saini-tag">"DEV SAINI"</div>
+        `;
+    } catch (err) {
+        resultContainer.className = "error";
+        resultContainer.innerHTML = `<strong>Error:</strong> ${err.message}`;
+    } finally {
+        searchBtn.disabled = false;
+    }
+}
+</script>
 
 </body>
 </html>
-
