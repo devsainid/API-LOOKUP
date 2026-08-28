@@ -28,8 +28,8 @@
 
         /* Transparent Blue Neon Card */
         .card {
-            background: rgba(0, 15, 35, 0.45); /* Halka transparent */
-            backdrop-filter: blur(8px); /* Shishe jaisa blur effect */
+            background: rgba(0, 15, 35, 0.45);
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             width: 100%;
             max-width: 480px;
@@ -106,7 +106,7 @@
         }
 
         .data-card {
-            background: rgba(0, 25, 50, 0.3); /* Transparent Data Box */
+            background: rgba(0, 25, 50, 0.3);
             border-left: 3px solid #00e5ff;
             padding: 15px;
             margin-top: 15px;
@@ -116,16 +116,15 @@
             border-radius: 5px;
         }
 
-        /* Lighting Effect Logic */
+        /* Lighting Animation */
         .data-row {
             display: flex;
             margin-bottom: 10px;
             padding-bottom: 6px;
             position: relative;
-            overflow: hidden; /* Light line ke bahar na jaye isliye */
+            overflow: hidden; 
         }
 
-        /* Niche ki normal line */
         .data-row::before {
             content: '';
             position: absolute;
@@ -135,7 +134,6 @@
             border-bottom: 1px dashed rgba(0, 229, 255, 0.25);
         }
 
-        /* Chamakti hui running light effect */
         .data-row::after {
             content: '';
             position: absolute;
@@ -170,7 +168,7 @@
             text-shadow: 0 0 3px rgba(255,255,255,0.5);
         }
 
-        /* Tera VIP Footer Font */
+        /* VIP Footer Tag */
         .dev-saini-tag {
             font-size: 12px;
             font-weight: 900;
@@ -195,15 +193,30 @@
 <div class="card">
     <h2>[ DEV SAINI'S DATABASE ]</h2>
     <div class="input-group">
-        <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." />
+        <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
         <button id="searchBtn" onclick="fetchData()">CHECK NUMBER</button>
     </div>
     <div id="result-container"></div>
 </div>
 
 <script>
-// Tera Safe API Link
-const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
+// Dono APIs yahan hain!
+const API_1 = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
+const API_2 = "https://lynx.mireiariosss.workers.dev/api/chain/";
+
+// JSON ko safely parse karne ka helper function
+function safeParseJSON(text) {
+    try {
+        const firstBrace = text.indexOf('{');
+        const lastBrace = text.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace !== -1) {
+            return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+        }
+        return JSON.parse(text);
+    } catch (e) {
+        return null;
+    }
+}
 
 async function fetchData() {
     const inputField = document.getElementById('phoneInput');
@@ -211,63 +224,102 @@ async function fetchData() {
     const resultContainer = document.getElementById('result-container');
     const queryVal = inputField.value.trim();
 
-    if (!queryVal) {
-        alert("ACCESS DENIED: Enter Target Number.");
+    if (!queryVal || queryVal.length < 10) {
+        alert("ACCESS DENIED: Enter Valid 10-Digit Target Number.");
         return;
     }
 
     resultContainer.style.display = "block";
-    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff;'>FETCHING TARGET DATA...</div>";
+    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...<br>EXTRACTING DATA FROM MULTIPLE SERVERS...</div>";
     searchBtn.disabled = true;
     searchBtn.style.background = "rgba(0, 100, 150, 0.3)";
     searchBtn.style.color = "#00e5ff";
     searchBtn.innerText = "SEARCHING...";
 
     try {
-        const targetUrl = `${API_BASE}${encodeURIComponent(queryVal)}`;
-        const response = await fetch(targetUrl, { method: "GET" });
+        // Multi-Thread: Dono APIs par ek sath request bhejna
+        const [response1, response2] = await Promise.allSettled([
+            fetch(`${API_1}${encodeURIComponent(queryVal)}`).then(res => res.text()),
+            fetch(`${API_2}${encodeURIComponent(queryVal)}`).then(res => res.text())
+        ]);
 
-        if (!response.ok) throw new Error(`Server status ${response.status}`);
+        let combinedData = [];
 
-        const rawText = await response.text();
-        let finalHTML = "";
-        
-        try {
-            const firstBrace = rawText.indexOf('{');
-            const lastBrace = rawText.lastIndexOf('}');
-            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
-            const parsed = JSON.parse(jsonString);
-
-            if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
-                
-                const uniqueData = [];
-                const checkDuplicate = new Set();
-                
-                parsed.results.forEach(item => {
-                    const stringifiedItem = JSON.stringify(item);
-                    if (!checkDuplicate.has(stringifiedItem)) {
-                        checkDuplicate.add(stringifiedItem);
-                        uniqueData.push(item);
-                    }
+        // API 1 ka data nikalna
+        if (response1.status === 'fulfilled' && response1.value) {
+            const data1 = safeParseJSON(response1.value);
+            if (data1 && data1.results && Array.isArray(data1.results)) {
+                data1.results.forEach(item => {
+                    combinedData.push({
+                        "MOBILE": item.mobile || "N/A",
+                        "NAME": item.name || "N/A",
+                        "FATHER NAME": item.father_name || "N/A",
+                        "ADDRESS": item.address || "N/A",
+                        "ALTERNATE": item.alternate || "N/A",
+                        "CIRCLE": item.circle || "N/A",
+                        "DOCUMENT": item.aadhar || "N/A"
+                    });
                 });
+            }
+        }
 
+        // API 2 (Chain API) ka data nikalna aur format theek karna
+        if (response2.status === 'fulfilled' && response2.value) {
+            const data2 = safeParseJSON(response2.value);
+            if (data2 && data2.records && Array.isArray(data2.records)) {
+                data2.records.forEach(item => {
+                    // Saare extra phone numbers ko ek line mein jodna
+                    let alternates = [item.Phone2, item.Phone3, item.Phone4, item.Phone5].filter(Boolean).join(", ");
+                    // Addresses ko jodna
+                    let fullAddress = [item.Adres, item.Adres2].filter(Boolean).join(" | ");
+
+                    combinedData.push({
+                        "MOBILE": item.Phone || "N/A",
+                        "NAME": item.FullName || "N/A",
+                        "FATHER NAME": item.FatherName || "N/A",
+                        "ADDRESS": fullAddress || "N/A",
+                        "ALTERNATE": alternates || "N/A",
+                        "CIRCLE": item.Region || "N/A",
+                        "DOCUMENT": item.DocumentNumber || "N/A"
+                    });
+                });
+            }
+        }
+
+        let finalHTML = "";
+
+        if (combinedData.length > 0) {
+            // DUPLICATE REMOVER LOGIC (Dono APIs ke overlap ko saaf karna)
+            const uniqueData = [];
+            const checkDuplicate = new Set();
+            
+            combinedData.forEach(item => {
+                // Name aur Address milakar unique ID banayi
+                const uniqueStr = `${item.NAME}-${item.ADDRESS}`.toLowerCase();
+                // N/A wale kachre ko filter karna
+                if (!checkDuplicate.has(uniqueStr) && item.NAME !== "N/A" && item.NAME !== "") {
+                    checkDuplicate.add(uniqueStr);
+                    uniqueData.push(item);
+                }
+            });
+
+            if(uniqueData.length === 0) {
+                finalHTML = `<div class="data-card" style="color:#ff3333; border-left-color:#ff3333; text-align:center;">NO USEFUL RECORD FOUND FOR THIS TARGET.</div>`;
+            } else {
                 uniqueData.forEach((item) => {
                     finalHTML += `<div class="data-card">`;
                     for (const [key, value] of Object.entries(item)) {
-                        let cleanKey = key.replace(/_/g, ' '); 
                         finalHTML += `
                         <div class="data-row">
-                            <span class="data-label">${cleanKey}</span>
-                            <span class="data-value">${value || 'N/A'}</span>
+                            <span class="data-label">${key}</span>
+                            <span class="data-value">${value}</span>
                         </div>`;
                     }
                     finalHTML += `</div>`;
                 });
-            } else {
-                finalHTML = `<div class="data-card" style="color:#ff3333; border-left-color:#ff3333;">NO RECORD FOUND FOR THIS TARGET.</div>`;
             }
-        } catch (e) {
-            finalHTML = `<div class="data-card"><p>RAW DATA:</p><pre>${rawText}</pre></div>`;
+        } else {
+            finalHTML = `<div class="data-card" style="color:#ff3333; border-left-color:#ff3333; text-align:center;">NO RECORD FOUND ON ANY SERVER.</div>`;
         }
 
         resultContainer.innerHTML = `
@@ -276,7 +328,7 @@ async function fetchData() {
             <div class="dev-saini-tag">DATA SUCCESSFULLY FETCHED FROM DEV SAINI'S DATABASE</div>
         `;
     } catch (err) {
-        resultContainer.innerHTML = `<div style="color:#ff3333; margin-top:10px;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
+        resultContainer.innerHTML = `<div style="color:#ff3333; margin-top:10px; text-align:center;"><strong>SYSTEM ERROR:</strong> SERVER UNREACHABLE</div>`;
     } finally {
         searchBtn.disabled = false;
         searchBtn.style.background = "rgba(0, 229, 255, 0.15)";
