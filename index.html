@@ -26,6 +26,7 @@
             padding: 20px;
         }
 
+        /* Transparent Blue Neon Card */
         .card {
             background: rgba(0, 15, 35, 0.45);
             backdrop-filter: blur(8px);
@@ -104,7 +105,6 @@
             margin-top: 25px;
         }
 
-        /* PRIMARY TARGET CARD (Blue) */
         .data-card {
             background: rgba(0, 25, 50, 0.3);
             border-left: 3px solid #00e5ff;
@@ -116,18 +116,7 @@
             border-radius: 5px;
         }
 
-        /* ALT TARGET CARD (Orange/Red) */
-        .alt-card {
-            background: rgba(40, 10, 0, 0.3);
-            border-left: 3px solid #ff3333;
-            padding: 15px;
-            margin-top: 15px;
-            border-top: 1px solid rgba(255, 51, 51, 0.1);
-            border-right: 1px solid rgba(255, 51, 51, 0.1);
-            border-bottom: 1px solid rgba(255, 51, 51, 0.1);
-            border-radius: 5px;
-        }
-
+        /* Lighting Animation */
         .data-row {
             display: flex;
             margin-bottom: 10px;
@@ -136,23 +125,23 @@
             overflow: hidden; 
         }
 
-        .data-card .data-row::before {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%;
+        .data-row::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             border-bottom: 1px dashed rgba(0, 229, 255, 0.25);
         }
-        .alt-card .data-row::before {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%;
-            border-bottom: 1px dashed rgba(255, 51, 51, 0.25);
-        }
 
-        .data-card .data-row::after {
-            content: ''; position: absolute; bottom: -1px; left: -50%; width: 40%; height: 2px;
+        .data-row::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: -50%;
+            width: 40%;
+            height: 2px;
             background: linear-gradient(90deg, transparent, #00e5ff, #ffffff, transparent);
-            animation: cyberScan 2.5s infinite linear;
-        }
-        .alt-card .data-row::after {
-            content: ''; position: absolute; bottom: -1px; left: -50%; width: 40%; height: 2px;
-            background: linear-gradient(90deg, transparent, #ff3333, #ffffff, transparent);
             animation: cyberScan 2.5s infinite linear;
         }
 
@@ -163,26 +152,34 @@
         }
 
         .data-label {
-            color: #00e5ff; width: 35%; font-weight: bold; text-transform: uppercase; font-size: 13px; text-shadow: 0 0 2px rgba(0, 229, 255, 0.4);
-        }
-        .alt-card .data-label {
-            color: #ff5555; text-shadow: 0 0 2px rgba(255, 51, 51, 0.4);
+            color: #00e5ff;
+            width: 35%;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 13px;
+            text-shadow: 0 0 2px rgba(0, 229, 255, 0.4);
         }
 
         .data-value {
-            color: #ffffff; width: 65%; font-size: 14px; word-break: break-word; text-shadow: 0 0 3px rgba(255,255,255,0.5);
+            color: #ffffff;
+            width: 65%;
+            font-size: 14px;
+            word-break: break-word;
+            text-shadow: 0 0 3px rgba(255,255,255,0.5);
         }
 
-        .section-title {
-            font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline;
-        }
-        .primary-title { text-shadow: 0 0 5px #00e5ff; }
-        .alt-title { text-shadow: 0 0 5px #ff3333; color: #ffaaaa; margin-top: 25px;}
-
+        /* VIP Footer Tag */
         .dev-saini-tag {
-            font-size: 12px; font-weight: 900; text-align: center; margin-top: 30px; padding-top: 15px; color: #ffffff;
-            border-top: 1px dashed rgba(0, 229, 255, 0.4); letter-spacing: 1px;
-            text-shadow: 0 0 5px #00e5ff, 0 0 12px #00e5ff; animation: textPulse 2s infinite;
+            font-size: 12px;
+            font-weight: 900;
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            color: #ffffff;
+            border-top: 1px dashed rgba(0, 229, 255, 0.4);
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px #00e5ff, 0 0 12px #00e5ff;
+            animation: textPulse 2s infinite;
         }
 
         @keyframes textPulse {
@@ -197,119 +194,83 @@
     <h2>[ DEV SAINI'S DATABASE ]</h2>
     <div class="input-group">
         <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
-        <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
+        <button id="searchBtn" onclick="fetchData()">CHECK NUMBER</button>
     </div>
     <div id="result-container"></div>
 </div>
 
 <script>
+// Sirf 1st Fast API
 const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
-async function fetchTargetData(number) {
-    try {
-        const response = await fetch(`${API_BASE}${encodeURIComponent(number)}`);
-        if (!response.ok) return null;
-        const rawText = await response.text();
-        const firstBrace = rawText.indexOf('{');
-        const lastBrace = rawText.lastIndexOf('}');
-        const jsonString = rawText.substring(firstBrace, lastBrace + 1);
-        return JSON.parse(jsonString);
-    } catch (e) {
-        return null;
-    }
-}
-
-function generateCardHTML(dataArray, isAlt = false) {
-    let html = "";
-    const cardClass = isAlt ? "alt-card" : "data-card";
-    
-    const uniqueData = [];
-    const checkDuplicate = new Set();
-    
-    dataArray.forEach(item => {
-        const stringifiedItem = JSON.stringify(item);
-        if (!checkDuplicate.has(stringifiedItem)) {
-            checkDuplicate.add(stringifiedItem);
-            uniqueData.push(item);
-        }
-    });
-
-    uniqueData.forEach((item) => {
-        html += `<div class="${cardClass}">`;
-        for (const [key, value] of Object.entries(item)) {
-            let cleanKey = key.replace(/_/g, ' '); 
-            html += `
-            <div class="data-row">
-                <span class="data-label">${cleanKey}</span>
-                <span class="data-value">${value || 'N/A'}</span>
-            </div>`;
-        }
-        html += `</div>`;
-    });
-    return html;
-}
-
-async function initiateSearch() {
+async function fetchData() {
     const inputField = document.getElementById('phoneInput');
     const searchBtn = document.getElementById('searchBtn');
     const resultContainer = document.getElementById('result-container');
-    const mainNumber = inputField.value.trim();
+    const queryVal = inputField.value.trim();
 
-    if (!mainNumber || mainNumber.length < 10) {
-        alert("ACCESS DENIED: Enter Valid Target Number.");
+    if (!queryVal || queryVal.length < 10) {
+        alert("ACCESS DENIED: Enter Valid 10-Digit Target Number.");
         return;
     }
 
     resultContainer.style.display = "block";
-    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...</div>";
+    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...</div>";
     searchBtn.disabled = true;
     searchBtn.style.background = "rgba(0, 100, 150, 0.3)";
+    searchBtn.style.color = "#00e5ff";
     searchBtn.innerText = "SEARCHING...";
 
     try {
+        const targetUrl = `${API_BASE}${encodeURIComponent(queryVal)}`;
+        const response = await fetch(targetUrl, { method: "GET" });
+
+        if (!response.ok) throw new Error(`Server status ${response.status}`);
+
+        const rawText = await response.text();
         let finalHTML = "";
-        let altNumbersList = new Set();
+        
+        try {
+            const firstBrace = rawText.indexOf('{');
+            const lastBrace = rawText.lastIndexOf('}');
+            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
+            const parsed = JSON.parse(jsonString);
 
-        // STEP 1: Main Number ki detail nikalo
-        const primaryData = await fetchTargetData(mainNumber);
-
-        if (primaryData && primaryData.results && primaryData.results.length > 0) {
-            finalHTML += `<div class="section-title primary-title">> PRIMARY TARGET DATA:</div>`;
-            finalHTML += generateCardHTML(primaryData.results, false);
-            
-            // SARE records me se alternate numbers collect karo
-            primaryData.results.forEach(rec => {
-                if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
-                    // Agar comma ya space se multiple numbers hain toh unhe alag karo
-                    let splitNums = rec.alternate.split(/[,,\s]+/);
-                    splitNums.forEach(num => {
-                        let cleanNum = num.trim();
-                        // Sirf 10 digit wale valid numbers lo jo main number na ho
-                        if (cleanNum.length >= 10 && cleanNum !== mainNumber) {
-                            altNumbersList.add(cleanNum);
-                        }
-                    });
-                }
-            });
-        } else {
-            finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND FOR PRIMARY TARGET.</div>`;
-        }
-
-        // STEP 2: Jitne bhi alternate numbers mile hain, sabki deep details ek-ek karke nikalo!
-        if (altNumbersList.size > 0) {
-            for (let altNum of altNumbersList) {
-                resultContainer.innerHTML = `<div style='text-align:center; color:#ff3333; font-weight:bold;'>ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...</div>`;
+            if (parsed.results && Array.isArray(parsed.results) && parsed.results.length > 0) {
                 
-                const altData = await fetchTargetData(altNum);
+                // Smart Duplicate Remover
+                const uniqueData = [];
+                const checkDuplicate = new Set();
                 
-                if (altData && altData.results && altData.results.length > 0) {
-                    finalHTML += `<div class="section-title alt-title">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
-                    finalHTML += generateCardHTML(altData.results, true);
-                }
+                parsed.results.forEach(item => {
+                    const stringifiedItem = JSON.stringify(item);
+                    if (!checkDuplicate.has(stringifiedItem)) {
+                        checkDuplicate.add(stringifiedItem);
+                        uniqueData.push(item);
+                    }
+                });
+
+                uniqueData.forEach((item) => {
+                    finalHTML += `<div class="data-card">`;
+                    for (const [key, value] of Object.entries(item)) {
+                        let cleanKey = key.replace(/_/g, ' '); 
+                        finalHTML += `
+                        <div class="data-row">
+                            <span class="data-label">${cleanKey}</span>
+                            <span class="data-value">${value || 'N/A'}</span>
+                        </div>`;
+                    }
+                    finalHTML += `</div>`;
+                });
+            } else {
+                finalHTML = `<div class="data-card" style="color:#ff3333; border-left-color:#ff3333; text-align:center;">NO RECORD FOUND FOR THIS TARGET.</div>`;
             }
+        } catch (e) {
+            finalHTML = `<div class="data-card"><p>RAW DATA:</p><pre>${rawText}</pre></div>`;
         }
 
         resultContainer.innerHTML = `
+            <div style="font-weight:bold; font-size:15px; margin-top:10px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> DATA_MATCH_FOUND:</div>
             ${finalHTML}
             <div class="dev-saini-tag">DATA SUCCESSFULLY FETCHED FROM DEV SAINI'S DATABASE</div>
         `;
