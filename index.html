@@ -17,28 +17,31 @@
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
         
-        h2 { text-align: center; margin-bottom: 25px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; white-space: nowrap; overflow: hidden; }
+        h2 { text-align: center; margin-bottom: 20px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; }
         
-        .input-group { display: flex; flex-direction: column; gap: 15px; }
+        .input-group { display: flex; flex-direction: column; gap: 12px; }
         input {
-            width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 0, 0, 0.6);
+            width: 100%; padding: 12px; font-size: 15px; background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(0, 229, 255, 0.5); color: #00e5ff; outline: none;
             font-weight: bold; text-align: center; border-radius: 5px; transition: 0.3s;
         }
         input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0, 20, 45, 0.8); border: 1px solid #00e5ff; }
         
         button {
-            width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 229, 255, 0.15);
+            width: 100%; padding: 12px; font-size: 15px; background: rgba(0, 229, 255, 0.15);
             color: #00e5ff; border: 1px solid #00e5ff; font-weight: bold; cursor: pointer;
-            letter-spacing: 1.5px; transition: 0.3s; border-radius: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
+            letter-spacing: 1px; transition: 0.3s; border-radius: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
         }
         button:active { transform: scale(0.96); background: #00e5ff; color: #000; }
         
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
-        .btn-wa { background: rgba(37, 211, 102, 0.15); color: #25D366; border: 1px solid #25D366; margin-top: 15px; text-shadow: 0 0 5px rgba(37, 211, 102, 0.8); display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: bold; padding: 14px; border-radius: 5px; }
+        .btn-wa { background: rgba(37, 211, 102, 0.15); color: #25D366; border: 1px solid #25D366; text-shadow: 0 0 5px rgba(37, 211, 102, 0.8); display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: bold; padding: 12px; border-radius: 5px; margin-top: 10px; }
         .btn-wa:active { background: #25D366; color: #000; text-shadow: none; }
+
+        .btn-ghost { background: rgba(255, 165, 0, 0.15); color: #ffa500; border: 1px solid #ffa500; text-shadow: 0 0 5px rgba(255, 165, 0, 0.8); margin-top: 5px; }
+        .btn-ghost:active { background: #ffa500; color: #000; }
 
         .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; display: none; font-size: 14px; padding: 10px; }
         .btn-back:active { background: #ffffff; color: #000; }
@@ -47,25 +50,27 @@
         .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 6px; font-size: 11px; margin-top: 8px; width: 48%; }
 
         .hidden { display: none !important; }
-        .error-msg { color: #ff3333; text-align: center; margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
-        .success-msg { color: #00ff00; text-align: center; margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
+        .error-msg { color: #ff3333; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
+        .success-msg { color: #00ff00; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         
-        .admin-panel, .osint-panel { display: none; }
+        .admin-panel, .osint-panel, .ghost-panel { display: none; }
         
-        .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
-        .alt-card { background: rgba(40, 10, 0, 0.3); border-left: 3px solid #ff3333; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(255, 51, 51, 0.1); }
-        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 12px; }
+        .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 12px; margin-top: 12px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
+        .alt-card { background: rgba(40, 10, 0, 0.3); border-left: 3px solid #ff3333; padding: 12px; margin-top: 12px; border-radius: 5px; border-top: 1px solid rgba(255, 51, 51, 0.1); }
+        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 11px; }
         .alt-card .data-label { color: #ff5555; }
-        .data-value { color: #ffffff; width: 60%; font-size: 13px; word-break: break-all; }
+        .data-value { color: #ffffff; width: 60%; font-size: 12px; word-break: break-all; }
         
-        .tab-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 20px; }
-        .tab-admin, .tab-tool { width: 100%; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; letter-spacing: 1.5px; transition: 0.3s; border-radius: 5px; text-align: center; display: block; }
+        .tab-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 15px; }
+        .tab-admin, .tab-tool, .tab-ghost { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: 0.3s; border-radius: 5px; text-align: center; display: block; }
         .tab-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
-        .tab-admin.active, .tab-admin:active { background: #ff3333; color: #000; text-shadow: none; box-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
+        .tab-admin.active, .tab-admin:active { background: #ff3333; color: #000; text-shadow: none; }
         .tab-tool { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid #00e5ff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8); }
-        .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+        .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
+        .tab-ghost { background: rgba(255, 165, 0, 0.15); color: #ffa500; border: 1px solid #ffa500; text-shadow: 0 0 5px rgba(255, 165, 0, 0.8); }
+        .tab-ghost.active, .tab-ghost:active { background: #ffa500; color: #000; text-shadow: none; }
 
-        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 13px; color: #fff; position: relative;}
+        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 8px 0; font-size: 12px; color: #fff; position: relative;}
         .user-list-item span { font-weight: bold;}
     </style>
 </head>
@@ -80,7 +85,7 @@
             <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
             
             <a href="intent://send?phone=261348585420&text=I%20WANT%20TOKEN#Intent;scheme=whatsapp;package=com.whatsapp;end" class="btn-wa">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 CONTACT SUPPORT (GET TOKEN)
             </a>
         </div>
@@ -93,6 +98,7 @@
             <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">NEW USER</button>
             <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">USER LIST</button>
             <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">OSINT TOOL</button>
+            <button class="tab-ghost" id="tab-ghost-admin" onclick="showGhostMailFromAdmin()">👻 GHOST MAIL</button>
         </div>
 
         <div id="adminNewUser" class="input-group">
@@ -103,7 +109,7 @@
         </div>
 
         <div id="adminUserList" class="hidden">
-            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; padding: 14px;">🔄 REFRESH DATABASE</button>
+            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; padding: 12px;">🔄 REFRESH DATABASE</button>
             <div class="data-card" style="border-left-color: #ff3333;" id="usersListContainer">
                 <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING DATABASE...</div>
             </div>
@@ -117,11 +123,33 @@
         <div class="input-group">
             <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
             <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
+            <button class="btn-ghost" onclick="openGhostMailMain()">👻 OPEN GHOST MAIL (TEMP MAIL)</button>
         </div>
         
-        <div id="result-container" style="display:none; margin-top:20px;">
-            <div id="loadingStatus" style="text-align:center; color:#00e5ff; font-weight:bold; margin-bottom:15px;"></div>
+        <div id="result-container" style="display:none; margin-top:15px;">
+            <div id="loadingStatus" style="text-align:center; color:#00e5ff; font-weight:bold; margin-bottom:10px;"></div>
             <div id="dataOutput"></div>
+        </div>
+    </div>
+
+    <div id="ghostScreen" class="ghost-panel">
+        <h2 style="color: #ffa500; text-shadow: 0 0 10px #ffa500;">[ GHOST MAIL GENERATOR ]</h2>
+        <button id="backFromGhostBtn" class="btn-back" onclick="goBackFromGhost()" style="display:block;">[ < BACK ]</button>
+        
+        <div class="input-group">
+            <div style="font-size: 12px; color: #ffa500; margin-bottom: 2px;">YOUR TEMPORARY EMAIL:</div>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="ghostEmailBox" readonly style="color: #ffa500; font-size: 13px;" placeholder="Generating..." />
+                <button class="btn-ghost" style="width: 35%; margin-top:0; padding:10px; font-size:13px;" onclick="copyGhostEmail()">COPY</button>
+            </div>
+            <button class="btn-ghost" onclick="fetchGhostInbox()" style="margin-top: 10px;">📥 CHECK INBOX</button>
+            <div class="success-msg" id="ghostCopiedMsg" style="color:#ffa500;">EMAIL COPIED TO CLIPBOARD!</div>
+        </div>
+
+        <div id="ghostInboxContainer" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
+            <div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">
+                Inbox is empty. Click "Check Inbox" to refresh.
+            </div>
         </div>
     </div>
 </div>
@@ -205,9 +233,86 @@
         document.getElementById('backToAdminBtn').style.display = "block"; 
     }
 
+    function showGhostMailFromAdmin() {
+        document.getElementById('adminScreen').style.display = "none";
+        document.getElementById('ghostScreen').style.display = "block";
+        document.getElementById('backFromGhostBtn').onclick = function() {
+            document.getElementById('ghostScreen').style.display = "none";
+            document.getElementById('adminScreen').style.display = "block";
+        };
+        initGhostMail();
+    }
+
+    function openGhostMailMain() {
+        document.getElementById('osintScreen').style.display = "none";
+        document.getElementById('ghostScreen').style.display = "block";
+        document.getElementById('backFromGhostBtn').onclick = function() {
+            document.getElementById('ghostScreen').style.display = "none";
+            document.getElementById('osintScreen').style.display = "block";
+        };
+        initGhostMail();
+    }
+
     function goBackToAdmin() {
         document.getElementById('osintScreen').style.display = "none";
         document.getElementById('adminScreen').style.display = "block";
+    }
+
+    // 👻 GHOST MAIL (TEMP MAIL) LOGIC USING 1secmail API
+    let currentGhostEmail = "";
+
+    async function initGhostMail() {
+        const box = document.getElementById('ghostEmailBox');
+        box.value = "Generating ghost email...";
+        try {
+            const res = await fetch('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1');
+            const data = await res.json();
+            if(data && data.length > 0) {
+                currentGhostEmail = data[0];
+                box.value = currentGhostEmail;
+                fetchGhostInbox();
+            } else {
+                box.value = "Error generating email";
+            }
+        } catch(e) {
+            box.value = "Network error";
+        }
+    }
+
+    function copyGhostEmail() {
+        const box = document.getElementById('ghostEmailBox');
+        navigator.clipboard.writeText(box.value);
+        const msg = document.getElementById('ghostCopiedMsg');
+        msg.style.display = "block";
+        setTimeout(() => { msg.style.display = "none"; }, 2000);
+    }
+
+    async function fetchGhostInbox() {
+        if(!currentGhostEmail) return;
+        const [user, domain] = currentGhostEmail.split('@');
+        const container = document.getElementById('ghostInboxContainer');
+        container.innerHTML = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #ffa500; font-size: 12px;">Checking inbox...</div>`;
+        
+        try {
+            const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${user}&domain=${domain}`);
+            const messages = await res.json();
+            let html = "";
+            if(messages && messages.length > 0) {
+                messages.forEach(msg => {
+                    html += `
+                    <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
+                        <span style="color:#ffa500; font-weight:bold;">FROM:</span> ${msg.from}<br>
+                        <span style="color:#ffa500; font-weight:bold;">SUBJECT:</span> ${msg.subject}<br>
+                        <span style="color:gray;">DATE:</span> ${msg.date}
+                    </div>`;
+                });
+            } else {
+                html = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. No incoming mail yet.</div>`;
+            }
+            container.innerHTML = html;
+        } catch(e) {
+            container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Failed to load inbox.</div>`;
+        }
     }
 
     async function registerNewUser() {
@@ -239,7 +344,7 @@
                     body: JSON.stringify({ createdAt: today, deviceID: "unlocked", status: "active" })
                 });
                 sucMsg.style.display = "block";
-                document.getElementById('newUserToken').value = "";
+                document.getElementById('newUserToken'].value = "";
             }
         } catch (e) {
             errMsg.innerText = "NETWORK ERROR"; errMsg.style.display = "block";
@@ -285,7 +390,7 @@
                         </div>
                     </div>`;
                 }
-            } else { html += `<div style="text-align:center; color:#fff; font-size:13px; margin-top:15px;">NO USERS FOUND.</div>`; }
+            } else { html += `<div style="text-align:center; color:#fff; font-size:12px; margin-top:10px;">NO USERS FOUND.</div>`; }
             container.innerHTML = html;
         } catch (e) { container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`; }
     }
@@ -311,7 +416,7 @@
                 html += `<div class="${cardClass}">`;
                 for (const [key, value] of Object.entries(item)) {
                     let cleanKey = key.replace(/_/g, ' '); 
-                    html += `<div class="data-row" style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span class="data-label" style="width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span class="data-value" style="width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
+                    html += `<div class="data-row" style="display:flex; margin-bottom:6px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span class="data-label" style="width:40%; font-size:11px; font-weight:bold;">${cleanKey}</span><span class="data-value" style="width:60%; font-size:12px; word-break: break-all;">${value || 'N/A'}</span></div>`;
                 }
                 html += `</div>`;
             }
@@ -355,7 +460,7 @@
             const primaryData = await fetchTargetData(mainNumber);
 
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                finalHTML += `<div style="font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> PRIMARY TARGET DATA:</div>`;
+                finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:15px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> PRIMARY TARGET DATA:</div>`;
                 finalHTML += generateCardHTML(primaryData.results, false, globalSeenRecords);
                 
                 document.getElementById('dataOutput').innerHTML = finalHTML;
@@ -382,7 +487,7 @@
                     if (altData && altData.results && altData.results.length > 0) {
                         const altHtml = generateCardHTML(altData.results, true, globalSeenRecords);
                         if(altHtml.trim() !== "") { 
-                            finalHTML += `<div style="font-weight:bold; font-size:14px; margin-top:25px; color:#ffaaaa; text-decoration:underline; text-shadow: 0 0 5px #ff3333;">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
+                            finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:20px; color:#ffaaaa; text-decoration:underline; text-shadow: 0 0 5px #ff3333;">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
                             finalHTML += altHtml;
                             document.getElementById('dataOutput').innerHTML = finalHTML; 
                         }
