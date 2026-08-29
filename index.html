@@ -12,11 +12,13 @@
             background-size: 25px 25px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
         .card {
-            background: rgba(0, 15, 35, 0.7); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
+            background: rgba(0, 15, 35, 0.85); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
             padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.4);
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
-        h2 { text-align: center; margin-bottom: 25px; font-size: 22px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; }
+        
+        /* Heading Fixed (Single Line) */
+        h2 { text-align: center; margin-bottom: 25px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; white-space: nowrap; overflow: hidden; }
         
         .input-group { display: flex; flex-direction: column; gap: 15px; }
         input {
@@ -36,67 +38,75 @@
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
+        /* Back Button Style */
+        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; display: none; font-size: 14px; padding: 10px; }
+        .btn-back:active { background: #ffffff; color: #000; }
+
         .hidden { display: none !important; }
-        .error-msg { color: #ff3333; text-align: center; margin-top: 10px; font-weight: bold; display: none; }
-        .success-msg { color: #00ff00; text-align: center; margin-top: 10px; font-weight: bold; display: none; }
+        .error-msg { color: #ff3333; text-align: center; margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
+        .success-msg { color: #00ff00; text-align: center; margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
         
         .admin-panel, .osint-panel { display: none; }
         .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
         
-        .tab-container { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 10px; }
-        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; color: rgba(0, 229, 255, 0.4); transition: 0.3s; font-size: 14px; }
-        .tab.active { color: #ffffff; text-shadow: 0 0 10px #00e5ff; border-bottom: 2px solid #00e5ff; }
+        /* New Parallel Box Tabs */
+        .tab-container { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 25px; }
+        .tab { 
+            flex: 1; text-align: center; padding: 12px 5px; cursor: pointer; font-weight: bold; 
+            transition: 0.3s; font-size: 11px; border-radius: 5px; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center;
+        }
         
-        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 14px; color: #fff;}
+        .tab-admin { color: rgba(255, 51, 51, 0.6); background: rgba(255, 51, 51, 0.05); border: 1px solid rgba(255, 51, 51, 0.3); }
+        .tab-admin.active { color: #ffffff; text-shadow: 0 0 5px #ff3333; background: rgba(255, 51, 51, 0.2); border: 1px solid #ff3333; }
+        
+        .tab-tool { color: rgba(0, 229, 255, 0.6); background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.3); }
+        .tab-tool.active { color: #ffffff; text-shadow: 0 0 5px #00e5ff; background: rgba(0, 229, 255, 0.2); border: 1px solid #00e5ff; }
+
+        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 13px; color: #fff;}
         .user-list-item span { color: #ff3333; font-weight: bold;}
     </style>
 </head>
 <body>
 
 <div class="card" id="mainCard">
-    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
             <input type="text" id="tokenInput" placeholder="ENTER SECURE TOKEN" autocomplete="off" />
-            <button id="loginBtn" onclick="checkLogin()">AUTHENTICATE</button>
+            <button id="loginBtn" onclick="processLogin()">AUTHENTICATE</button>
             <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
-            <div style="font-size:11px; text-align:center; color:gray; margin-top:10px;">
-                Master Token: DEV-MASTER-777
-            </div>
         </div>
     </div>
 
-    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
         
         <div class="tab-container">
-            <div class="tab active" style="color: #ff3333; border-color: #ff3333;" onclick="switchAdminTab('new')">NEW USER</div>
-            <div class="tab" style="color: #ff3333;" onclick="switchAdminTab('list')">USER LIST</div>
-            <div class="tab" style="color: #00e5ff;" onclick="showOSINT()">OSINT TOOL</div>
+            <div class="tab tab-admin active" onclick="switchAdminTab('new')">NEW USER</div>
+            <div class="tab tab-admin" onclick="switchAdminTab('list')">USER LIST</div>
+            <div class="tab tab-tool" onclick="showOSINTFromAdmin()">OSINT TOOL</div>
         </div>
 
-        <!-- Create User Tab -->
         <div id="adminNewUser" class="input-group">
-            <input type="text" id="newUserToken" placeholder="GENERATE NEW TOKEN (e.g. VIP-001)" />
-            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">REGISTER USER TO DATABASE</button>
+            <input type="text" id="newUserToken" placeholder="GENERATE TOKEN (e.g. VIP-01)" />
+            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">REGISTER TO DATABASE</button>
             <div class="success-msg" id="registerSuccess">TOKEN SAVED TO CLOUD!</div>
             <div class="error-msg" id="registerError">TOKEN ALREADY EXISTS!</div>
         </div>
 
-        <!-- User List Tab -->
         <div id="adminUserList" class="hidden">
             <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; font-size: 14px; padding: 10px;">🔄 REFRESH DATABASE</button>
             <div class="data-card" style="border-left-color: #ff3333;" id="usersListContainer">
-                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING CLOUD DATABASE...</div>
+                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING DATABASE...</div>
             </div>
         </div>
     </div>
 
-    <!-- 3. NORMAL OSINT TOOL (For Admin & Valid Users) -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ OSINT TOOLKIT ]</h2>
+        <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO ADMIN PANEL ]</button>
+        
         <div class="input-group">
             <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
             <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
@@ -106,12 +116,20 @@
 </div>
 
 <script>
-    // TERA FIREBASE DATABASE URL
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
-    // --- 1. LOGIN LOGIC (Checks with Firebase) ---
-    async function checkLogin() {
+    // --- AUTO-LOGIN SYSTEM (Session Persistence) ---
+    window.onload = function() {
+        const savedToken = localStorage.getItem("dev_osint_token");
+        if(savedToken) {
+            document.getElementById('tokenInput').value = savedToken;
+            processLogin(true); // true means it's an auto-login
+        }
+    };
+
+    // --- LOGIN LOGIC ---
+    async function processLogin(isAuto = false) {
         const token = document.getElementById('tokenInput').value.trim();
         const err = document.getElementById('loginError');
         const loginBtn = document.getElementById('loginBtn');
@@ -120,36 +138,69 @@
 
         // Agar Admin Hai Toh:
         if (token === MASTER_TOKEN) {
+            localStorage.setItem("dev_osint_token", token); // Save token
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
             return;
         }
 
-        // Agar Normal User Hai Toh Firebase Mein Check Karo:
-        loginBtn.innerText = "VERIFYING TOKEN...";
+        // Agar Normal User Hai:
+        if(!isAuto) loginBtn.innerText = "VERIFYING TOKEN...";
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
             const data = await response.json();
 
             if (data !== null) {
-                // TOKEN MIL GAYA! (Baad mein yahan Device ID lock ka check add karenge)
+                localStorage.setItem("dev_osint_token", token); // Save token
                 err.style.display = "none";
                 document.getElementById('loginScreen').style.display = "none";
                 document.getElementById('osintScreen').style.display = "block";
+                document.getElementById('backToAdminBtn').style.display = "none"; // Hide back button for normal user
             } else {
-                // TOKEN NAHI MILA
                 err.style.display = "block";
+                localStorage.removeItem("dev_osint_token"); // Remove invalid token
             }
         } catch (e) {
             err.innerText = "SYSTEM ERROR: SERVER OFFLINE";
             err.style.display = "block";
         } finally {
-            loginBtn.innerText = "AUTHENTICATE";
+            if(!isAuto) loginBtn.innerText = "AUTHENTICATE";
         }
     }
 
-    // --- 2. ADMIN: CREATE NEW USER ---
+    // --- ADMIN CONTROLS ---
+    function switchAdminTab(tab) {
+        document.getElementById('adminNewUser').classList.add('hidden');
+        document.getElementById('adminUserList').classList.add('hidden');
+        
+        const tabs = document.querySelectorAll('.tab-admin');
+        tabs[0].classList.remove('active');
+        tabs[1].classList.remove('active');
+
+        if (tab === 'new') {
+            document.getElementById('adminNewUser').classList.remove('hidden');
+            tabs[0].classList.add('active');
+        }
+        if (tab === 'list') { 
+            document.getElementById('adminUserList').classList.remove('hidden');
+            tabs[1].classList.add('active');
+            fetchUsersList(); 
+        }
+    }
+
+    function showOSINTFromAdmin() {
+        document.getElementById('adminScreen').style.display = "none";
+        document.getElementById('osintScreen').style.display = "block";
+        document.getElementById('backToAdminBtn').style.display = "block"; // Show back button for Admin
+    }
+
+    function goBackToAdmin() {
+        document.getElementById('osintScreen').style.display = "none";
+        document.getElementById('adminScreen').style.display = "block";
+    }
+
+    // --- ADMIN: REGISTER NEW USER ---
     async function registerNewUser() {
         const newToken = document.getElementById('newUserToken').value.trim();
         const regBtn = document.getElementById('registerBtn');
@@ -162,20 +213,14 @@
         sucMsg.style.display = "none"; errMsg.style.display = "none";
 
         try {
-            // Pehle check karo ki token pehle se toh nahi hai
             const checkRes = await fetch(`${FIREBASE_URL}/users/${newToken}.json`);
             const checkData = await checkRes.json();
 
             if (checkData !== null) {
-                errMsg.style.display = "block"; // Token pehle se hai
+                errMsg.style.display = "block";
             } else {
-                // Naya Token Database mein Save Karo
                 const today = new Date().toLocaleDateString('en-GB');
-                const userData = {
-                    createdAt: today,
-                    deviceID: "unlocked", // Abhi unlocked hai
-                    status: "active"
-                };
+                const userData = { createdAt: today, deviceID: "unlocked", status: "active" };
 
                 await fetch(`${FIREBASE_URL}/users/${newToken}.json`, {
                     method: 'PUT',
@@ -189,14 +234,14 @@
             errMsg.innerText = "NETWORK ERROR";
             errMsg.style.display = "block";
         } finally {
-            regBtn.innerText = "REGISTER USER TO DATABASE";
+            regBtn.innerText = "REGISTER TO DATABASE";
         }
     }
 
-    // --- 3. ADMIN: FETCH USER LIST ---
+    // --- ADMIN: FETCH USER LIST ---
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
-        container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING FROM CLOUD...</div>`;
+        container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
         
         try {
             const response = await fetch(`${FIREBASE_URL}/users.json`);
@@ -210,11 +255,11 @@
                     <div class="user-list-item">
                         TOKEN: <span>${tokenName}</span> <br> 
                         CREATED: ${details.createdAt} <br> 
-                        DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : 'Locked'}
+                        DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : '<span style="color:gray;">Locked</span>'}
                     </div>`;
                 }
             } else {
-                html += `<div style="text-align:center; color:#fff; font-size:14px; margin-top:15px;">NO USERS FOUND.</div>`;
+                html += `<div style="text-align:center; color:#fff; font-size:13px; margin-top:15px;">NO USERS FOUND.</div>`;
             }
             container.innerHTML = html;
         } catch (e) {
@@ -222,23 +267,7 @@
         }
     }
 
-    // --- UI TABS LOGIC ---
-    function switchAdminTab(tab) {
-        document.getElementById('adminNewUser').classList.add('hidden');
-        document.getElementById('adminUserList').classList.add('hidden');
-        if (tab === 'new') document.getElementById('adminNewUser').classList.remove('hidden');
-        if (tab === 'list') { 
-            document.getElementById('adminUserList').classList.remove('hidden');
-            fetchUsersList(); // Tab khulte hi list auto-refresh hogi
-        }
-    }
-
-    function showOSINT() {
-        document.getElementById('adminScreen').style.display = "none";
-        document.getElementById('osintScreen').style.display = "block";
-    }
-
-    // --- 4. OSINT PHONE SEARCH LOGIC (Purana wala intact) ---
+    // --- OSINT PHONE SEARCH LOGIC ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
     
     async function initiateSearch() {
@@ -268,7 +297,7 @@
                 finalHTML += `<div class="data-card">`;
                 for (const [key, value] of Object.entries(primaryData.results[0])) {
                     let cleanKey = key.replace(/_/g, ' '); 
-                    finalHTML += `<div style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span style="color:#00e5ff; width:40%; font-size:13px; font-weight:bold;">${cleanKey}</span><span style="color:#fff; width:60%; font-size:14px;">${value || 'N/A'}</span></div>`;
+                    finalHTML += `<div style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span style="color:#00e5ff; width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span style="color:#fff; width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
                 }
                 finalHTML += `</div>`;
             } else {
