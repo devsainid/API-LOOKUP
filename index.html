@@ -27,7 +27,6 @@
         }
         input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0, 20, 45, 0.8); border: 1px solid #00e5ff; }
         
-        /* Buttons */
         button {
             width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 229, 255, 0.15);
             color: #00e5ff; border: 1px solid #00e5ff; font-weight: bold; cursor: pointer;
@@ -38,14 +37,12 @@
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
-        /* WhatsApp Button */
         .btn-wa { background: rgba(37, 211, 102, 0.15); color: #25D366; border: 1px solid #25D366; margin-top: 15px; text-shadow: 0 0 5px rgba(37, 211, 102, 0.8); display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-wa:active { background: #25D366; color: #000; text-shadow: none; }
 
         .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; display: none; font-size: 14px; padding: 10px; }
         .btn-back:active { background: #ffffff; color: #000; }
 
-        /* Small Action Buttons for List */
         .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 6px; font-size: 11px; margin-top: 8px; width: 48%; }
         .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 6px; font-size: 11px; margin-top: 8px; width: 48%; }
 
@@ -61,7 +58,6 @@
         .alt-card .data-label { color: #ff5555; }
         .data-value { color: #ffffff; width: 60%; font-size: 13px; word-break: break-all; }
         
-        /* Column Buttons */
         .tab-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 20px; }
         .tab-admin, .tab-tool { width: 100%; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; letter-spacing: 1.5px; transition: 0.3s; border-radius: 5px; text-align: center; display: block; }
         .tab-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
@@ -76,7 +72,6 @@
 <body>
 
 <div class="card" id="mainCard">
-    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
@@ -84,7 +79,6 @@
             <button id="loginBtn" onclick="processLogin()">AUTHENTICATE</button>
             <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
             
-            <!-- WhatsApp Contact Button -->
             <button class="btn-wa" onclick="openWhatsApp()">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 CONTACT SUPPORT (GET TOKEN)
@@ -92,7 +86,6 @@
         </div>
     </div>
 
-    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
         
@@ -117,7 +110,6 @@
         </div>
     </div>
 
-    <!-- 3. NORMAL OSINT TOOL -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ OSINT TOOLKIT ]</h2>
         <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO ADMIN PANEL ]</button>
@@ -138,11 +130,16 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
-        // WhatsApp Redirect (Fix for Kodular WebView)
+    // 🔥 WhatsApp Redirect fix via Kodular WebViewString
     function openWhatsApp() {
-        window.location.href = "https://api.whatsapp.com/send?phone=261348585420&text=I%20WANT%20TOKEN";
+        if (window.AppInventor) {
+            // Signal Kodular Blocks to open WhatsApp
+            window.AppInventor.setWebViewString("OPEN_WHATSAPP");
+        } else {
+            // Fallback for normal browser testing
+            window.location.href = "https://api.whatsapp.com/send?phone=261348585420&text=I%20WANT%20TOKEN";
+        }
     }
-
 
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
@@ -171,7 +168,6 @@
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
             const data = await response.json();
             
-            // Check if token exists AND is ACTIVE
             if (data !== null) {
                 if (data.status === "active") {
                     localStorage.setItem("dev_osint_token", token);
@@ -180,7 +176,6 @@
                     document.getElementById('osintScreen').style.display = "block";
                     document.getElementById('backToAdminBtn').style.display = "none"; 
                 } else {
-                    // SUSPENDED TOKEN
                     err.innerText = "ACCESS DENIED: TOKEN SUSPENDED";
                     err.style.display = "block";
                     localStorage.removeItem("dev_osint_token");
@@ -233,7 +228,6 @@
         const errMsg = document.getElementById('registerError');
         if (!newToken) return;
 
-        // Security Check: Block creating token same as Master Token
         if (newToken === MASTER_TOKEN) {
             errMsg.innerText = "ERROR: CANNOT USE MASTER TOKEN NAME!";
             errMsg.style.display = "block";
@@ -263,16 +257,14 @@
         } finally { regBtn.innerText = "REGISTER TO DATABASE"; }
     }
 
-    // Toggle Token Status (Suspend/Active)
     async function toggleTokenStatus(tokenName, currentStatus) {
         const newStatus = (currentStatus === "active") ? "suspended" : "active";
-        // Show temp loading on button (optional, but good UX)
         try {
             await fetch(`${FIREBASE_URL}/users/${tokenName}/status.json`, {
                 method: 'PUT',
                 body: JSON.stringify(newStatus)
             });
-            fetchUsersList(); // Refresh list automatically
+            fetchUsersList(); 
         } catch(e) {
             alert("Error updating status!");
         }
@@ -345,7 +337,6 @@
 
         if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid Target Number."); return; }
 
-        // 🔥 AUTO-LOGOUT SECURITY CHECK (Kill Switch Logic) 🔥
         const currentToken = localStorage.getItem("dev_osint_token");
         if(currentToken && currentToken !== MASTER_TOKEN) {
             try {
@@ -354,10 +345,10 @@
                 if(status !== "active") {
                     alert("⚠️ SESSION EXPIRED: YOUR TOKEN HAS BEEN SUSPENDED BY ADMIN.");
                     localStorage.removeItem("dev_osint_token");
-                    location.reload(); // Reloads app to throw them back to login screen
+                    location.reload(); 
                     return;
                 }
-            } catch(e) { console.log("Status check failed, proceeding anyway."); }
+            } catch(e) {}
         }
 
         document.getElementById('result-container').style.display = "block";
