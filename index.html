@@ -83,11 +83,13 @@
 </head>
 <body>
 
+<!-- WHATSAPP BUTTON (Sends Signal to Kodular) -->
 <div class="floating-wa" onclick="openSupport()">
     <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </div>
 
 <div class="card" id="mainCard">
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
@@ -97,6 +99,7 @@
         </div>
     </div>
 
+    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
         
@@ -122,6 +125,7 @@
         </div>
     </div>
 
+    <!-- 3. NORMAL OSINT TOOL -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ OSINT TOOLKIT ]</h2>
         <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO ADMIN PANEL ]</button>
@@ -138,6 +142,7 @@
         </div>
     </div>
 
+    <!-- 4. GHOST MAIL SCREEN -->
     <div id="ghostScreen" class="ghost-panel">
         <h2 style="color: #ffa500; text-shadow: 0 0 10px #ffa500;">[ GHOST MAIL GENERATOR ]</h2>
         <button id="backFromGhostBtn" class="btn-back" onclick="goBackFromGhost()" style="display:block;">[ < BACK ]</button>
@@ -164,9 +169,13 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
-    // 🔥 WhatsApp Bug Fixed completely (Standard HTTPS URL) 🔥
+    // 🔥 WHATSAPP TRIGGER FIX 🔥
     function openSupport() {
-        window.location.href = "https://wa.me/261348585420?text=I%20WANT%20TOKEN";
+        if (typeof window.AppInventor !== "undefined") {
+            window.AppInventor.setWebViewString("WA_SUPPORT"); // Sends signal to Kodular Block
+        } else {
+            window.location.href = "https://wa.me/261348585420"; // Fallback for normal browser
+        }
     }
 
     window.onload = function() {
@@ -248,20 +257,12 @@
     function showGhostMailFromAdmin() {
         document.getElementById('adminScreen').style.display = "none";
         document.getElementById('ghostScreen').style.display = "block";
-        document.getElementById('backFromGhostBtn').onclick = function() {
-            document.getElementById('ghostScreen').style.display = "none";
-            document.getElementById('adminScreen').style.display = "block";
-        };
         initGhostMail();
     }
 
     function openGhostMailMain() {
         document.getElementById('osintScreen').style.display = "none";
         document.getElementById('ghostScreen').style.display = "block";
-        document.getElementById('backFromGhostBtn').onclick = function() {
-            document.getElementById('ghostScreen').style.display = "none";
-            document.getElementById('osintScreen').style.display = "block";
-        };
         initGhostMail();
     }
 
@@ -270,25 +271,43 @@
         document.getElementById('adminScreen').style.display = "block";
     }
 
+    function goBackFromGhost() {
+        document.getElementById('ghostScreen').style.display = "none";
+        const savedToken = localStorage.getItem("dev_osint_token");
+        if(savedToken === MASTER_TOKEN) {
+            document.getElementById('adminScreen').style.display = "block";
+        } else {
+            document.getElementById('osintScreen').style.display = "block";
+        }
+    }
+
+    // 🔥 GHOST MAIL DOUBLE-PROXY FIX 🔥
     let currentGhostEmail = "";
 
-    // 🔥 GHOST MAIL FIX (Removed broken proxy, using Direct API) 🔥
     async function initGhostMail() {
         const box = document.getElementById('ghostEmailBox');
-        box.value = "Generating ghost email...";
+        box.value = "Generating email...";
+        const apiUrl = "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1";
+        
         try {
-            // Seedha 1secmail API hit (Bina kisi proxy ke)
-            const res = await fetch("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1");
-            const data = await res.json();
-            if(data && data.length > 0) {
-                currentGhostEmail = data[0];
+            // Attempt 1: Direct Fetch
+            const res1 = await fetch(apiUrl);
+            const data1 = await res1.json();
+            currentGhostEmail = data1[0];
+            box.value = currentGhostEmail;
+            fetchGhostInbox();
+        } catch(e1) {
+            try {
+                // Attempt 2: CORS Proxy Fallback
+                const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(apiUrl);
+                const res2 = await fetch(proxyUrl);
+                const data2 = await res2.json();
+                currentGhostEmail = data2[0];
                 box.value = currentGhostEmail;
                 fetchGhostInbox();
-            } else {
-                box.value = "Error generating email";
+            } catch(e2) {
+                box.value = "API Blocked by Network";
             }
-        } catch(e) {
-            box.value = "Network error - Check Internet";
         }
     }
 
@@ -305,28 +324,41 @@
         const [user, domain] = currentGhostEmail.split('@');
         const container = document.getElementById('ghostInboxContainer');
         container.innerHTML = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #ffa500; font-size: 12px;">Checking inbox...</div>`;
+        const apiUrl = `https://www.1secmail.com/api/v1/?action=getMessages&login=${user}&domain=${domain}`;
         
         try {
-            // Seedha API request
-            const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${user}&domain=${domain}`);
-            const messages = await res.json();
-            let html = "";
-            if(messages && messages.length > 0) {
-                messages.forEach(msg => {
-                    html += `
-                    <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
-                        <span style="color:#ffa500; font-weight:bold;">FROM:</span> ${msg.from}<br>
-                        <span style="color:#ffa500; font-weight:bold;">SUBJECT:</span> ${msg.subject}<br>
-                        <span style="color:gray;">DATE:</span> ${msg.date}
-                    </div>`;
-                });
-            } else {
-                html = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. No incoming mail yet.</div>`;
+            // Try Direct
+            let res = await fetch(apiUrl);
+            let messages = await res.json();
+            renderInbox(messages, container);
+        } catch(e1) {
+            try {
+                // Try Proxy
+                let proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(apiUrl);
+                let res2 = await fetch(proxyUrl);
+                let messages2 = await res2.json();
+                renderInbox(messages2, container);
+            } catch(e2) {
+                container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Failed to load inbox.</div>`;
             }
-            container.innerHTML = html;
-        } catch(e) {
-            container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Failed to load inbox.</div>`;
         }
+    }
+
+    function renderInbox(messages, container) {
+        let html = "";
+        if(messages && messages.length > 0) {
+            messages.forEach(msg => {
+                html += `
+                <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
+                    <span style="color:#ffa500; font-weight:bold;">FROM:</span> ${msg.from}<br>
+                    <span style="color:#ffa500; font-weight:bold;">SUBJECT:</span> ${msg.subject}<br>
+                    <span style="color:gray;">DATE:</span> ${msg.date}
+                </div>`;
+            });
+        } else {
+            html = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. No incoming mail yet.</div>`;
+        }
+        container.innerHTML = html;
     }
 
     async function registerNewUser() {
