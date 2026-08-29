@@ -138,10 +138,11 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
-    // WhatsApp Redirect
+        // WhatsApp Redirect (Fix for Kodular WebView)
     function openWhatsApp() {
-        window.open("https://wa.me/261348585420?text=I%20WANT%20TOKEN", "_blank");
+        window.location.href = "https://api.whatsapp.com/send?phone=261348585420&text=I%20WANT%20TOKEN";
     }
+
 
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
