@@ -3,366 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEV OSINT TERMINAL</title>
-    <!-- EXIF Data nikalne ki Advance JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
+    <title>DEV OSINT TERMINAL - PRO</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: "Courier New", Courier, monospace; 
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Courier New", Courier, monospace; }
         body {
             background-color: #020a14;
-            background-image: 
-                linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
-            background-size: 25px 25px;
-            color: #00e5ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background-image: linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
+            background-size: 25px 25px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
-
         .card {
-            background: rgba(0, 15, 35, 0.45);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            width: 100%;
-            max-width: 480px;
-            padding: 30px 20px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 229, 255, 0.4);
+            background: rgba(0, 15, 35, 0.6); backdrop-filter: blur(8px); width: 100%; max-width: 480px;
+            padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.4);
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 22px;
-            color: #00e5ff;
-            text-shadow: 0 0 10px #00e5ff, 0 0 20px rgba(0, 229, 255, 0.5);
-            letter-spacing: 2px;
-        }
-
-        /* TAB SYSTEM CSS */
-        .tab-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            color: rgba(0, 229, 255, 0.4);
-            transition: 0.3s;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        .tab.active {
-            color: #ffffff;
-            text-shadow: 0 0 10px #00e5ff;
-            border-bottom: 2px solid #00e5ff;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 229, 255, 0.5);
-            color: #00e5ff;
-            outline: none;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        input[type="text"]:focus {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-            background: rgba(0, 20, 45, 0.8);
-            border: 1px solid #00e5ff;
-        }
-
-        /* Image Upload Label CSS */
-        .upload-label {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            font-size: 14px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px dashed rgba(0, 229, 255, 0.5);
-            color: #00e5ff;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .upload-label:hover {
-            background: rgba(0, 229, 255, 0.1);
-            border: 1px dashed #00e5ff;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            background: rgba(0, 229, 255, 0.15);
-            color: #00e5ff;
-            border: 1px solid #00e5ff;
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 1.5px;
-            transition: 0.3s;
-            border-radius: 5px;
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
-            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.2);
-        }
-
-        button:active {
-            transform: scale(0.96);
-            background: #00e5ff;
-            color: #000;
-        }
-
-        #result-container {
-            display: none;
-            margin-top: 25px;
-        }
-
-        .data-card {
-            background: rgba(0, 25, 50, 0.3);
-            border-left: 3px solid #00e5ff;
-            padding: 15px;
-            margin-top: 15px;
-            border-top: 1px solid rgba(0, 229, 255, 0.1);
-            border-right: 1px solid rgba(0, 229, 255, 0.1);
-            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
-            border-radius: 5px;
-        }
-
-        .data-row {
-            display: flex;
-            margin-bottom: 10px;
-            padding-bottom: 6px;
-            position: relative;
-            overflow: hidden; 
-        }
-
-        .data-row::before {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; border-bottom: 1px dashed rgba(0, 229, 255, 0.25);
-        }
-
-        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 13px; text-shadow: 0 0 2px rgba(0, 229, 255, 0.4); }
-        .data-value { color: #ffffff; width: 60%; font-size: 14px; word-break: break-word; text-shadow: 0 0 3px rgba(255,255,255,0.5); }
+        h2 { text-align: center; margin-bottom: 25px; font-size: 22px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; }
         
-        .map-link { color: #ff3333; text-decoration: none; font-weight: bold; text-shadow: 0 0 5px #ff3333; }
-        .map-link:hover { text-decoration: underline; }
-
-        .section-title { font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff; }
-
-        .dev-saini-tag {
-            font-size: 12px; font-weight: 900; text-align: center; margin-top: 30px; padding-top: 15px; color: #ffffff;
-            border-top: 1px dashed rgba(0, 229, 255, 0.4); letter-spacing: 1px;
-            text-shadow: 0 0 5px #00e5ff, 0 0 12px #00e5ff; animation: textPulse 2s infinite;
+        .input-group { display: flex; flex-direction: column; gap: 15px; }
+        input {
+            width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 229, 255, 0.5); color: #00e5ff; outline: none;
+            font-weight: bold; text-align: center; border-radius: 5px; transition: 0.3s;
         }
-
-        @keyframes textPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.75; transform: scale(0.99); }
+        input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0, 20, 45, 0.8); border: 1px solid #00e5ff; }
+        
+        button {
+            width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 229, 255, 0.15);
+            color: #00e5ff; border: 1px solid #00e5ff; font-weight: bold; cursor: pointer;
+            letter-spacing: 1.5px; transition: 0.3s; border-radius: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
         }
+        button:active { transform: scale(0.96); background: #00e5ff; color: #000; }
+        
+        /* Admin Button Styles */
+        .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
+        .btn-admin:active { background: #ff3333; color: #000; }
+
+        .hidden { display: none !important; }
+        .error-msg { color: #ff3333; text-align: center; margin-top: 10px; font-weight: bold; display: none; }
+        
+        .admin-panel, .osint-panel { display: none; }
+        .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
+        
+        .tab-container { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 10px; }
+        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; color: rgba(0, 229, 255, 0.4); transition: 0.3s; font-size: 14px; }
+        .tab.active { color: #ffffff; text-shadow: 0 0 10px #00e5ff; border-bottom: 2px solid #00e5ff; }
+        
+        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 14px; color: #fff;}
+        .user-list-item span { color: #ff3333; font-weight: bold;}
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>[ DEV SAINI'S DATABASE ]</h2>
-    
-    <!-- Tab System -->
-    <div class="tab-container">
-        <div class="tab active" id="tab-phone" onclick="switchTab('phone')">[ PHONE TRACKER ]</div>
-        <div class="tab" id="tab-image" onclick="switchTab('image')">[ IMAGE X-RAY ]</div>
+<div class="card" id="mainCard">
+    <!-- 1. LOGIN SCREEN -->
+    <div id="loginScreen">
+        <h2>[ SYSTEM AUTHORIZATION ]</h2>
+        <div class="input-group">
+            <input type="text" id="tokenInput" placeholder="ENTER SECURE TOKEN" autocomplete="off" />
+            <button onclick="checkLogin()">AUTHENTICATE</button>
+            <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
+            <div style="font-size:11px; text-align:center; color:gray; margin-top:10px;">
+                Master Token: DEV-ADMIN-777 <br> User Token: USER-123
+            </div>
+        </div>
     </div>
 
-    <!-- Phone OSINT Section -->
-    <div id="section-phone" class="input-group">
-        <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
-        <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
+    <!-- 2. SUPER ADMIN DASHBOARD -->
+    <div id="adminScreen" class="admin-panel">
+        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
+        
+        <div class="tab-container">
+            <div class="tab active" style="color: #ff3333; border-color: #ff3333;" onclick="switchAdminTab('new')">NEW USER</div>
+            <div class="tab" style="color: #ff3333;" onclick="switchAdminTab('list')">USER LIST</div>
+            <div class="tab" style="color: #ff3333;" onclick="showOSINT()">OSINT TOOL</div>
+        </div>
+
+        <div id="adminNewUser" class="input-group">
+            <input type="text" id="newUserToken" placeholder="GENERATE NEW TOKEN (e.g. USER-007)" />
+            <button class="btn-admin" onclick="alert('Token Database Linked Required!')">REGISTER USER</button>
+        </div>
+
+        <div id="adminUserList" class="hidden">
+            <div class="data-card" style="border-left-color: #ff3333;">
+                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS DATABASE</div>
+                <div class="user-list-item">TOKEN: <span>USER-123</span> <br> CREATED: 28-Aug-2026 <br> DEVICE: Locked</div>
+                <div class="user-list-item">TOKEN: <span>DEV-VIP-99</span> <br> CREATED: 29-Aug-2026 <br> DEVICE: Unlocked</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Image OSINT Section -->
-    <div id="section-image" class="input-group" style="display: none;">
-        <input type="file" id="imageInput" accept="image/jpeg, image/jpg, image/png" style="display: none;" onchange="updateFileName()" />
-        <label for="imageInput" class="upload-label" id="uploadLabel">+ SELECT TARGET IMAGE (.JPG)</label>
-        <button id="scanBtn" onclick="scanImage()">EXTRACT HIDDEN DATA</button>
+    <!-- 3. NORMAL OSINT TOOL (For both Admin & User) -->
+    <div id="osintScreen" class="osint-panel">
+        <h2>[ OSINT TOOLKIT ]</h2>
+        <div class="input-group">
+            <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
+            <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
+        </div>
+        <div id="result-container" style="display:none; margin-top:20px;"></div>
     </div>
-
-    <!-- Results Display -->
-    <div id="result-container"></div>
 </div>
 
 <script>
-// --- UI LOGIC (TABS) ---
-function switchTab(tabName) {
-    document.getElementById('result-container').style.display = 'none';
+    // --- 1. LOGIN LOGIC ---
+    function checkLogin() {
+        const token = document.getElementById('tokenInput').value.trim();
+        const err = document.getElementById('loginError');
+        
+        if (token === "DEV-ADMIN-777") {
+            // Admin Login
+            err.style.display = "none";
+            document.getElementById('loginScreen').style.display = "none";
+            document.getElementById('adminScreen').style.display = "block";
+        } else if (token === "USER-123") {
+            // Normal User Login
+            err.style.display = "none";
+            document.getElementById('loginScreen').style.display = "none";
+            document.getElementById('osintScreen').style.display = "block";
+        } else {
+            err.style.display = "block";
+        }
+    }
+
+    // --- 2. ADMIN TAB SWITCHING ---
+    function switchAdminTab(tab) {
+        document.getElementById('adminNewUser').classList.add('hidden');
+        document.getElementById('adminUserList').classList.add('hidden');
+        if (tab === 'new') document.getElementById('adminNewUser').classList.remove('hidden');
+        if (tab === 'list') document.getElementById('adminUserList').classList.remove('hidden');
+    }
+
+    function showOSINT() {
+        document.getElementById('adminScreen').style.display = "none";
+        document.getElementById('osintScreen').style.display = "block";
+    }
+
+    // --- 3. OSINT PHONE SEARCH LOGIC ---
+    const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
     
-    if(tabName === 'phone') {
-        document.getElementById('tab-phone').classList.add('active');
-        document.getElementById('tab-image').classList.remove('active');
-        document.getElementById('section-phone').style.display = 'flex';
-        document.getElementById('section-image').style.display = 'none';
-    } else {
-        document.getElementById('tab-image').classList.add('active');
-        document.getElementById('tab-phone').classList.remove('active');
-        document.getElementById('section-image').style.display = 'flex';
-        document.getElementById('section-phone').style.display = 'none';
-    }
-}
+    async function initiateSearch() {
+        const inputField = document.getElementById('phoneInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultContainer = document.getElementById('result-container');
+        const mainNumber = inputField.value.trim();
 
-// --- 1. PHONE OSINT LOGIC ---
-const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
-
-async function initiateSearch() {
-    const inputField = document.getElementById('phoneInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const resultContainer = document.getElementById('result-container');
-    const mainNumber = inputField.value.trim();
-
-    if (!mainNumber || mainNumber.length < 10) {
-        alert("ACCESS DENIED: Enter Valid Target Number.");
-        return;
-    }
-
-    resultContainer.style.display = "block";
-    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...<br>EXTRACTING DATA...</div>";
-    searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
-
-    try {
-        const response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
-        const rawText = await response.text();
-        const firstBrace = rawText.indexOf('{');
-        const lastBrace = rawText.lastIndexOf('}');
-        const jsonString = rawText.substring(firstBrace, lastBrace + 1);
-        const primaryData = JSON.parse(jsonString);
-
-        let finalHTML = "";
-        if (primaryData && primaryData.results && primaryData.results.length > 0) {
-            finalHTML += `<div class="section-title">> TARGET DATA FOUND:</div><div class="data-card">`;
-            
-            for (const [key, value] of Object.entries(primaryData.results[0])) {
-                let cleanKey = key.replace(/_/g, ' '); 
-                finalHTML += `<div class="data-row"><span class="data-label">${cleanKey}</span><span class="data-value">${value || 'N/A'}</span></div>`;
-            }
-            finalHTML += `</div>`;
-        } else {
-            finalHTML = `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND.</div>`;
+        if (!mainNumber || mainNumber.length < 10) {
+            alert("ACCESS DENIED: Enter Valid Target Number."); return;
         }
 
-        resultContainer.innerHTML = finalHTML + `<div class="dev-saini-tag">DATA FETCHED FROM DEV SAINI'S DATABASE</div>`;
-    } catch (err) {
-        resultContainer.innerHTML = `<div style="color:#ff3333; text-align:center;"><strong>ERROR:</strong> SERVER UNREACHABLE</div>`;
-    } finally {
-        searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
-    }
-}
+        resultContainer.style.display = "block";
+        resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...</div>";
+        searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
 
-// --- 2. IMAGE X-RAY (EXIF) LOGIC ---
-function updateFileName() {
-    const fileInput = document.getElementById('imageInput');
-    const label = document.getElementById('uploadLabel');
-    if (fileInput.files.length > 0) {
-        label.innerText = "[ " + fileInput.files[0].name + " ] SELECTED";
-        label.style.border = "1px solid #00e5ff";
-        label.style.color = "#ffffff";
-    }
-}
+        try {
+            const response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
+            const rawText = await response.text();
+            const firstBrace = rawText.indexOf('{');
+            const lastBrace = rawText.lastIndexOf('}');
+            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
+            const primaryData = JSON.parse(jsonString);
 
-async function scanImage() {
-    const fileInput = document.getElementById('imageInput');
-    const scanBtn = document.getElementById('scanBtn');
-    const resultContainer = document.getElementById('result-container');
-
-    if (!fileInput.files || fileInput.files.length === 0) {
-        alert("ACCESS DENIED: Upload an Image first.");
-        return;
-    }
-
-    resultContainer.style.display = "block";
-    resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ANALYZING FILE STRUCTURE...<br>EXTRACTING EXIF METADATA...</div>";
-    scanBtn.disabled = true; scanBtn.innerText = "SCANNING...";
-
-    try {
-        const file = fileInput.files[0];
-        // Use EXIFR library to parse all data + GPS
-        let exifData = await exifr.parse(file);
-        
-        let finalHTML = `<div class="section-title">> HIDDEN IMAGE DATA (EXIF):</div>`;
-        
-        if (exifData) {
-            finalHTML += `<div class="data-card">`;
-            
-            // Check for Camera/Phone Model
-            const make = exifData.Make || "Unknown";
-            const model = exifData.Model || "Unknown";
-            finalHTML += `<div class="data-row"><span class="data-label">DEVICE</span><span class="data-value">${make} ${model}</span></div>`;
-            
-            // Check for Date
-            const date = exifData.DateTimeOriginal ? new Date(exifData.DateTimeOriginal).toLocaleString() : "Unknown";
-            finalHTML += `<div class="data-row"><span class="data-label">DATE & TIME</span><span class="data-value">${date}</span></div>`;
-            
-            // Software / App used
-            const software = exifData.Software || "Original / Not Edited";
-            finalHTML += `<div class="data-row"><span class="data-label">SOFTWARE</span><span class="data-value">${software}</span></div>`;
-
-            // Check for GPS (The Jackpot!)
-            if (exifData.latitude && exifData.longitude) {
-                const lat = exifData.latitude.toFixed(6);
-                const lon = exifData.longitude.toFixed(6);
-                const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
-                finalHTML += `
-                <div class="data-row">
-                    <span class="data-label" style="color:#ff3333;">GPS LOCATION</span>
-                    <span class="data-value">
-                        <a href="${mapsLink}" target="_blank" class="map-link">[ CLICK TO OPEN MAP ]</a><br>
-                        <span style="font-size:10px; color:gray;">${lat}, ${lon}</span>
-                    </span>
-                </div>`;
+            let finalHTML = "";
+            if (primaryData && primaryData.results && primaryData.results.length > 0) {
+                finalHTML += `<div class="data-card">`;
+                for (const [key, value] of Object.entries(primaryData.results[0])) {
+                    let cleanKey = key.replace(/_/g, ' '); 
+                    finalHTML += `<div style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span style="color:#00e5ff; width:40%; font-size:13px; font-weight:bold;">${cleanKey}</span><span style="color:#fff; width:60%; font-size:14px;">${value || 'N/A'}</span></div>`;
+                }
+                finalHTML += `</div>`;
             } else {
-                finalHTML += `<div class="data-row"><span class="data-label">LOCATION</span><span class="data-value">GPS Data Stripped/Disabled</span></div>`;
+                finalHTML = `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND.</div>`;
             }
-
-            finalHTML += `</div>`;
-        } else {
-            finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO HIDDEN DATA FOUND.<br><span style="font-size:12px;">(WhatsApp/Social Media images usually strip this data for privacy)</span></div>`;
+            resultContainer.innerHTML = finalHTML;
+        } catch (err) {
+            resultContainer.innerHTML = `<div style="color:#ff3333; text-align:center;"><strong>SYSTEM ERROR</strong></div>`;
+        } finally {
+            searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
         }
-
-        resultContainer.innerHTML = finalHTML + `<div class="dev-saini-tag">ANALYSIS COMPLETED BY DEV SAINI'S TOOLKIT</div>`;
-    } catch (err) {
-        resultContainer.innerHTML = `<div style="color:#ff3333; text-align:center;"><strong>ERROR:</strong> INVALID IMAGE FILE</div>`;
-    } finally {
-        scanBtn.disabled = false; scanBtn.innerText = "EXTRACT HIDDEN DATA";
     }
-}
 </script>
-
 </body>
 </html>
