@@ -12,7 +12,7 @@
             background-size: 25px 25px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
         .card {
-            background: rgba(0, 15, 35, 0.6); backdrop-filter: blur(8px); width: 100%; max-width: 480px;
+            background: rgba(0, 15, 35, 0.7); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
             padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.4);
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
@@ -33,12 +33,12 @@
         }
         button:active { transform: scale(0.96); background: #00e5ff; color: #000; }
         
-        /* Admin Button Styles */
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
         .hidden { display: none !important; }
         .error-msg { color: #ff3333; text-align: center; margin-top: 10px; font-weight: bold; display: none; }
+        .success-msg { color: #00ff00; text-align: center; margin-top: 10px; font-weight: bold; display: none; }
         
         .admin-panel, .osint-panel { display: none; }
         .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
@@ -59,10 +59,10 @@
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
             <input type="text" id="tokenInput" placeholder="ENTER SECURE TOKEN" autocomplete="off" />
-            <button onclick="checkLogin()">AUTHENTICATE</button>
+            <button id="loginBtn" onclick="checkLogin()">AUTHENTICATE</button>
             <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
             <div style="font-size:11px; text-align:center; color:gray; margin-top:10px;">
-                Master Token: DEV-ADMIN-777 <br> User Token: USER-123
+                Master Token: DEV-MASTER-777
             </div>
         </div>
     </div>
@@ -74,24 +74,27 @@
         <div class="tab-container">
             <div class="tab active" style="color: #ff3333; border-color: #ff3333;" onclick="switchAdminTab('new')">NEW USER</div>
             <div class="tab" style="color: #ff3333;" onclick="switchAdminTab('list')">USER LIST</div>
-            <div class="tab" style="color: #ff3333;" onclick="showOSINT()">OSINT TOOL</div>
+            <div class="tab" style="color: #00e5ff;" onclick="showOSINT()">OSINT TOOL</div>
         </div>
 
+        <!-- Create User Tab -->
         <div id="adminNewUser" class="input-group">
-            <input type="text" id="newUserToken" placeholder="GENERATE NEW TOKEN (e.g. USER-007)" />
-            <button class="btn-admin" onclick="alert('Token Database Linked Required!')">REGISTER USER</button>
+            <input type="text" id="newUserToken" placeholder="GENERATE NEW TOKEN (e.g. VIP-001)" />
+            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">REGISTER USER TO DATABASE</button>
+            <div class="success-msg" id="registerSuccess">TOKEN SAVED TO CLOUD!</div>
+            <div class="error-msg" id="registerError">TOKEN ALREADY EXISTS!</div>
         </div>
 
+        <!-- User List Tab -->
         <div id="adminUserList" class="hidden">
-            <div class="data-card" style="border-left-color: #ff3333;">
-                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS DATABASE</div>
-                <div class="user-list-item">TOKEN: <span>USER-123</span> <br> CREATED: 28-Aug-2026 <br> DEVICE: Locked</div>
-                <div class="user-list-item">TOKEN: <span>DEV-VIP-99</span> <br> CREATED: 29-Aug-2026 <br> DEVICE: Unlocked</div>
+            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; font-size: 14px; padding: 10px;">🔄 REFRESH DATABASE</button>
+            <div class="data-card" style="border-left-color: #ff3333;" id="usersListContainer">
+                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING CLOUD DATABASE...</div>
             </div>
         </div>
     </div>
 
-    <!-- 3. NORMAL OSINT TOOL (For both Admin & User) -->
+    <!-- 3. NORMAL OSINT TOOL (For Admin & Valid Users) -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ OSINT TOOLKIT ]</h2>
         <div class="input-group">
@@ -103,32 +106,131 @@
 </div>
 
 <script>
-    // --- 1. LOGIN LOGIC ---
-    function checkLogin() {
+    // TERA FIREBASE DATABASE URL
+    const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
+    const MASTER_TOKEN = "DEV-MASTER-777"; 
+
+    // --- 1. LOGIN LOGIC (Checks with Firebase) ---
+    async function checkLogin() {
         const token = document.getElementById('tokenInput').value.trim();
         const err = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
         
-        if (token === "DEV-ADMIN-777") {
-            // Admin Login
+        if (!token) return;
+
+        // Agar Admin Hai Toh:
+        if (token === MASTER_TOKEN) {
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
-        } else if (token === "USER-123") {
-            // Normal User Login
-            err.style.display = "none";
-            document.getElementById('loginScreen').style.display = "none";
-            document.getElementById('osintScreen').style.display = "block";
-        } else {
+            return;
+        }
+
+        // Agar Normal User Hai Toh Firebase Mein Check Karo:
+        loginBtn.innerText = "VERIFYING TOKEN...";
+        try {
+            const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
+            const data = await response.json();
+
+            if (data !== null) {
+                // TOKEN MIL GAYA! (Baad mein yahan Device ID lock ka check add karenge)
+                err.style.display = "none";
+                document.getElementById('loginScreen').style.display = "none";
+                document.getElementById('osintScreen').style.display = "block";
+            } else {
+                // TOKEN NAHI MILA
+                err.style.display = "block";
+            }
+        } catch (e) {
+            err.innerText = "SYSTEM ERROR: SERVER OFFLINE";
             err.style.display = "block";
+        } finally {
+            loginBtn.innerText = "AUTHENTICATE";
         }
     }
 
-    // --- 2. ADMIN TAB SWITCHING ---
+    // --- 2. ADMIN: CREATE NEW USER ---
+    async function registerNewUser() {
+        const newToken = document.getElementById('newUserToken').value.trim();
+        const regBtn = document.getElementById('registerBtn');
+        const sucMsg = document.getElementById('registerSuccess');
+        const errMsg = document.getElementById('registerError');
+
+        if (!newToken) return;
+
+        regBtn.innerText = "SAVING...";
+        sucMsg.style.display = "none"; errMsg.style.display = "none";
+
+        try {
+            // Pehle check karo ki token pehle se toh nahi hai
+            const checkRes = await fetch(`${FIREBASE_URL}/users/${newToken}.json`);
+            const checkData = await checkRes.json();
+
+            if (checkData !== null) {
+                errMsg.style.display = "block"; // Token pehle se hai
+            } else {
+                // Naya Token Database mein Save Karo
+                const today = new Date().toLocaleDateString('en-GB');
+                const userData = {
+                    createdAt: today,
+                    deviceID: "unlocked", // Abhi unlocked hai
+                    status: "active"
+                };
+
+                await fetch(`${FIREBASE_URL}/users/${newToken}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify(userData)
+                });
+
+                sucMsg.style.display = "block";
+                document.getElementById('newUserToken').value = "";
+            }
+        } catch (e) {
+            errMsg.innerText = "NETWORK ERROR";
+            errMsg.style.display = "block";
+        } finally {
+            regBtn.innerText = "REGISTER USER TO DATABASE";
+        }
+    }
+
+    // --- 3. ADMIN: FETCH USER LIST ---
+    async function fetchUsersList() {
+        const container = document.getElementById('usersListContainer');
+        container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING FROM CLOUD...</div>`;
+        
+        try {
+            const response = await fetch(`${FIREBASE_URL}/users.json`);
+            const data = await response.json();
+            
+            let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS DATABASE</div>`;
+            
+            if (data !== null) {
+                for (const [tokenName, details] of Object.entries(data)) {
+                    html += `
+                    <div class="user-list-item">
+                        TOKEN: <span>${tokenName}</span> <br> 
+                        CREATED: ${details.createdAt} <br> 
+                        DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : 'Locked'}
+                    </div>`;
+                }
+            } else {
+                html += `<div style="text-align:center; color:#fff; font-size:14px; margin-top:15px;">NO USERS FOUND.</div>`;
+            }
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`;
+        }
+    }
+
+    // --- UI TABS LOGIC ---
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
         if (tab === 'new') document.getElementById('adminNewUser').classList.remove('hidden');
-        if (tab === 'list') document.getElementById('adminUserList').classList.remove('hidden');
+        if (tab === 'list') { 
+            document.getElementById('adminUserList').classList.remove('hidden');
+            fetchUsersList(); // Tab khulte hi list auto-refresh hogi
+        }
     }
 
     function showOSINT() {
@@ -136,7 +238,7 @@
         document.getElementById('osintScreen').style.display = "block";
     }
 
-    // --- 3. OSINT PHONE SEARCH LOGIC ---
+    // --- 4. OSINT PHONE SEARCH LOGIC (Purana wala intact) ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
     
     async function initiateSearch() {
