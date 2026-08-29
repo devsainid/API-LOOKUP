@@ -17,6 +17,7 @@
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
         
+        /* Heading Fixed */
         h2 { text-align: center; margin-bottom: 25px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; white-space: nowrap; overflow: hidden; }
         
         .input-group { display: flex; flex-direction: column; gap: 15px; }
@@ -27,6 +28,7 @@
         }
         input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0, 20, 45, 0.8); border: 1px solid #00e5ff; }
         
+        /* Global Button */
         button {
             width: 100%; padding: 14px; font-size: 16px; background: rgba(0, 229, 255, 0.15);
             color: #00e5ff; border: 1px solid #00e5ff; font-weight: bold; cursor: pointer;
@@ -34,6 +36,7 @@
         }
         button:active { transform: scale(0.96); background: #00e5ff; color: #000; }
         
+        /* Admin Button Styles */
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
@@ -46,25 +49,26 @@
         
         .admin-panel, .osint-panel { display: none; }
         
+        /* Data Card Styles */
         .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
         .alt-card { background: rgba(40, 10, 0, 0.3); border-left: 3px solid #ff3333; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(255, 51, 51, 0.1); }
-        .data-row { display: flex; margin-bottom: 10px; padding-bottom: 6px; position: relative; overflow: hidden; }
-        .data-label { color: #00e5ff; width: 35%; font-weight: bold; text-transform: uppercase; font-size: 13px; }
+        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 12px; }
         .alt-card .data-label { color: #ff5555; }
-        .data-value { color: #ffffff; width: 65%; font-size: 14px; word-break: break-word; }
-        .section-title { font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline; }
-        .primary-title { text-shadow: 0 0 5px #00e5ff; }
-        .alt-title { text-shadow: 0 0 5px #ff3333; color: #ffaaaa; margin-top: 25px;}
+        .data-value { color: #ffffff; width: 60%; font-size: 13px; word-break: break-all; }
         
-        /* Fixed Tabs - As requested */
-        .tab-container { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 10px; }
-        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 14px; }
+        /* 🔥 BADE-BADE COLUMN BUTTONS WALI STYLE 🔥 */
+        .tab-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 20px; }
         
-        .tab-admin { color: rgba(255, 51, 51, 0.4); }
-        .tab-admin.active { color: #ff3333; text-shadow: 0 0 10px #ff3333; border-bottom: 2px solid #ff3333; }
+        .tab-admin, .tab-tool {
+            width: 100%; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer;
+            letter-spacing: 1.5px; transition: 0.3s; border-radius: 5px; text-align: center; display: block;
+        }
         
-        .tab-tool { color: rgba(0, 229, 255, 0.4); }
-        .tab-tool.active { color: #ffffff; text-shadow: 0 0 10px #00e5ff; border-bottom: 2px solid #00e5ff; }
+        .tab-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
+        .tab-admin.active, .tab-admin:active { background: #ff3333; color: #000; text-shadow: none; box-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
+        
+        .tab-tool { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid #00e5ff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8); }
+        .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
 
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 13px; color: #fff;}
         .user-list-item span { color: #ff3333; font-weight: bold;}
@@ -87,11 +91,11 @@
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
         
-        <!-- PARALLEL TABS -->
+        <!-- PARALLEL VERTICAL BUTTONS -->
         <div class="tab-container">
-            <div class="tab tab-admin active" onclick="switchAdminTab('new')">NEW USER</div>
-            <div class="tab tab-admin" onclick="switchAdminTab('list')">USER LIST</div>
-            <div class="tab tab-tool" onclick="showOSINTFromAdmin()">OSINT TOOL</div>
+            <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">NEW USER</button>
+            <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">USER LIST</button>
+            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">OSINT TOOL</button>
         </div>
 
         <div id="adminNewUser" class="input-group">
@@ -102,7 +106,7 @@
         </div>
 
         <div id="adminUserList" class="hidden">
-            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; font-size: 14px; padding: 10px;">🔄 REFRESH DATABASE</button>
+            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; padding: 14px;">🔄 REFRESH DATABASE</button>
             <div class="data-card" style="border-left-color: #ff3333;" id="usersListContainer">
                 <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING DATABASE...</div>
             </div>
@@ -118,7 +122,12 @@
             <input type="text" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
             <button id="searchBtn" onclick="initiateSearch()">CHECK NUMBER</button>
         </div>
-        <div id="result-container" style="display:none; margin-top:20px;"></div>
+        
+        <!-- FIX: Data overwrite na ho iske liye yahan 2 alag boxes banaye hain -->
+        <div id="result-container" style="display:none; margin-top:20px;">
+            <div id="loadingStatus" style="text-align:center; color:#00e5ff; font-weight:bold; margin-bottom:15px;"></div>
+            <div id="dataOutput"></div>
+        </div>
     </div>
 </div>
 
@@ -138,7 +147,6 @@
         const token = document.getElementById('tokenInput').value.trim();
         const err = document.getElementById('loginError');
         const loginBtn = document.getElementById('loginBtn');
-        
         if (!token) return;
 
         if (token === MASTER_TOKEN) {
@@ -153,7 +161,6 @@
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
             const data = await response.json();
-
             if (data !== null) {
                 localStorage.setItem("dev_osint_token", token);
                 err.style.display = "none";
@@ -176,16 +183,16 @@
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
         
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-new').classList.remove('active');
+        document.getElementById('tab-list').classList.remove('active');
 
         if (tab === 'new') {
             document.getElementById('adminNewUser').classList.remove('hidden');
-            tabs[0].classList.add('active');
+            document.getElementById('tab-new').classList.add('active');
         }
         if (tab === 'list') { 
             document.getElementById('adminUserList').classList.remove('hidden');
-            tabs[1].classList.add('active');
+            document.getElementById('tab-list').classList.add('active');
             fetchUsersList(); 
         }
     }
@@ -206,7 +213,6 @@
         const regBtn = document.getElementById('registerBtn');
         const sucMsg = document.getElementById('registerSuccess');
         const errMsg = document.getElementById('registerError');
-
         if (!newToken) return;
 
         regBtn.innerText = "SAVING...";
@@ -214,59 +220,39 @@
 
         try {
             const checkRes = await fetch(`${FIREBASE_URL}/users/${newToken}.json`);
-            const checkData = await checkRes.json();
-
-            if (checkData !== null) {
+            if ((await checkRes.json()) !== null) {
                 errMsg.style.display = "block";
             } else {
                 const today = new Date().toLocaleDateString('en-GB');
-                const userData = { createdAt: today, deviceID: "unlocked", status: "active" };
-
                 await fetch(`${FIREBASE_URL}/users/${newToken}.json`, {
                     method: 'PUT',
-                    body: JSON.stringify(userData)
+                    body: JSON.stringify({ createdAt: today, deviceID: "unlocked", status: "active" })
                 });
-
                 sucMsg.style.display = "block";
                 document.getElementById('newUserToken').value = "";
             }
         } catch (e) {
-            errMsg.innerText = "NETWORK ERROR";
-            errMsg.style.display = "block";
-        } finally {
-            regBtn.innerText = "REGISTER TO DATABASE";
-        }
+            errMsg.innerText = "NETWORK ERROR"; errMsg.style.display = "block";
+        } finally { regBtn.innerText = "REGISTER TO DATABASE"; }
     }
 
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
         container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
-        
         try {
             const response = await fetch(`${FIREBASE_URL}/users.json`);
             const data = await response.json();
-            
             let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS DATABASE</div>`;
-            
             if (data !== null) {
                 for (const [tokenName, details] of Object.entries(data)) {
-                    html += `
-                    <div class="user-list-item">
-                        TOKEN: <span>${tokenName}</span> <br> 
-                        CREATED: ${details.createdAt} <br> 
-                        DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : '<span style="color:gray;">Locked</span>'}
-                    </div>`;
+                    html += `<div class="user-list-item">TOKEN: <span>${tokenName}</span> <br> CREATED: ${details.createdAt} <br> DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : '<span style="color:gray;">Locked</span>'}</div>`;
                 }
-            } else {
-                html += `<div style="text-align:center; color:#fff; font-size:13px; margin-top:15px;">NO USERS FOUND.</div>`;
-            }
+            } else { html += `<div style="text-align:center; color:#fff; font-size:13px; margin-top:15px;">NO USERS FOUND.</div>`; }
             container.innerHTML = html;
-        } catch (e) {
-            container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`;
-        }
+        } catch (e) { container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`; }
     }
 
-    // --- FULL OSINT DATA LOGIC ---
+    // --- 🔥 BULLETPROOF OSINT LOGIC 🔥 ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
     async function fetchTargetData(number) {
@@ -274,33 +260,27 @@
             const response = await fetch(`${API_BASE}${encodeURIComponent(number)}`);
             if (!response.ok) return null;
             const rawText = await response.text();
-            const firstBrace = rawText.indexOf('{');
-            const lastBrace = rawText.lastIndexOf('}');
-            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
-            return JSON.parse(jsonString);
+            return JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
         } catch (e) { return null; }
     }
 
-    function generateCardHTML(dataArray, isAlt = false) {
+    // Isme 'globalSet' paas kiya hai taaki poori checking mein ek data 2 baar na aaye!
+    function generateCardHTML(dataArray, isAlt, globalSet) {
         let html = "";
         const cardClass = isAlt ? "alt-card" : "data-card";
-        const uniqueData = [];
-        const checkDuplicate = new Set();
         
-        dataArray.forEach(item => {
+        dataArray.forEach((item) => {
             const stringifiedItem = JSON.stringify(item);
-            if (!checkDuplicate.has(stringifiedItem)) {
-                checkDuplicate.add(stringifiedItem); uniqueData.push(item);
+            if (!globalSet.has(stringifiedItem)) {
+                globalSet.add(stringifiedItem); // Pehli baar aaya toh yaad rakh lo
+                
+                html += `<div class="${cardClass}">`;
+                for (const [key, value] of Object.entries(item)) {
+                    let cleanKey = key.replace(/_/g, ' '); 
+                    html += `<div class="data-row" style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span class="data-label" style="width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span class="data-value" style="width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
+                }
+                html += `</div>`;
             }
-        });
-
-        uniqueData.forEach((item) => {
-            html += `<div class="${cardClass}">`;
-            for (const [key, value] of Object.entries(item)) {
-                let cleanKey = key.replace(/_/g, ' '); 
-                html += `<div class="data-row" style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span class="data-label" style="width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span class="data-value" style="width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
-            }
-            html += `</div>`;
         });
         return html;
     }
@@ -308,54 +288,72 @@
     async function initiateSearch() {
         const inputField = document.getElementById('phoneInput');
         const searchBtn = document.getElementById('searchBtn');
-        const resultContainer = document.getElementById('result-container');
         const mainNumber = inputField.value.trim();
 
-        if (!mainNumber || mainNumber.length < 10) {
-            alert("ACCESS DENIED: Enter Valid Target Number."); return;
-        }
+        if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid Target Number."); return; }
 
-        resultContainer.style.display = "block";
-        resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...</div>";
+        document.getElementById('result-container').style.display = "block";
+        document.getElementById('dataOutput').innerHTML = ""; // Purana data saaf
+        document.getElementById('loadingStatus').innerHTML = "ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...";
+        document.getElementById('loadingStatus').style.color = "#00e5ff";
+        
         searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
 
         try {
             let finalHTML = "";
             let altNumbersList = new Set();
+            const globalSeenRecords = new Set(); // Magic filter - No duplicates globally!
 
             const primaryData = await fetchTargetData(mainNumber);
 
+            // Primary Target Handling
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                finalHTML += `<div class="section-title primary-title">> PRIMARY TARGET DATA:</div>`;
-                finalHTML += generateCardHTML(primaryData.results, false);
+                finalHTML += `<div style="font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> PRIMARY TARGET DATA:</div>`;
+                finalHTML += generateCardHTML(primaryData.results, false, globalSeenRecords);
+                
+                // Live Screen Update for Sateesh (Primary)
+                document.getElementById('dataOutput').innerHTML = finalHTML;
                 
                 primaryData.results.forEach(rec => {
                     if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
-                        let splitNums = rec.alternate.split(/[,,\s]+/);
-                        splitNums.forEach(num => {
+                        rec.alternate.split(/[,,\s]+/).forEach(num => {
                             let cleanNum = num.trim();
-                            if (cleanNum.length >= 10 && cleanNum !== mainNumber) { altNumbersList.add(cleanNum); }
+                            if (cleanNum.length >= 10 && cleanNum !== mainNumber) altNumbersList.add(cleanNum);
                         });
                     }
                 });
             } else {
                 finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND FOR PRIMARY TARGET.</div>`;
+                document.getElementById('dataOutput').innerHTML = finalHTML;
             }
 
+            // Alternate Target Handling (Nazia)
             if (altNumbersList.size > 0) {
                 for (let altNum of altNumbersList) {
-                    resultContainer.innerHTML = `<div style='text-align:center; color:#ff3333; font-weight:bold;'>ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...</div>`;
+                    // Update only top text, dont touch Sateesh's data!
+                    document.getElementById('loadingStatus').innerHTML = `ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...`;
+                    document.getElementById('loadingStatus').style.color = "#ff3333";
+                    
                     const altData = await fetchTargetData(altNum);
                     if (altData && altData.results && altData.results.length > 0) {
-                        finalHTML += `<div class="section-title alt-title">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
-                        finalHTML += generateCardHTML(altData.results, true);
+                        const altHtml = generateCardHTML(altData.results, true, globalSeenRecords);
+                        
+                        // Check if data is exact duplicate or not before showing
+                        if(altHtml.trim() !== "") { 
+                            finalHTML += `<div style="font-weight:bold; font-size:14px; margin-top:25px; color:#ffaaaa; text-decoration:underline; text-shadow: 0 0 5px #ff3333;">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
+                            finalHTML += altHtml;
+                            document.getElementById('dataOutput').innerHTML = finalHTML; // Show both smoothly!
+                        }
                     }
                 }
             }
 
-            resultContainer.innerHTML = finalHTML;
+            document.getElementById('loadingStatus').innerHTML = `DATA EXTRACTION COMPLETE.`;
+            document.getElementById('loadingStatus').style.color = "#00ff00";
+            setTimeout(() => { document.getElementById('loadingStatus').innerHTML = ""; }, 2000);
+
         } catch (err) {
-            resultContainer.innerHTML = `<div style="color:#ff3333; margin-top:10px; text-align:center;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
+            document.getElementById('loadingStatus').innerHTML = `<strong style="color:#ff3333;">SYSTEM ERROR: SERVER ISSUE</strong>`;
         } finally {
             searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
         }
