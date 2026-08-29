@@ -17,7 +17,6 @@
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
         }
         
-        /* Heading Fixed (Single Line) */
         h2 { text-align: center; margin-bottom: 25px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; white-space: nowrap; overflow: hidden; }
         
         .input-group { display: flex; flex-direction: column; gap: 15px; }
@@ -38,7 +37,6 @@
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
-        /* Back Button Style */
         .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; display: none; font-size: 14px; padding: 10px; }
         .btn-back:active { background: #ffffff; color: #000; }
 
@@ -47,21 +45,26 @@
         .success-msg { color: #00ff00; text-align: center; margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
         
         .admin-panel, .osint-panel { display: none; }
+        
         .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
+        .alt-card { background: rgba(40, 10, 0, 0.3); border-left: 3px solid #ff3333; padding: 15px; margin-top: 15px; border-radius: 5px; border-top: 1px solid rgba(255, 51, 51, 0.1); }
+        .data-row { display: flex; margin-bottom: 10px; padding-bottom: 6px; position: relative; overflow: hidden; }
+        .data-label { color: #00e5ff; width: 35%; font-weight: bold; text-transform: uppercase; font-size: 13px; }
+        .alt-card .data-label { color: #ff5555; }
+        .data-value { color: #ffffff; width: 65%; font-size: 14px; word-break: break-word; }
+        .section-title { font-weight:bold; font-size:14px; margin-top:20px; color:#ffffff; text-decoration:underline; }
+        .primary-title { text-shadow: 0 0 5px #00e5ff; }
+        .alt-title { text-shadow: 0 0 5px #ff3333; color: #ffaaaa; margin-top: 25px;}
         
-        /* New Parallel Box Tabs */
-        .tab-container { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 25px; }
-        .tab { 
-            flex: 1; text-align: center; padding: 12px 5px; cursor: pointer; font-weight: bold; 
-            transition: 0.3s; font-size: 11px; border-radius: 5px; letter-spacing: 1px;
-            display: flex; align-items: center; justify-content: center;
-        }
+        /* Fixed Tabs - As requested */
+        .tab-container { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 10px; }
+        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 14px; }
         
-        .tab-admin { color: rgba(255, 51, 51, 0.6); background: rgba(255, 51, 51, 0.05); border: 1px solid rgba(255, 51, 51, 0.3); }
-        .tab-admin.active { color: #ffffff; text-shadow: 0 0 5px #ff3333; background: rgba(255, 51, 51, 0.2); border: 1px solid #ff3333; }
+        .tab-admin { color: rgba(255, 51, 51, 0.4); }
+        .tab-admin.active { color: #ff3333; text-shadow: 0 0 10px #ff3333; border-bottom: 2px solid #ff3333; }
         
-        .tab-tool { color: rgba(0, 229, 255, 0.6); background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.3); }
-        .tab-tool.active { color: #ffffff; text-shadow: 0 0 5px #00e5ff; background: rgba(0, 229, 255, 0.2); border: 1px solid #00e5ff; }
+        .tab-tool { color: rgba(0, 229, 255, 0.4); }
+        .tab-tool.active { color: #ffffff; text-shadow: 0 0 10px #00e5ff; border-bottom: 2px solid #00e5ff; }
 
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 10px 0; font-size: 13px; color: #fff;}
         .user-list-item span { color: #ff3333; font-weight: bold;}
@@ -70,6 +73,7 @@
 <body>
 
 <div class="card" id="mainCard">
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
@@ -79,9 +83,11 @@
         </div>
     </div>
 
+    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
         
+        <!-- PARALLEL TABS -->
         <div class="tab-container">
             <div class="tab tab-admin active" onclick="switchAdminTab('new')">NEW USER</div>
             <div class="tab tab-admin" onclick="switchAdminTab('list')">USER LIST</div>
@@ -103,6 +109,7 @@
         </div>
     </div>
 
+    <!-- 3. NORMAL OSINT TOOL -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ OSINT TOOLKIT ]</h2>
         <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO ADMIN PANEL ]</button>
@@ -119,16 +126,14 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
-    // --- AUTO-LOGIN SYSTEM (Session Persistence) ---
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
         if(savedToken) {
             document.getElementById('tokenInput').value = savedToken;
-            processLogin(true); // true means it's an auto-login
+            processLogin(true);
         }
     };
 
-    // --- LOGIN LOGIC ---
     async function processLogin(isAuto = false) {
         const token = document.getElementById('tokenInput').value.trim();
         const err = document.getElementById('loginError');
@@ -136,30 +141,28 @@
         
         if (!token) return;
 
-        // Agar Admin Hai Toh:
         if (token === MASTER_TOKEN) {
-            localStorage.setItem("dev_osint_token", token); // Save token
+            localStorage.setItem("dev_osint_token", token);
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
             return;
         }
 
-        // Agar Normal User Hai:
         if(!isAuto) loginBtn.innerText = "VERIFYING TOKEN...";
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
             const data = await response.json();
 
             if (data !== null) {
-                localStorage.setItem("dev_osint_token", token); // Save token
+                localStorage.setItem("dev_osint_token", token);
                 err.style.display = "none";
                 document.getElementById('loginScreen').style.display = "none";
                 document.getElementById('osintScreen').style.display = "block";
-                document.getElementById('backToAdminBtn').style.display = "none"; // Hide back button for normal user
+                document.getElementById('backToAdminBtn').style.display = "none"; 
             } else {
                 err.style.display = "block";
-                localStorage.removeItem("dev_osint_token"); // Remove invalid token
+                localStorage.removeItem("dev_osint_token");
             }
         } catch (e) {
             err.innerText = "SYSTEM ERROR: SERVER OFFLINE";
@@ -169,14 +172,12 @@
         }
     }
 
-    // --- ADMIN CONTROLS ---
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
         
-        const tabs = document.querySelectorAll('.tab-admin');
-        tabs[0].classList.remove('active');
-        tabs[1].classList.remove('active');
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(t => t.classList.remove('active'));
 
         if (tab === 'new') {
             document.getElementById('adminNewUser').classList.remove('hidden');
@@ -192,7 +193,7 @@
     function showOSINTFromAdmin() {
         document.getElementById('adminScreen').style.display = "none";
         document.getElementById('osintScreen').style.display = "block";
-        document.getElementById('backToAdminBtn').style.display = "block"; // Show back button for Admin
+        document.getElementById('backToAdminBtn').style.display = "block"; 
     }
 
     function goBackToAdmin() {
@@ -200,7 +201,6 @@
         document.getElementById('adminScreen').style.display = "block";
     }
 
-    // --- ADMIN: REGISTER NEW USER ---
     async function registerNewUser() {
         const newToken = document.getElementById('newUserToken').value.trim();
         const regBtn = document.getElementById('registerBtn');
@@ -238,7 +238,6 @@
         }
     }
 
-    // --- ADMIN: FETCH USER LIST ---
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
         container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
@@ -267,9 +266,45 @@
         }
     }
 
-    // --- OSINT PHONE SEARCH LOGIC ---
+    // --- FULL OSINT DATA LOGIC ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
-    
+
+    async function fetchTargetData(number) {
+        try {
+            const response = await fetch(`${API_BASE}${encodeURIComponent(number)}`);
+            if (!response.ok) return null;
+            const rawText = await response.text();
+            const firstBrace = rawText.indexOf('{');
+            const lastBrace = rawText.lastIndexOf('}');
+            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
+            return JSON.parse(jsonString);
+        } catch (e) { return null; }
+    }
+
+    function generateCardHTML(dataArray, isAlt = false) {
+        let html = "";
+        const cardClass = isAlt ? "alt-card" : "data-card";
+        const uniqueData = [];
+        const checkDuplicate = new Set();
+        
+        dataArray.forEach(item => {
+            const stringifiedItem = JSON.stringify(item);
+            if (!checkDuplicate.has(stringifiedItem)) {
+                checkDuplicate.add(stringifiedItem); uniqueData.push(item);
+            }
+        });
+
+        uniqueData.forEach((item) => {
+            html += `<div class="${cardClass}">`;
+            for (const [key, value] of Object.entries(item)) {
+                let cleanKey = key.replace(/_/g, ' '); 
+                html += `<div class="data-row" style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span class="data-label" style="width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span class="data-value" style="width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
+            }
+            html += `</div>`;
+        });
+        return html;
+    }
+
     async function initiateSearch() {
         const inputField = document.getElementById('phoneInput');
         const searchBtn = document.getElementById('searchBtn');
@@ -281,31 +316,46 @@
         }
 
         resultContainer.style.display = "block";
-        resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...</div>";
+        resultContainer.innerHTML = "<div style='text-align:center; color:#00e5ff; font-weight:bold;'>ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...</div>";
         searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
 
         try {
-            const response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
-            const rawText = await response.text();
-            const firstBrace = rawText.indexOf('{');
-            const lastBrace = rawText.lastIndexOf('}');
-            const jsonString = rawText.substring(firstBrace, lastBrace + 1);
-            const primaryData = JSON.parse(jsonString);
-
             let finalHTML = "";
+            let altNumbersList = new Set();
+
+            const primaryData = await fetchTargetData(mainNumber);
+
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                finalHTML += `<div class="data-card">`;
-                for (const [key, value] of Object.entries(primaryData.results[0])) {
-                    let cleanKey = key.replace(/_/g, ' '); 
-                    finalHTML += `<div style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(0,229,255,0.2);"><span style="color:#00e5ff; width:40%; font-size:12px; font-weight:bold;">${cleanKey}</span><span style="color:#fff; width:60%; font-size:13px; word-break: break-all;">${value || 'N/A'}</span></div>`;
-                }
-                finalHTML += `</div>`;
+                finalHTML += `<div class="section-title primary-title">> PRIMARY TARGET DATA:</div>`;
+                finalHTML += generateCardHTML(primaryData.results, false);
+                
+                primaryData.results.forEach(rec => {
+                    if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
+                        let splitNums = rec.alternate.split(/[,,\s]+/);
+                        splitNums.forEach(num => {
+                            let cleanNum = num.trim();
+                            if (cleanNum.length >= 10 && cleanNum !== mainNumber) { altNumbersList.add(cleanNum); }
+                        });
+                    }
+                });
             } else {
-                finalHTML = `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND.</div>`;
+                finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND FOR PRIMARY TARGET.</div>`;
             }
+
+            if (altNumbersList.size > 0) {
+                for (let altNum of altNumbersList) {
+                    resultContainer.innerHTML = `<div style='text-align:center; color:#ff3333; font-weight:bold;'>ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...</div>`;
+                    const altData = await fetchTargetData(altNum);
+                    if (altData && altData.results && altData.results.length > 0) {
+                        finalHTML += `<div class="section-title alt-title">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
+                        finalHTML += generateCardHTML(altData.results, true);
+                    }
+                }
+            }
+
             resultContainer.innerHTML = finalHTML;
         } catch (err) {
-            resultContainer.innerHTML = `<div style="color:#ff3333; text-align:center;"><strong>SYSTEM ERROR</strong></div>`;
+            resultContainer.innerHTML = `<div style="color:#ff3333; margin-top:10px; text-align:center;"><strong>SYSTEM ERROR:</strong> ${err.message}</div>`;
         } finally {
             searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
         }
