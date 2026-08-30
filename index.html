@@ -40,11 +40,11 @@
         .btn-ghost { background: rgba(255, 165, 0, 0.15); color: #ffa500; border: 1px solid #ffa500; text-shadow: 0 0 5px rgba(255, 165, 0, 0.8); margin-top: 5px; }
         .btn-ghost:active { background: #ffa500; color: #000; }
 
-        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; display: none; font-size: 14px; padding: 10px; }
+        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; font-size: 14px; padding: 10px; }
         .btn-back:active { background: #ffffff; color: #000; }
 
-        .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 6px; font-size: 11px; margin-top: 8px; width: 48%; }
-        .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 6px; font-size: 11px; margin-top: 8px; width: 48%; }
+        .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; }
+        .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; }
 
         .floating-wa {
             position: fixed; bottom: 20px; right: 20px;
@@ -59,12 +59,11 @@
         .error-msg { color: #ff3333; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         .success-msg { color: #00ff00; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         
-        .admin-panel, .osint-panel, .ghost-panel { display: none; }
+        .admin-panel, .osint-panel, .ghost-panel, .user-details-panel { display: none; }
         
         .data-card { background: rgba(0, 25, 50, 0.3); border-left: 3px solid #00e5ff; padding: 12px; margin-top: 12px; border-radius: 5px; border-top: 1px solid rgba(0, 229, 255, 0.1); }
         .alt-card { background: rgba(40, 10, 0, 0.3); border-left: 3px solid #ff3333; padding: 12px; margin-top: 12px; border-radius: 5px; border-top: 1px solid rgba(255, 51, 51, 0.1); }
         .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 11px; }
-        .alt-card .data-label { color: #ff5555; }
         .data-value { color: #ffffff; width: 60%; font-size: 12px; word-break: break-all; }
         
         .tab-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 15px; }
@@ -74,10 +73,14 @@
         .tab-tool { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid #00e5ff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8); }
         .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
         .tab-ghost { background: rgba(255, 165, 0, 0.15); color: #ffa500; border: 1px solid #ffa500; text-shadow: 0 0 5px rgba(255, 165, 0, 0.8); }
-        .tab-ghost.active, .tab-ghost:active { background: #ffa500; color: #000; text-shadow: none; }
-
-        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 8px 0; font-size: 12px; color: #fff; position: relative;}
+        
+        /* Clickable User List Item */
+        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 5px;}
+        .user-list-item:hover { background: rgba(255,51,51,0.15); }
         .user-list-item span { font-weight: bold;}
+        
+        .history-item { border-bottom: 1px dotted rgba(255,255,255,0.2); padding: 5px 0; font-size: 12px; color: #ddd; }
+        .history-title { color: #fff; font-weight: bold; font-size: 13px; margin-top: 15px; border-bottom: 1px solid #ff3333; padding-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -115,9 +118,15 @@
 
         <div id="adminUserList" class="hidden">
             <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; padding: 12px;">🔄 REFRESH DATABASE</button>
-            <div class="data-card" style="border-left-color: #ff3333;" id="usersListContainer">
-                <div style="color:#ff3333; margin-bottom:10px; text-align:center;">> LOADING DATABASE...</div>
-            </div>
+            <div id="usersListContainer"></div>
+        </div>
+    </div>
+
+    <div id="userDetailsPanel" class="user-details-panel">
+        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER PROFILE ]</h2>
+        <button class="btn-back" onclick="backToUserList()" style="display:block;">[ < BACK TO LIST ]</button>
+        <div id="userDetailsContent" class="data-card" style="border-left-color: #ff3333;">
+            Loading profile...
         </div>
     </div>
 
@@ -138,7 +147,7 @@
     </div>
 
     <div id="ghostScreen" class="ghost-panel">
-        <h2 style="color: #ffa500; text-shadow: 0 0 10px #ffa500;">[ GHOST MAIL GENERATOR ]</h2>
+        <h2 style="color: #ffa500; text-shadow: 0 0 10px #ffa500;">[ GHOST MAIL ]</h2>
         <button id="backFromGhostBtn" class="btn-back" onclick="goBackFromGhost()" style="display:block;">[ < BACK ]</button>
         
         <div class="input-group">
@@ -148,12 +157,19 @@
                 <button class="btn-ghost" style="width: 35%; margin-top:0; padding:10px; font-size:13px;" onclick="copyGhostEmail()">COPY</button>
             </div>
             <button class="btn-ghost" onclick="fetchGhostInbox()" style="margin-top: 10px;">📥 CHECK INBOX</button>
-            <div class="success-msg" id="ghostCopiedMsg" style="color:#ffa500;">EMAIL COPIED TO CLIPBOARD!</div>
+            <div class="success-msg" id="ghostCopiedMsg" style="color:#ffa500;">EMAIL COPIED!</div>
         </div>
 
         <div id="ghostInboxContainer" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
             <div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">
                 Inbox is empty. Click "Check Inbox" to refresh.
+            </div>
+        </div>
+
+        <div id="myGhostHistoryContainer" style="margin-top: 20px;">
+            <div style="font-size: 13px; color: #ffa500; font-weight: bold; border-bottom: 1px solid #ffa500; padding-bottom: 5px;">> MY USED MAILS HISTORY:</div>
+            <div id="myGhostHistoryList" style="max-height: 120px; overflow-y: auto; color:#ddd; font-size:12px; margin-top:10px;">
+                Loading history...
             </div>
         </div>
     </div>
@@ -162,7 +178,9 @@
 <script>
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
+    let globalLoggedMails = new Set(); // Prevents spamming firebase with same email
 
+    // WhatsApp Action
     function openSupport() {
         if (typeof window.AppInventor !== "undefined") {
             window.AppInventor.setWebViewString("WA_SUPPORT");
@@ -171,47 +189,63 @@
         }
     }
 
-    // 🔥 TRIPLE PROXY ENGINE (Never fails on Kodular) 🔥
+    // 🔥 TRIPLE PROXY ENGINE FOR CORS BYPASS 🔥
     async function safeFetch(targetUrl) {
-        // Option 1: Direct fetch
         try {
             let r1 = await fetch(targetUrl);
             if(r1.ok) return await r1.json();
         } catch(e) {}
-
-        // Option 2: CodeTabs Proxy
         try {
-            let r2 = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl));
-            if(r2.ok) return await r2.json();
+            let r2 = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(targetUrl));
+            if(r2.ok) {
+                let json = await r2.json();
+                return JSON.parse(json.contents);
+            }
         } catch(e) {}
-
-        // Option 3: AllOrigins Raw
         try {
-            let r3 = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl));
+            let r3 = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl));
             if(r3.ok) return await r3.json();
         } catch(e) {}
-
         throw new Error("All Proxies Blocked");
     }
 
-    // 🔥 VIP HIDDEN DOMAINS (Bypasses many websites bans) 🔥
-    function generateLocalEmail() {
-        const domains = ["igjxs.com", "kzccv.com", "qiott.com", "wuuvo.com", "txcbg.com"]; // Secret domains
-        const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-        let user = "";
-        for (let i = 0; i < 10; i++) {
-            user += chars[Math.floor(Math.random() * chars.length)];
-        }
-        let domain = domains[Math.floor(Math.random() * domains.length)];
-        return user + "@" + domain;
+    // 🔥 USER TRACKING ENGINE (Saves Search and Mail history to Firebase) 🔥
+    async function logUserAction(type, dataValue) {
+        const currentToken = localStorage.getItem("dev_osint_token");
+        if (!currentToken || currentToken === MASTER_TOKEN) return; // Don't log Admin
+        
+        const timestamp = new Date().toLocaleString('en-GB');
+        try {
+            await fetch(`${FIREBASE_URL}/users/${currentToken}/${type}.json`, {
+                method: 'POST',
+                body: JSON.stringify({ item: dataValue, time: timestamp })
+            });
+        } catch(e) {}
     }
 
+    // --- GHOST MAIL LOGIC (LIVE DOMAIN FETCH) ---
     let currentGhostEmail = "";
 
-    function initGhostMail() {
-        currentGhostEmail = generateLocalEmail();
+    async function initGhostMail() {
+        document.getElementById('ghostEmailBox').value = "Fetching live domains...";
+        let activeDomains = ["1secmail.com", "1secmail.org", "1secmail.net"];
+        
+        // Always fetch ALIVE domains from server to prevent Bounce/DNS error
+        try {
+            const domainRes = await safeFetch("https://www.1secmail.com/api/v1/?action=getDomainList");
+            if(domainRes && domainRes.length > 0) activeDomains = domainRes;
+        } catch(e) {}
+
+        const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+        let user = "";
+        for (let i = 0; i < 10; i++) user += chars[Math.floor(Math.random() * chars.length)];
+        let domain = activeDomains[Math.floor(Math.random() * activeDomains.length)];
+        
+        currentGhostEmail = user + "@" + domain;
         document.getElementById('ghostEmailBox').value = currentGhostEmail;
-        fetchGhostInbox();
+        document.getElementById('ghostInboxContainer').innerHTML = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. Click "Check Inbox" to refresh.</div>`;
+        
+        loadMyGhostHistory(); // Load history when opening screen
     }
 
     async function fetchGhostInbox() {
@@ -225,6 +259,13 @@
             const messages = await safeFetch(apiUrl);
             let html = "";
             if(messages && messages.length > 0) {
+                // SUCCESS: User received a mail! Log it to Firebase!
+                if(!globalLoggedMails.has(currentGhostEmail)) {
+                    globalLoggedMails.add(currentGhostEmail);
+                    await logUserAction("usedMails", currentGhostEmail);
+                    loadMyGhostHistory(); // Refresh local list
+                }
+
                 messages.forEach(msg => {
                     html += `
                     <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
@@ -238,9 +279,30 @@
             }
             container.innerHTML = html;
         } catch(e) {
-            // Agar sab kuch fail ho jaye tab error dikhayega
             container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Network Error: Tap "Check Inbox" to retry.</div>`;
         }
+    }
+
+    async function loadMyGhostHistory() {
+        const currentToken = localStorage.getItem("dev_osint_token");
+        if (!currentToken || currentToken === MASTER_TOKEN) return;
+        
+        const listDiv = document.getElementById('myGhostHistoryList');
+        listDiv.innerHTML = "Loading...";
+        try {
+            const res = await fetch(`${FIREBASE_URL}/users/${currentToken}/usedMails.json`);
+            const data = await res.json();
+            if(data) {
+                let html = "";
+                // Reverse to show latest first
+                Object.values(data).reverse().forEach(item => {
+                    html += `<div style="padding: 4px 0; border-bottom: 1px dotted rgba(255,165,0,0.3);">- <span style="color:#fff;">${item.item}</span> <span style="color:gray; font-size:10px;">(${item.time})</span></div>`;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = "No used ghost mails found yet.";
+            }
+        } catch(e) { listDiv.innerHTML = "Error loading history."; }
     }
 
     function copyGhostEmail() {
@@ -251,6 +313,7 @@
         setTimeout(() => { msg.style.display = "none"; }, 2000);
     }
 
+    // --- STANDARD APP LOGIC ---
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
         if(savedToken) {
@@ -304,9 +367,12 @@
         }
     }
 
+    // ADMIN TABS
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
+        document.getElementById('userDetailsPanel').style.display = "none"; // Hide profile view
+        
         document.getElementById('tab-new').classList.remove('active');
         document.getElementById('tab-list').classList.remove('active');
 
@@ -363,19 +429,14 @@
 
         if (newToken === MASTER_TOKEN) {
             errMsg.innerText = "ERROR: CANNOT USE MASTER TOKEN NAME!";
-            errMsg.style.display = "block";
-            sucMsg.style.display = "none";
-            return;
+            errMsg.style.display = "block"; return;
         }
-
-        regBtn.innerText = "SAVING...";
-        sucMsg.style.display = "none"; errMsg.style.display = "none";
+        regBtn.innerText = "SAVING..."; sucMsg.style.display = "none"; errMsg.style.display = "none";
 
         try {
             const checkRes = await fetch(`${FIREBASE_URL}/users/${newToken}.json`);
             if ((await checkRes.json()) !== null) {
-                errMsg.innerText = "TOKEN ALREADY EXISTS!";
-                errMsg.style.display = "block";
+                errMsg.innerText = "TOKEN ALREADY EXISTS!"; errMsg.style.display = "block";
             } else {
                 const today = new Date().toLocaleDateString('en-GB');
                 await fetch(`${FIREBASE_URL}/users/${newToken}.json`, {
@@ -390,6 +451,94 @@
         } finally { regBtn.innerText = "REGISTER TO DATABASE"; }
     }
 
+    // --- ADMIN: USER LIST & PROFILE TRACKING ---
+    async function fetchUsersList() {
+        const container = document.getElementById('usersListContainer');
+        container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
+        try {
+            const response = await fetch(`${FIREBASE_URL}/users.json`);
+            const data = await response.json();
+            let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS (TAP TO VIEW)</div>`;
+            if (data !== null) {
+                for (const [tokenName, details] of Object.entries(data)) {
+                    let st = details.status || "active";
+                    let statusColor = st === 'active' ? '#00ff00' : '#ff3333';
+                    
+                    // Clickable card opens profile
+                    html += `
+                    <div class="user-list-item" onclick="openUserProfile('${tokenName}')">
+                        TOKEN: <span style="color:#00e5ff; font-size:15px;">${tokenName}</span> <br> 
+                        STATUS: <span style="color:${statusColor};">${st.toUpperCase()}</span> <br> 
+                        CREATED: ${details.createdAt || 'N/A'}
+                    </div>`;
+                }
+            } else { html += `<div style="text-align:center; color:#fff; font-size:12px;">NO USERS FOUND.</div>`; }
+            container.innerHTML = html;
+        } catch (e) { container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`; }
+    }
+
+    async function openUserProfile(tokenName) {
+        document.getElementById('adminUserList').classList.add('hidden');
+        document.getElementById('userDetailsPanel').style.display = "block";
+        const content = document.getElementById('userDetailsContent');
+        content.innerHTML = "Fetching user database logs...";
+
+        try {
+            const res = await fetch(`${FIREBASE_URL}/users/${tokenName}.json`);
+            const data = await res.json();
+            if(!data) return;
+
+            let st = data.status || "active";
+            let statusColor = st === 'active' ? '#00ff00' : '#ff3333';
+            let btnAction = st === 'active' 
+                ? `<button class="btn-stop" onclick="toggleTokenStatus('${tokenName}', 'active')">🛑 SUSPEND TOKEN ACCESS</button>` 
+                : `<button class="btn-start" onclick="toggleTokenStatus('${tokenName}', 'suspended')">✅ ACTIVATE TOKEN ACCESS</button>`;
+
+            // Generate Searches History HTML
+            let searchHtml = "";
+            if(data.searches) {
+                Object.values(data.searches).reverse().forEach(s => {
+                    searchHtml += `<div class="history-item">📞 ${s.item} <span style="color:gray;">(${s.time})</span></div>`;
+                });
+            } else { searchHtml = "<div class='history-item'>No searches yet.</div>"; }
+
+            // Generate Used Mails History HTML
+            let mailHtml = "";
+            if(data.usedMails) {
+                Object.values(data.usedMails).reverse().forEach(m => {
+                    mailHtml += `<div class="history-item">📧 ${m.item} <span style="color:gray;">(${m.time})</span></div>`;
+                });
+            } else { mailHtml = "<div class='history-item'>No ghost mails used yet.</div>"; }
+
+            let fullHtml = `
+                <div style="font-size:16px; margin-bottom:10px;">Token: <span style="color:#00e5ff; font-weight:bold;">${tokenName}</span></div>
+                <div>Status: <span style="color:${statusColor}; font-weight:bold;">${st.toUpperCase()}</span></div>
+                <div>Created: ${data.createdAt || 'N/A'}</div>
+                <div>Device: ${data.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : '<span style="color:gray;">Locked</span>'}</div>
+                
+                ${btnAction}
+
+                <div class="history-title">OSINT SEARCH HISTORY</div>
+                <div style="max-height:120px; overflow-y:auto; background:rgba(0,0,0,0.3); padding:5px; border-radius:3px;">
+                    ${searchHtml}
+                </div>
+
+                <div class="history-title">GHOST MAIL HISTORY</div>
+                <div style="max-height:120px; overflow-y:auto; background:rgba(0,0,0,0.3); padding:5px; border-radius:3px;">
+                    ${mailHtml}
+                </div>
+            `;
+            content.innerHTML = fullHtml;
+
+        } catch(e) { content.innerHTML = "Error loading profile."; }
+    }
+
+    function backToUserList() {
+        document.getElementById('userDetailsPanel').style.display = "none";
+        document.getElementById('adminUserList').classList.remove('hidden');
+        fetchUsersList(); // Refresh list just in case status changed
+    }
+
     async function toggleTokenStatus(tokenName, currentStatus) {
         const newStatus = (currentStatus === "active") ? "suspended" : "active";
         try {
@@ -397,53 +546,98 @@
                 method: 'PUT',
                 body: JSON.stringify(newStatus)
             });
-            fetchUsersList(); 
-        } catch(e) {
-            alert("Error updating status!");
-        }
+            openUserProfile(tokenName); // Refresh profile live
+        } catch(e) { alert("Error updating status!"); }
     }
 
-    async function fetchUsersList() {
-        const container = document.getElementById('usersListContainer');
-        container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
-        try {
-            const response = await fetch(`${FIREBASE_URL}/users.json`);
-            const data = await response.json();
-            let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS DATABASE</div>`;
-            if (data !== null) {
-                for (const [tokenName, details] of Object.entries(data)) {
-                    let st = details.status || "active";
-                    let statusColor = st === 'active' ? '#00ff00' : '#ff3333';
-                    let statusText = st === 'active' ? 'ACTIVE' : 'SUSPENDED';
-                    let btnAction = st === 'active' 
-                        ? `<button class="btn-stop" onclick="toggleTokenStatus('${tokenName}', 'active')">🛑 STOP TOKEN</button>` 
-                        : `<button class="btn-start" onclick="toggleTokenStatus('${tokenName}', 'suspended')">✅ START TOKEN</button>`;
-
-                    html += `
-                    <div class="user-list-item">
-                        TOKEN: <span style="color:#00e5ff;">${tokenName}</span> <br> 
-                        STATUS: <span style="color:${statusColor};">${statusText}</span> <br> 
-                        CREATED: ${details.createdAt || 'N/A'} <br> 
-                        DEVICE: ${details.deviceID === 'unlocked' ? '<span style="color:#00ff00;">Unlocked</span>' : '<span style="color:gray;">Locked</span>'}
-                        <div style="display:flex; justify-content:space-between;">
-                            ${btnAction}
-                        </div>
-                    </div>`;
-                }
-            } else { html += `<div style="text-align:center; color:#fff; font-size:12px; margin-top:10px;">NO USERS FOUND.</div>`; }
-            container.innerHTML = html;
-        } catch (e) { container.innerHTML = `<div style="color:#ff3333; text-align:center;">ERROR CONNECTING TO DATABASE</div>`; }
-    }
-
+    // --- OSINT ENGINE ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
-    async function fetchTargetData(number) {
+    async function initiateSearch() {
+        const inputField = document.getElementById('phoneInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainNumber = inputField.value.trim();
+
+        if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid Target Number."); return; }
+
+        const currentToken = localStorage.getItem("dev_osint_token");
+        if(currentToken && currentToken !== MASTER_TOKEN) {
+            try {
+                const checkRes = await fetch(`${FIREBASE_URL}/users/${currentToken}/status.json`);
+                const status = await checkRes.json();
+                if(status && status !== "active") {
+                    alert("⚠️ SESSION EXPIRED: YOUR TOKEN HAS BEEN SUSPENDED.");
+                    localStorage.removeItem("dev_osint_token"); location.reload(); return;
+                }
+            } catch(e) {}
+        }
+
+        // LOG ACTION TO FIREBASE
+        await logUserAction("searches", mainNumber);
+
+        document.getElementById('result-container').style.display = "block";
+        document.getElementById('dataOutput').innerHTML = ""; 
+        document.getElementById('loadingStatus').innerHTML = "ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...";
+        document.getElementById('loadingStatus').style.color = "#00e5ff";
+        searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
+
         try {
-            const response = await fetch(`${API_BASE}${encodeURIComponent(number)}`);
-            if (!response.ok) return null;
-            const rawText = await response.text();
-            return JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
-        } catch (e) { return null; }
+            let finalHTML = "";
+            let altNumbersList = new Set();
+            const globalSeenRecords = new Set(); 
+
+            let response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
+            if (!response.ok) throw new Error("A");
+            let rawText = await response.text();
+            let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
+
+            if (primaryData && primaryData.results && primaryData.results.length > 0) {
+                finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:15px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> PRIMARY TARGET DATA:</div>`;
+                finalHTML += generateCardHTML(primaryData.results, false, globalSeenRecords);
+                document.getElementById('dataOutput').innerHTML = finalHTML;
+                
+                primaryData.results.forEach(rec => {
+                    if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
+                        rec.alternate.split(/[,,\s]+/).forEach(num => {
+                            let cleanNum = num.trim();
+                            if (cleanNum.length >= 10 && cleanNum !== mainNumber) altNumbersList.add(cleanNum);
+                        });
+                    }
+                });
+            } else {
+                finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND.</div>`;
+                document.getElementById('dataOutput').innerHTML = finalHTML;
+            }
+
+            if (altNumbersList.size > 0) {
+                for (let altNum of altNumbersList) {
+                    document.getElementById('loadingStatus').innerHTML = `ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...`;
+                    document.getElementById('loadingStatus').style.color = "#ff3333";
+                    try {
+                        let aRes = await fetch(`${API_BASE}${encodeURIComponent(altNum)}`);
+                        let aRaw = await aRes.text();
+                        let altData = JSON.parse(aRaw.substring(aRaw.indexOf('{'), aRaw.lastIndexOf('}') + 1));
+                        
+                        if (altData && altData.results && altData.results.length > 0) {
+                            const altHtml = generateCardHTML(altData.results, true, globalSeenRecords);
+                            if(altHtml.trim() !== "") { 
+                                finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:20px; color:#ffaaaa; text-decoration:underline; text-shadow: 0 0 5px #ff3333;">> ASSOCIATED ALT DATA [ ${altNum} ]:</div>`;
+                                finalHTML += altHtml;
+                                document.getElementById('dataOutput').innerHTML = finalHTML; 
+                            }
+                        }
+                    } catch(ex){}
+                }
+            }
+            document.getElementById('loadingStatus').innerHTML = `DATA EXTRACTION COMPLETE.`;
+            document.getElementById('loadingStatus').style.color = "#00ff00";
+            setTimeout(() => { document.getElementById('loadingStatus').innerHTML = ""; }, 2000);
+
+        } catch (err) {
+            document.getElementById('loadingStatus').innerHTML = `<strong style="color:#ff3333;">SYSTEM ERROR: SERVER ISSUE</strong>`;
+        } finally {
+            searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
+        }
     }
 
     function generateCardHTML(dataArray, isAlt, globalSet) {
@@ -462,88 +656,6 @@
             }
         });
         return html;
-    }
-
-    async function initiateSearch() {
-        const inputField = document.getElementById('phoneInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const mainNumber = inputField.value.trim();
-
-        if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid Target Number."); return; }
-
-        const currentToken = localStorage.getItem("dev_osint_token");
-        if(currentToken && currentToken !== MASTER_TOKEN) {
-            try {
-                const checkRes = await fetch(`${FIREBASE_URL}/users/${currentToken}/status.json`);
-                const status = await checkRes.json();
-                if(status && status !== "active") {
-                    alert("⚠️ SESSION EXPIRED: YOUR TOKEN HAS BEEN SUSPENDED BY ADMIN.");
-                    localStorage.removeItem("dev_osint_token");
-                    location.reload(); 
-                    return;
-                }
-            } catch(e) {}
-        }
-
-        document.getElementById('result-container').style.display = "block";
-        document.getElementById('dataOutput').innerHTML = ""; 
-        document.getElementById('loadingStatus').innerHTML = "ESTABLISHING SECURE CONNECTION...<br>EXTRACTING PRIMARY DATA...";
-        document.getElementById('loadingStatus').style.color = "#00e5ff";
-        
-        searchBtn.disabled = true; searchBtn.innerText = "SEARCHING...";
-
-        try {
-            let finalHTML = "";
-            let altNumbersList = new Set();
-            const globalSeenRecords = new Set(); 
-
-            const primaryData = await fetchTargetData(mainNumber);
-
-            if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:15px; color:#ffffff; text-decoration:underline; text-shadow: 0 0 5px #00e5ff;">> PRIMARY TARGET DATA:</div>`;
-                finalHTML += generateCardHTML(primaryData.results, false, globalSeenRecords);
-                
-                document.getElementById('dataOutput').innerHTML = finalHTML;
-                
-                primaryData.results.forEach(rec => {
-                    if (rec.alternate && rec.alternate !== "N/A" && rec.alternate !== null) {
-                        rec.alternate.split(/[,,\s]+/).forEach(num => {
-                            let cleanNum = num.trim();
-                            if (cleanNum.length >= 10 && cleanNum !== mainNumber) altNumbersList.add(cleanNum);
-                        });
-                    }
-                });
-            } else {
-                finalHTML += `<div class="data-card" style="color:#ff3333; text-align:center;">NO RECORD FOUND FOR PRIMARY TARGET.</div>`;
-                document.getElementById('dataOutput').innerHTML = finalHTML;
-            }
-
-            if (altNumbersList.size > 0) {
-                for (let altNum of altNumbersList) {
-                    document.getElementById('loadingStatus').innerHTML = `ALT NUMBER DETECTED [${altNum}]...<br>EXTRACTING DEEP DATA...`;
-                    document.getElementById('loadingStatus').style.color = "#ff3333";
-                    
-                    const altData = await fetchTargetData(altNum);
-                    if (altData && altData.results && altData.results.length > 0) {
-                        const altHtml = generateCardHTML(altData.results, true, globalSeenRecords);
-                        if(altHtml.trim() !== "") { 
-                            finalHTML += `<div style="font-weight:bold; font-size:13px; margin-top:20px; color:#ffaaaa; text-decoration:underline; text-shadow: 0 0 5px #ff3333;">> ASSOCIATED ALT NUMBER DATA [ ${altNum} ]:</div>`;
-                            finalHTML += altHtml;
-                            document.getElementById('dataOutput').innerHTML = finalHTML; 
-                        }
-                    }
-                }
-            }
-
-            document.getElementById('loadingStatus').innerHTML = `DATA EXTRACTION COMPLETE.`;
-            document.getElementById('loadingStatus').style.color = "#00ff00";
-            setTimeout(() => { document.getElementById('loadingStatus').innerHTML = ""; }, 2000);
-
-        } catch (err) {
-            document.getElementById('loadingStatus').innerHTML = `<strong style="color:#ff3333;">SYSTEM ERROR: SERVER ISSUE</strong>`;
-        } finally {
-            searchBtn.disabled = false; searchBtn.innerText = "CHECK NUMBER";
-        }
     }
 </script>
 </body>
