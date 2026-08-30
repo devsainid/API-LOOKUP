@@ -171,35 +171,25 @@
         }
     }
 
-    // 🔥 100% BULLETPROOF CORS BYPASS API (Gets JSON directly) 🔥
-    async function safeFetch(targetUrl) {
-        let proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(targetUrl);
-        let res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error("Network");
-        let json = await res.json();
-        // AllOrigins wraps the actual response in a "contents" string
-        return JSON.parse(json.contents);
+    // 🔥 GHOST MAIL OFFLINE GENERATOR (NEVER FAILS) 🔥
+    function generateLocalEmail() {
+        const domains = ["1secmail.com", "1secmail.org", "1secmail.net"];
+        const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+        let user = "";
+        for (let i = 0; i < 10; i++) {
+            user += chars[Math.floor(Math.random() * chars.length)];
+        }
+        let domain = domains[Math.floor(Math.random() * domains.length)];
+        return user + "@" + domain;
     }
 
     let currentGhostEmail = "";
 
-    async function initGhostMail() {
-        const box = document.getElementById('ghostEmailBox');
-        box.value = "Generating email...";
-        const apiUrl = "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1";
-        
-        try {
-            const data = await safeFetch(apiUrl);
-            if(data && data.length > 0) {
-                currentGhostEmail = data[0];
-                box.value = currentGhostEmail;
-                fetchGhostInbox();
-            } else {
-                box.value = "Error generating email";
-            }
-        } catch(e) {
-            box.value = "Network Error - Try Again";
-        }
+    function initGhostMail() {
+        // Generating instantly using local JS (0% network error risk)
+        currentGhostEmail = generateLocalEmail();
+        document.getElementById('ghostEmailBox').value = currentGhostEmail;
+        fetchGhostInbox();
     }
 
     async function fetchGhostInbox() {
@@ -210,24 +200,39 @@
         const apiUrl = `https://www.1secmail.com/api/v1/?action=getMessages&login=${user}&domain=${domain}`;
         
         try {
-            const messages = await safeFetch(apiUrl);
-            let html = "";
-            if(messages && messages.length > 0) {
-                messages.forEach(msg => {
-                    html += `
-                    <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
-                        <span style="color:#ffa500; font-weight:bold;">FROM:</span> ${msg.from}<br>
-                        <span style="color:#ffa500; font-weight:bold;">SUBJECT:</span> ${msg.subject}<br>
-                        <span style="color:gray;">DATE:</span> ${msg.date}
-                    </div>`;
-                });
-            } else {
-                html = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. No incoming mail yet.</div>`;
+            // Attempt 1: Raw Proxy
+            let r1 = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl));
+            if(!r1.ok) throw new Error("A");
+            let m1 = await r1.json();
+            renderInbox(m1, container);
+        } catch(e1) {
+            try {
+                // Attempt 2: Direct Fetch (Sometimes works)
+                let r2 = await fetch(apiUrl);
+                if(!r2.ok) throw new Error("B");
+                let m2 = await r2.json();
+                renderInbox(m2, container);
+            } catch(e2) {
+                container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Inbox Error: Kodular blocking network. Tap "Check Inbox" to retry.</div>`;
             }
-            container.innerHTML = html;
-        } catch(e) {
-            container.innerHTML = `<div class="data-card" style="border-left-color: #ff3333; text-align: center; color: #ff3333; font-size: 12px;">Network Failed. Click Check Inbox again.</div>`;
         }
+    }
+
+    function renderInbox(messages, container) {
+        let html = "";
+        if(messages && messages.length > 0) {
+            messages.forEach(msg => {
+                html += `
+                <div class="data-card" style="border-left-color: #ffa500; font-size: 12px;">
+                    <span style="color:#ffa500; font-weight:bold;">FROM:</span> ${msg.from}<br>
+                    <span style="color:#ffa500; font-weight:bold;">SUBJECT:</span> ${msg.subject}<br>
+                    <span style="color:gray;">DATE:</span> ${msg.date}
+                </div>`;
+            });
+        } else {
+            html = `<div class="data-card" style="border-left-color: #ffa500; text-align: center; color: #fff; font-size: 12px;">Inbox is empty. No incoming mail yet.</div>`;
+        }
+        container.innerHTML = html;
     }
 
     function copyGhostEmail() {
@@ -534,4 +539,4 @@
     }
 </script>
 </body>
-            </html>
+    </html>
