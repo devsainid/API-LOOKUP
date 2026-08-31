@@ -8,47 +8,47 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Courier New", Courier, monospace; }
         body {
             background-color: #020a14;
-            background-image: linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
-            background-size: 25px 25px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+            background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
         .card {
-            background: rgba(0, 15, 35, 0.85); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
-            padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.4);
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
+            background: linear-gradient(145deg, rgba(0, 15, 35, 0.9), rgba(0, 5, 15, 0.95)); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
+            padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 229, 255, 0.05);
         }
         
         h2 { text-align: center; margin-bottom: 20px; font-size: 18px; text-shadow: 0 0 10px #00e5ff; letter-spacing: 2px; }
         
         .input-group { display: flex; flex-direction: column; gap: 12px; }
         input {
-            width: 100%; padding: 12px; font-size: 15px; background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 229, 255, 0.5); color: #00e5ff; outline: none;
-            font-weight: bold; text-align: center; border-radius: 5px; transition: 0.3s;
+            width: 100%; padding: 14px; font-size: 15px; background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 229, 255, 0.4); color: #00e5ff; outline: none;
+            font-weight: bold; text-align: center; border-radius: 4px; transition: 0.3s; letter-spacing: 1px;
         }
-        input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0, 20, 45, 0.8); border: 1px solid #00e5ff; }
+        input:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); border: 1px solid #00e5ff; }
         
         button {
-            width: 100%; padding: 12px; font-size: 15px; background: rgba(0, 229, 255, 0.15);
+            width: 100%; padding: 14px; font-size: 15px; background: rgba(0, 229, 255, 0.1);
             color: #00e5ff; border: 1px solid #00e5ff; font-weight: bold; cursor: pointer;
-            letter-spacing: 1px; transition: 0.3s; border-radius: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8);
+            letter-spacing: 1px; transition: 0.3s; border-radius: 4px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
         }
         button:active { transform: scale(0.96); background: #00e5ff; color: #000; }
         
-        .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
+        .btn-admin { background: rgba(255, 51, 51, 0.1); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
-        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; font-size: 14px; padding: 10px; display: block; width: 100%; font-weight: bold; cursor: pointer; border-radius: 5px; text-align: center; transition: 0.3s;}
+        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; font-size: 13px; padding: 10px; display: none; width: 100%; font-weight: bold; cursor: pointer; border-radius: 4px; text-align: center; }
         .btn-back:active { transform: scale(0.96); }
 
-        .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px;}
-        .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px;}
+        .btn-stop { background: rgba(255,51,51,0.15); border: 1px solid #ff3333; color: #ff3333; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 4px;}
+        .btn-start { background: rgba(0,255,0,0.15); border: 1px solid #00ff00; color: #00ff00; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 4px;}
 
         /* Floating WhatsApp Button */
         .floating-wa {
             position: fixed; bottom: 20px; right: 20px;
             background: #25D366; color: white; width: 55px; height: 55px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.6); z-index: 9999; cursor: pointer;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); z-index: 9999; cursor: pointer;
             transition: 0.3s; border: 2px solid #fff;
         }
         .floating-wa:active { transform: scale(0.9); }
@@ -59,28 +59,43 @@
         
         .admin-panel, .osint-panel, .user-details-panel { display: none; }
         
+        /* 🔥 PREMIUM DATA CARD UI 🔥 */
+        .data-card { 
+            background: linear-gradient(180deg, rgba(0, 30, 60, 0.8) 0%, rgba(0, 10, 25, 0.9) 100%); 
+            border: 1px solid rgba(0, 229, 255, 0.3); 
+            border-left: 4px solid #00e5ff; 
+            padding: 20px; margin-top: 20px; border-radius: 6px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
+        }
+        .data-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+        }
+        
+        .data-row { 
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; 
+        }
+        .data-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        
+        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,229,255,0.4);}
+        .data-value { color: #ffffff; width: 60%; font-size: 14px; text-align: right; word-break: break-word; font-family: monospace; }
+        
         .tab-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 15px; }
-        .tab-admin, .tab-tool { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: 0.3s; border-radius: 5px; text-align: center; display: block; }
-        .tab-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
+        .tab-admin, .tab-tool { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: 0.3s; border-radius: 4px; text-align: center; display: block; }
+        .tab-admin { background: rgba(255, 51, 51, 0.1); color: #ff3333; border: 1px solid #ff3333; }
         .tab-admin.active, .tab-admin:active { background: #ff3333; color: #000; text-shadow: none; }
-        .tab-tool { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid #00e5ff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.8); }
+        .tab-tool { background: rgba(0, 229, 255, 0.1); color: #00e5ff; border: 1px solid #00e5ff; }
         .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
 
-        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 5px;}
+        .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.3); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 4px;}
         .user-list-item:hover { background: rgba(255,51,51,0.15); }
         
-        .history-item { border-bottom: 1px dotted rgba(255,255,255,0.2); padding: 8px 0; font-size: 12px; color: #ddd; display: flex; justify-content: space-between; align-items: center;}
-        .history-title { color: #fff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #ff3333; padding-bottom: 5px; display: flex; justify-content: space-between;}
+        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 13px; color: #fff; display: flex; justify-content: space-between; align-items: center; font-family: monospace;}
+        .history-title { color: #00e5ff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #00e5ff; padding-bottom: 5px; display: flex; justify-content: space-between;}
         
-        /* 🔥 NEW PRO DATA CARD UI 🔥 */
-        .data-card { background: rgba(0, 15, 30, 0.9); border: 1px solid #00e5ff; margin-top: 15px; border-radius: 6px; overflow: hidden; box-shadow: 0 0 15px rgba(0, 229, 255, 0.15); }
-        .record-header { background: rgba(0, 229, 255, 0.15); color: #00e5ff; padding: 10px 15px; font-weight: bold; font-size: 13px; border-bottom: 1px solid #00e5ff; display: flex; justify-content: space-between; letter-spacing: 1px; }
-        .record-body { padding: 15px; }
-        .data-row { display: flex; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); align-items: flex-start; }
-        .data-label { color: #00e5ff; width: 38%; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; }
-        .data-value { color: #ffffff; width: 62%; font-size: 13px; word-break: break-word; font-family: monospace; letter-spacing: 0.5px; }
-
-        .terminal-loader { font-family: "Courier New", Courier, monospace; color: #00ff00; font-size: 12px; text-align: left; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 5px; border: 1px solid #00ff00; margin-bottom: 15px;}
+        .terminal-loader { font-family: "Courier New", Courier, monospace; color: #00ff00; font-size: 13px; text-align: left; padding: 15px; background: #051005; border-radius: 4px; border: 1px solid #00ff00; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,0,0.2);}
     </style>
 </head>
 <body>
@@ -97,29 +112,29 @@
         <div class="input-group">
             <input type="text" id="tokenInput" placeholder="ENTER SECURE TOKEN" autocomplete="off" />
             <button id="loginBtn" onclick="processLogin()">VERIFY TOKEN</button>
-            <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
+            <div class="error-msg" id="loginError">ACCESS DENIED</div>
         </div>
     </div>
 
     <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
-        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN DASHBOARD ]</h2>
+        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ ADMIN DASHBOARD ]</h2>
         
         <div class="tab-container">
-            <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">ADD NEW USER</button>
+            <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">CREATE USER</button>
             <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">MANAGE USERS</button>
-            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">LAUNCH OSINT TOOL</button>
+            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">OPEN OSINT TOOL</button>
         </div>
 
         <div id="adminNewUser" class="input-group">
-            <input type="text" id="newUserToken" placeholder="CREATE SECURE TOKEN (e.g. VIP-01)" />
-            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">SAVE TO DATABASE</button>
-            <div class="success-msg" id="registerSuccess">TOKEN SAVED TO CLOUD!</div>
+            <input type="text" id="newUserToken" placeholder="ENTER NEW TOKEN NAME" />
+            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">REGISTER DEVICE</button>
+            <div class="success-msg" id="registerSuccess">TOKEN SAVED!</div>
             <div class="error-msg" id="registerError">ERROR!</div>
         </div>
 
         <div id="adminUserList" class="hidden">
-            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px; padding: 12px;">🔄 REFRESH DATABASE</button>
+            <button class="btn-admin" onclick="fetchUsersList()" style="margin-bottom: 15px;">🔄 REFRESH DATABASE</button>
             <div id="usersListContainer"></div>
         </div>
     </div>
@@ -127,9 +142,9 @@
     <!-- 2.5 ADMIN USER TRACKING PANEL -->
     <div id="userDetailsPanel" class="user-details-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER TRACKING LOGS ]</h2>
-        <button class="btn-back" onclick="backToUserList()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #fff; color:#fff;">[ < BACK TO LIST ]</button>
-        <div id="userDetailsContent" class="data-card" style="border-left-color: #ff3333; padding:15px; margin-top:10px;">
-            Extracting user database logs...
+        <button class="btn-back" onclick="backToUserList()" style="display:block;">[ < BACK TO LIST ]</button>
+        <div id="userDetailsContent" class="data-card" style="border-left-color: #ff3333; background: rgba(0,0,0,0.8);">
+            Extracting database logs...
         </div>
     </div>
 
@@ -137,15 +152,15 @@
     <div id="osintScreen" class="osint-panel">
         <h2>[ ADVANCED OSINT TOOL ]</h2>
         
-        <!-- ROLE BASED BUTTON -->
-        <button id="backToAdminBtn" class="btn-back"></button>
+        <!-- Only visible to ADMIN -->
+        <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO DASHBOARD ]</button>
         
         <div class="input-group">
-            <input type="number" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
-            <button id="searchBtn" onclick="initiateSearch()">START TRACKING</button>
+            <input type="number" id="phoneInput" placeholder="TARGET NUMBER..." autocomplete="off" />
+            <button id="searchBtn" onclick="initiateSearch()">TRACK NUMBER</button>
         </div>
         
-        <div id="result-container" style="display:none; margin-top:15px;">
+        <div id="result-container" style="display:none; margin-top:20px;">
             <div id="loadingStatus" class="terminal-loader" style="display:none;"></div>
             <div id="dataOutput"></div>
         </div>
@@ -156,6 +171,7 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
+    // WA SIGNAL
     function openSupport() {
         if (typeof window.AppInventor !== "undefined") {
             window.AppInventor.setWebViewString("WA_SUPPORT");
@@ -164,20 +180,32 @@
         }
     }
 
-    // USER TRACKING ENGINE 
+    // 🔥 DEVICE ID GENERATOR (For Multi-Device Ban) 🔥
+    function getDeviceID() {
+        let id = localStorage.getItem("my_secret_device_id");
+        if (!id) {
+            id = 'DEV-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+            localStorage.setItem("my_secret_device_id", id);
+        }
+        return id;
+    }
+
+    // 🔥 FIXED USER TRACKING ENGINE (Now guaranteed to save) 🔥
     async function logUserAction(type, dataValue) {
         const currentToken = localStorage.getItem("dev_osint_token");
         if (!currentToken || currentToken === MASTER_TOKEN) return; 
         
         const timestamp = new Date().toLocaleString('en-IN'); 
+        const logId = Date.now(); // Unique ID fixes WebView POST blocking
         try {
-            await fetch(`${FIREBASE_URL}/users/${currentToken}/${type}.json`, {
-                method: 'POST',
+            await fetch(`${FIREBASE_URL}/users/${currentToken}/${type}/${logId}.json`, {
+                method: 'PUT',
                 body: JSON.stringify({ item: dataValue, time: timestamp })
             });
         } catch(e) {}
     }
 
+    // --- LOGIN & SESSION LOGIC ---
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
         if(savedToken) {
@@ -192,21 +220,17 @@
         const loginBtn = document.getElementById('loginBtn');
         if (!token) return;
 
+        // ADMIN LOGIN
         if (token === MASTER_TOKEN) {
             localStorage.setItem("dev_osint_token", token);
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
-            
-            const backBtn = document.getElementById('backToAdminBtn');
-            backBtn.innerText = "[ < BACK TO DASHBOARD ]";
-            backBtn.onclick = goBackToAdmin;
-            backBtn.style.background = "rgba(255, 255, 255, 0.1)";
-            backBtn.style.color = "#ffffff";
-            backBtn.style.border = "1px solid #ffffff";
+            document.getElementById('backToAdminBtn').style.display = "block"; // Show Admin Back Button
             return;
         }
 
+        // NORMAL USER LOGIN
         if(!isAuto) loginBtn.innerText = "VERIFYING...";
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
@@ -215,20 +239,31 @@
             if (data !== null) {
                 const status = data.status || "active";
                 if (status === "active") {
+                    
+                    // 🔒 DEVICE LOCKING LOGIC 🔒
+                    let myDevice = getDeviceID();
+                    if(data.deviceID === "unlocked") {
+                        // First login: Lock to this device
+                        await fetch(`${FIREBASE_URL}/users/${token}.json`, {
+                            method: 'PATCH',
+                            body: JSON.stringify({ deviceID: myDevice })
+                        });
+                    } else if(data.deviceID !== myDevice) {
+                        // Token being used on another phone
+                        err.innerText = "ACCESS DENIED: TOKEN LOCKED TO ANOTHER DEVICE";
+                        err.style.display = "block";
+                        localStorage.removeItem("dev_osint_token");
+                        if(!isAuto) loginBtn.innerText = "VERIFY TOKEN";
+                        return;
+                    }
+
                     localStorage.setItem("dev_osint_token", token);
                     err.style.display = "none";
                     document.getElementById('loginScreen').style.display = "none";
                     document.getElementById('osintScreen').style.display = "block";
                     
-                    const backBtn = document.getElementById('backToAdminBtn');
-                    backBtn.innerText = "[ 🔴 SECURE LOGOUT ]";
-                    backBtn.onclick = function() {
-                        localStorage.removeItem("dev_osint_token");
-                        location.reload();
-                    };
-                    backBtn.style.background = "rgba(255, 51, 51, 0.15)";
-                    backBtn.style.color = "#ff3333";
-                    backBtn.style.border = "1px solid #ff3333";
+                    // HIDE ADMIN BUTTON FOR NORMAL USER
+                    document.getElementById('backToAdminBtn').style.display = "none"; 
 
                 } else {
                     err.innerText = "ACCESS DENIED: TOKEN SUSPENDED";
@@ -248,11 +283,11 @@
         }
     }
 
+    // --- ADMIN PANEL FUNCTIONS ---
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
         document.getElementById('userDetailsPanel').style.display = "none"; 
-        
         document.getElementById('tab-new').classList.remove('active');
         document.getElementById('tab-list').classList.remove('active');
 
@@ -305,9 +340,10 @@
             }
         } catch (e) {
             errMsg.innerText = "NETWORK ERROR"; errMsg.style.display = "block";
-        } finally { regBtn.innerText = "SAVE TO DATABASE"; }
+        } finally { regBtn.innerText = "REGISTER DEVICE"; }
     }
 
+    // --- ADMIN: USER LIST & DATABASE TRACKING ---
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
         container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
@@ -326,7 +362,10 @@
                             <span style="color:#00e5ff; font-size:15px;">${tokenName}</span>
                             <span style="color:${statusColor}; font-size:11px;">[ ${st.toUpperCase()} ]</span>
                         </div>
-                        <div style="margin-top:5px; font-size:11px; color:gray;">Created: ${details.createdAt || 'N/A'}</div>
+                        <div style="margin-top:8px; font-size:11px; color:gray; display:flex; justify-content:space-between;">
+                            <span>Created: ${details.createdAt || 'N/A'}</span>
+                            <span>${details.deviceID === 'unlocked' ? '🔓 Unlocked' : '🔒 Locked'}</span>
+                        </div>
                     </div>`;
                 }
             } else { html += `<div style="text-align:center; color:#fff; font-size:12px;">NO USERS FOUND.</div>`; }
@@ -338,7 +377,7 @@
         document.getElementById('adminUserList').classList.add('hidden');
         document.getElementById('userDetailsPanel').style.display = "block";
         const content = document.getElementById('userDetailsContent');
-        content.innerHTML = "Extracting user database logs...";
+        content.innerHTML = "Extracting logs...";
 
         try {
             const res = await fetch(`${FIREBASE_URL}/users/${tokenName}.json`);
@@ -351,14 +390,16 @@
                 ? `<button class="btn-stop" onclick="toggleTokenStatus('${tokenName}', 'active')">🛑 SUSPEND TOKEN ACCESS</button>` 
                 : `<button class="btn-start" onclick="toggleTokenStatus('${tokenName}', 'suspended')">✅ ACTIVATE TOKEN ACCESS</button>`;
 
+            // Generate Tracked Searches HTML
             let searchHtml = "";
             let totalSearches = 0;
             if(data.searches) {
+                // Object.values to Array, then reverse for Latest First
                 const searchObj = Object.values(data.searches).reverse();
                 totalSearches = searchObj.length;
                 searchObj.forEach(s => {
                     searchHtml += `<div class="history-item">
-                        <span><span style="color:#00e5ff;">📞</span> ${s.item}</span> 
+                        <span><span style="color:#00e5ff;">»</span> ${s.item}</span> 
                         <span style="color:gray;">${s.time}</span>
                     </div>`;
                 });
@@ -373,9 +414,9 @@
 
                 <div class="history-title">
                     <span>TRACKED NUMBERS LOG</span>
-                    <span style="color:#00e5ff;">Total: ${totalSearches}</span>
+                    <span style="color:#00ff00;">Total: ${totalSearches}</span>
                 </div>
-                <div style="max-height:250px; overflow-y:auto; background:rgba(0,0,0,0.3); padding:8px; border-radius:3px; margin-top:10px;">
+                <div style="max-height:250px; overflow-y:auto; padding-right:5px; margin-top:10px;">
                     ${searchHtml}
                 </div>
             `;
@@ -401,7 +442,7 @@
         } catch(e) { alert("Error updating status!"); }
     }
 
-    // --- 🔥 ADVANCED OSINT ENGINE (NO ALT NUMBERS) 🔥 ---
+    // --- 🔥 ADVANCED OSINT ENGINE (PRIMARY NUMBER ONLY) 🔥 ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
     async function playTerminalAnimation() {
@@ -419,7 +460,7 @@
             loader.innerHTML += `> ${steps[i]}<br>`;
             await new Promise(r => setTimeout(r, 200)); 
         }
-        loader.innerHTML += `<span style="color:#00ff00;">> DECODING PACKETS...</span><br>`;
+        loader.innerHTML += `<span style="color:#00e5ff;">> DECODING PACKETS...</span><br>`;
         await new Promise(r => setTimeout(r, 300));
         loader.style.display = "none";
         loader.innerHTML = ""; 
@@ -430,7 +471,7 @@
         const searchBtn = document.getElementById('searchBtn');
         const mainNumber = inputField.value.trim();
 
-        if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid 10-Digit Target Number."); return; }
+        if (!mainNumber || mainNumber.length < 10) { alert("ACCESS DENIED: Enter Valid Target Number."); return; }
 
         const currentToken = localStorage.getItem("dev_osint_token");
         if(currentToken && currentToken !== MASTER_TOKEN) {
@@ -444,81 +485,55 @@
             } catch(e) {}
         }
 
+        // Log this search into Tracking Database!
         await logUserAction("searches", mainNumber);
 
         document.getElementById('result-container').style.display = "block";
         document.getElementById('dataOutput').innerHTML = ""; 
-        searchBtn.disabled = true; searchBtn.innerText = "TRACKING NUMBER...";
+        searchBtn.disabled = true; searchBtn.innerText = "TRACKING...";
 
         try {
             await playTerminalAnimation();
 
+            let finalHTML = "";
             let response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
             if (!response.ok) throw new Error("API FAILED");
             let rawText = await response.text();
             let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
 
-            // ALT NUMBER LOGIC COMPLETELY REMOVED! Only displays the given primary number.
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                let finalHTML = `<div style="text-align:center; font-weight:bold; font-size:15px; margin-top:10px; margin-bottom: 5px; color:#00ff00; text-shadow: 0 0 5px #00ff00;">[ ${primaryData.results.length} RECORD(S) FOUND FOR ${mainNumber} ]</div>`;
-                finalHTML += generateCardHTML(primaryData.results);
+                // PREMIUM UI CARD GENERATION
+                finalHTML += `<div class="data-card">
+                                <div style="font-weight:bold; font-size:14px; margin-bottom:15px; color:#00e5ff; border-bottom:1px solid rgba(0,229,255,0.3); padding-bottom:10px; text-align:center; letter-spacing:1px;">[ TARGET ACQUIRED ]</div>`;
+                
+                primaryData.results.forEach((item) => {
+                    for (const [key, value] of Object.entries(item)) {
+                        let cleanKey = key.replace(/_/g, ' '); 
+                        let cleanValue = value || 'N/A';
+                        
+                        let valueColor = "#ffffff";
+                        if(key.toLowerCase() === 'name') valueColor = "#00ff00"; 
+                        if(key.toLowerCase() === 'alternate') valueColor = "#ffa500"; 
+                        
+                        finalHTML += `
+                            <div class="data-row">
+                                <span class="data-label">${cleanKey}</span>
+                                <span class="data-value" style="color:${valueColor};">${cleanValue}</span>
+                            </div>`;
+                    }
+                });
+                finalHTML += `</div>`;
                 document.getElementById('dataOutput').innerHTML = finalHTML;
             } else {
-                document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="color:#ff3333; text-align:center; padding: 20px; font-weight:bold;">TARGET NOT FOUND IN DATABASE.</div>`;
+                document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; text-align:center; color:#ff3333;">TARGET NOT FOUND IN DATABASE.</div>`;
             }
 
         } catch (err) {
-            document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; color:#ff3333; text-align:center;">SYSTEM ERROR: UNABLE TO FETCH DATA.</div>`;
+            document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; color:#ff3333; text-align:center;">SYSTEM ERROR: TARGET BLOCKED REQUEST.</div>`;
         } finally {
-            searchBtn.disabled = false; searchBtn.innerText = "START TRACKING";
+            searchBtn.disabled = false; searchBtn.innerText = "TRACK NUMBER";
         }
-    }
-
-    // 🔥 NEW PREMIUM "PRO" DATA UI 🔥
-    function generateCardHTML(dataArray) {
-        let html = "";
-        let recordCount = 1;
-        
-        // Remove duplicate identical records to keep it clean
-        const uniqueData = dataArray.filter((v,i,a)=>a.findIndex(t=>(JSON.stringify(t) === JSON.stringify(v)))===i);
-
-        uniqueData.forEach((item) => {
-            html += `
-            <div class="data-card">
-                <div class="record-header">
-                    <span>📁 RECORD FILE #${recordCount}</span>
-                    <span style="color:#00ff00;">VERIFIED ✔</span>
-                </div>
-                <div class="record-body">`;
-            
-            for (const [key, value] of Object.entries(item)) {
-                let cleanKey = key.replace(/_/g, ' '); 
-                let cleanValue = value || 'N/A';
-                
-                let icon = "🔹";
-                let valColor = "#ffffff";
-                
-                let k = key.toLowerCase();
-                if(k.includes('name')) { icon = "👤"; valColor = "#00ff00"; }
-                else if(k.includes('mobile') || k.includes('phone')) icon = "📱";
-                else if(k.includes('address')) icon = "📍";
-                else if(k.includes('father')) icon = "👨‍👧‍👦";
-                else if(k.includes('aadhar')) icon = "🆔";
-                else if(k.includes('email')) icon = "✉️";
-                else if(k.includes('alternate')) { icon = "🔗"; valColor = "#ffa500"; }
-                else if(k.includes('circle')) icon = "🌐";
-
-                html += `
-                    <div class="data-row">
-                        <span class="data-label">${icon} ${cleanKey}</span>
-                        <span class="data-value" style="color:${valColor};">${cleanValue}</span>
-                    </div>`;
-            }
-            html += `</div></div>`;
-            recordCount++;
-        });
-        return html;
     }
 </script>
 </body>
-    </html>
+                </html>
