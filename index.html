@@ -55,6 +55,7 @@
 
         .hidden { display: none !important; }
         .error-msg { color: #ff3333; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
+        .success-msg { color: #00ff00; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         
         .admin-panel, .tracker-panel, .user-details-panel { display: none; }
         
@@ -67,6 +68,7 @@
         .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
 
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.3); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 4px;}
+        .user-list-item:hover { background: rgba(255,51,51,0.15); }
         .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 13px; color: #fff; display: flex; justify-content: space-between; align-items: center; font-family: monospace;}
         .history-title { color: #00e5ff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #00e5ff; padding-bottom: 5px; display: flex; justify-content: space-between;}
         
@@ -114,19 +116,22 @@
         }
         .data-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         
-        .data-header-container { display: flex; align-items: center; margin-bottom: 4px; }
+        .data-header-container { display: flex; align-items: center; margin-bottom: 6px; }
         
         .data-icon { font-size: 16px; margin-right: 8px; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
         
         .data-label {
-            color: #00e5ff; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;
+            color: #00e5ff; font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;
         }
         
         .data-value {
             color: #ffffff; font-size: 14px; padding-left: 24px; word-break: break-word; font-weight: bold;
         }
-        .data-value.highlight { color: #00ff00; text-shadow: 0 0 5px rgba(0,255,0,0.4); }
-        .data-value.address { color: #dddddd; font-weight: normal; font-style: italic; }
+        .data-value.highlight { color: #00ff00; text-shadow: 0 0 5px rgba(0,255,0,0.4); font-size: 15px;}
+        
+        /* Fixed Address Styling: Bold, Readable, Clean */
+        .data-value.address { color: #eeeeee; font-weight: bold; line-height: 1.5; font-size: 13px; text-shadow: 0 0 5px rgba(255,255,255,0.2); }
+        
         .data-value.alt { color: #ffa500; }
 
         /* USER HELP SECTION */
@@ -148,11 +153,13 @@
 </head>
 <body>
 
+<!-- WHATSAPP SUPPORT BUTTON -->
 <div class="floating-wa" onclick="openSupport()">
     <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </div>
 
 <div class="card" id="mainCard">
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
@@ -162,6 +169,7 @@
         </div>
     </div>
 
+    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ ADMIN DASHBOARD ]</h2>
         
@@ -184,6 +192,7 @@
         </div>
     </div>
 
+    <!-- 2.5 ADMIN USER TRACKING PANEL -->
     <div id="userDetailsPanel" class="user-details-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER TRACKING LOGS ]</h2>
         <button class="btn-back" onclick="backToUserList()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #fff; color:#fff; display:block;">[ < BACK TO LIST ]</button>
@@ -192,9 +201,11 @@
         </div>
     </div>
 
+    <!-- 3. ADVANCED TRACKER TOOL -->
     <div id="trackerScreen" class="tracker-panel">
         <h2>[ ADVANCED TRACKING SYSTEM ]</h2>
         
+        <!-- Only visible to ADMIN -->
         <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO DASHBOARD ]</button>
         
         <div class="input-group">
@@ -202,6 +213,7 @@
             <button id="searchBtn" onclick="initiateSearch()">TRACK NUMBER</button>
         </div>
 
+        <!-- USER GUIDE / HELP SECTION -->
         <div id="userHelpBox" class="help-box">
             <strong>System Instructions:</strong><br><br>
             1. Enter a valid 10-digit mobile number in the box above.<br>
@@ -211,6 +223,7 @@
         </div>
         
         <div id="result-container" style="display:none; margin-top:20px;">
+            <!-- CONTINUOUS TERMINAL ANIMATION -->
             <div id="loadingStatus" class="terminal-loader" style="display:none;"></div>
             <div id="dataOutput"></div>
         </div>
@@ -221,6 +234,7 @@
     const FIREBASE_URL = "https://devsainiosint-default-rtdb.firebaseio.com";
     const MASTER_TOKEN = "DEV-MASTER-777"; 
 
+    // WA SIGNAL
     function openSupport() {
         if (typeof window.AppInventor !== "undefined") {
             window.AppInventor.setWebViewString("WA_SUPPORT");
@@ -229,6 +243,7 @@
         }
     }
 
+    // DEVICE ID GENERATOR (Strict Lock)
     function getDeviceID() {
         let id = localStorage.getItem("my_secret_device_id");
         if (!id) {
@@ -238,6 +253,7 @@
         return id;
     }
 
+    // USER TRACKING ENGINE (Admin Logs)
     async function logUserAction(type, dataValue) {
         const currentToken = localStorage.getItem("dev_osint_token");
         if (!currentToken || currentToken === MASTER_TOKEN) return; 
@@ -252,6 +268,7 @@
         } catch(e) {}
     }
 
+    // --- LOGIN & SESSION LOGIC ---
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
         if(savedToken) {
@@ -266,6 +283,7 @@
         const loginBtn = document.getElementById('loginBtn');
         if (!token) return;
 
+        // ADMIN LOGIN
         if (token === MASTER_TOKEN) {
             localStorage.setItem("dev_osint_token", token);
             err.style.display = "none";
@@ -275,6 +293,7 @@
             return;
         }
 
+        // NORMAL USER LOGIN
         if(!isAuto) loginBtn.innerText = "VERIFYING...";
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
@@ -284,6 +303,7 @@
                 const status = data.status || "active";
                 if (status === "active") {
                     
+                    // DEVICE LOCKING ENFORCEMENT
                     let myDevice = getDeviceID();
                     if(data.deviceID === "unlocked") {
                         await fetch(`${FIREBASE_URL}/users/${token}.json`, {
@@ -322,6 +342,7 @@
         }
     }
 
+    // --- ADMIN PANEL FUNCTIONS ---
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
@@ -509,7 +530,6 @@
         searchBtn.disabled = true; 
         searchBtn.innerText = "TRACKING...";
         
-        // Continuous Loading Animation (Runs while fetch is happening)
         loader.style.display = "block";
         loader.innerHTML = `
             > INITIALIZING SECURE PROTOCOL...<br>
@@ -524,7 +544,6 @@
             let rawText = await response.text();
             let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
 
-            // Hide Loader ONLY when fetch is complete
             loader.style.display = "none";
 
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
@@ -541,60 +560,67 @@
         }
     }
 
-    // 🔥 PREMIUM FILE UI WITH EMOJIS 🔥
+    // 🔥 STRICT DEDUPLICATION & PREMIUM FILE UI WITH EMOJIS 🔥
     function generatePremiumFileHTML(dataArray) {
         let html = "";
         let recordCount = 1;
-        
-        dataArray.forEach((item) => {
-            let fileId = Math.random().toString(36).substr(2, 6).toUpperCase();
-            
-            html += `
-            <div class="dossier-card">
-                <div class="dossier-header">
-                    <span>📁 CLASSIFIED RECORD 0${recordCount}</span>
-                    <span class="classified-tag">RESTRICTED</span>
-                </div>
-                <div class="dossier-body">
-                    <div style="font-size:10px; color:#aaa; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px;">
-                        SYSTEM ID: ${fileId} | STATUS: <span style="color:#00ff00;">ACQUIRED</span>
-                    </div>
-                `;
-                
-            for (const [key, value] of Object.entries(item)) {
-                let cleanKey = key.replace(/_/g, ' '); 
-                let cleanValue = value || 'N/A';
-                
-                // Formatter: Clean the exclamation marks in address
-                if (typeof cleanValue === 'string') {
-                    cleanValue = cleanValue.replace(/!/g, ', ');
-                }
-                
-                // Smart Emoji & Color System
-                let icon = "🔹";
-                let valClass = "data-value";
-                let kMatch = key.toLowerCase();
+        let globalSet = new Set(); // Duplicates filter
 
-                if (kMatch.includes('name')) { icon = "👤"; valClass += " highlight"; }
-                if (kMatch.includes('mobile') || kMatch.includes('alternate')) { icon = "📞"; valClass += " alt"; }
-                if (kMatch.includes('address')) { icon = "📍"; valClass += " address"; }
-                if (kMatch.includes('father')) { icon = "👨‍🦳"; }
-                if (kMatch.includes('circle')) { icon = "📡"; }
-                if (kMatch.includes('aadhar') || kMatch.includes('id')) { icon = "💳"; }
-                if (kMatch.includes('email')) { icon = "📧"; }
+        dataArray.forEach((item) => {
+            // Deduplication Logic: If API sends exact same object twice, it skips it
+            const stringifiedItem = JSON.stringify(item);
+            if (!globalSet.has(stringifiedItem)) {
+                globalSet.add(stringifiedItem);
+
+                let fileId = Math.random().toString(36).substr(2, 6).toUpperCase();
                 
                 html += `
-                    <div class="data-row">
-                        <div class="data-header-container">
-                            <span class="data-icon">${icon}</span>
-                            <span class="data-label">${cleanKey}</span>
+                <div class="dossier-card">
+                    <div class="dossier-header">
+                        <span>📁 CLASSIFIED RECORD 0${recordCount}</span>
+                        <span class="classified-tag">RESTRICTED</span>
+                    </div>
+                    <div class="dossier-body">
+                        <div style="font-size:10px; color:#aaa; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px;">
+                            SYSTEM ID: ${fileId} | STATUS: <span style="color:#00ff00;">ACQUIRED</span>
                         </div>
-                        <div class="${valClass}">${cleanValue}</div>
-                    </div>`;
+                    `;
+                    
+                for (const [key, value] of Object.entries(item)) {
+                    let cleanKey = key.replace(/_/g, ' '); 
+                    let cleanValue = value || 'N/A';
+                    
+                    // Address Beautifier
+                    if (typeof cleanValue === 'string') {
+                        cleanValue = cleanValue.replace(/!/g, ', ');
+                    }
+                    
+                    // Smart Emojis & Styling
+                    let icon = "🔹";
+                    let valClass = "data-value";
+                    let kMatch = key.toLowerCase();
+
+                    if (kMatch.includes('name')) { icon = "👤"; valClass += " highlight"; }
+                    if (kMatch.includes('mobile') || kMatch.includes('alternate')) { icon = "📞"; valClass += " alt"; }
+                    if (kMatch.includes('address')) { icon = "📍"; valClass += " address"; }
+                    if (kMatch.includes('father')) { icon = "👨‍🦳"; }
+                    if (kMatch.includes('circle')) { icon = "📡"; }
+                    if (kMatch.includes('aadhar') || kMatch.includes('id')) { icon = "💳"; }
+                    if (kMatch.includes('email')) { icon = "📧"; }
+                    
+                    html += `
+                        <div class="data-row">
+                            <div class="data-header-container">
+                                <span class="data-icon">${icon}</span>
+                                <span class="data-label">${cleanKey}</span>
+                            </div>
+                            <div class="${valClass}">${cleanValue}</div>
+                        </div>`;
+                }
+                
+                html += `</div></div>`;
+                recordCount++;
             }
-            
-            html += `</div></div>`;
-            recordCount++;
         });
         
         return html;
