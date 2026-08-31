@@ -37,12 +37,13 @@
         .btn-admin { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.8); }
         .btn-admin:active { background: #ff3333; color: #000; }
 
-        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; font-size: 14px; padding: 10px; }
-        .btn-back:active { background: #ffffff; color: #000; }
+        .btn-back { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #ffffff; margin-bottom: 15px; font-size: 14px; padding: 10px; display: block; width: 100%; font-weight: bold; cursor: pointer; border-radius: 5px; text-align: center; transition: 0.3s;}
+        .btn-back:active { transform: scale(0.96); }
 
-        .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; }
-        .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; }
+        .btn-stop { background: rgba(255,51,51,0.2); border: 1px solid #ff3333; color: #ff3333; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px;}
+        .btn-start { background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; padding: 10px; font-size: 13px; margin-top: 15px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px;}
 
+        /* Floating WhatsApp Button */
         .floating-wa {
             position: fixed; bottom: 20px; right: 20px;
             background: #25D366; color: white; width: 55px; height: 55px;
@@ -73,43 +74,45 @@
 
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.4); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 5px;}
         .user-list-item:hover { background: rgba(255,51,51,0.15); }
-        .user-list-item span { font-weight: bold;}
         
         .history-item { border-bottom: 1px dotted rgba(255,255,255,0.2); padding: 8px 0; font-size: 12px; color: #ddd; display: flex; justify-content: space-between; align-items: center;}
         .history-title { color: #fff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #ff3333; padding-bottom: 5px; display: flex; justify-content: space-between;}
         
-        /* Terminal Animation Class */
+        /* Terminal Fast Animation */
         .terminal-loader { font-family: "Courier New", Courier, monospace; color: #00ff00; font-size: 12px; text-align: left; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 5px; border: 1px solid #00ff00; margin-bottom: 15px;}
     </style>
 </head>
 <body>
 
+<!-- WHATSAPP SUPPORT BUTTON -->
 <div class="floating-wa" onclick="openSupport()">
     <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </div>
 
 <div class="card" id="mainCard">
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen">
         <h2>[ SYSTEM AUTHORIZATION ]</h2>
         <div class="input-group">
             <input type="text" id="tokenInput" placeholder="ENTER SECURE TOKEN" autocomplete="off" />
-            <button id="loginBtn" onclick="processLogin()">AUTHENTICATE</button>
+            <button id="loginBtn" onclick="processLogin()">VERIFY TOKEN</button>
             <div class="error-msg" id="loginError">ACCESS DENIED: INVALID TOKEN</div>
         </div>
     </div>
 
+    <!-- 2. SUPER ADMIN DASHBOARD -->
     <div id="adminScreen" class="admin-panel">
-        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN MODE ]</h2>
+        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ SUPER ADMIN DASHBOARD ]</h2>
         
         <div class="tab-container">
-            <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">NEW USER</button>
-            <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">USER LIST</button>
-            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">OSINT TOOL</button>
+            <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">ADD NEW USER</button>
+            <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">MANAGE USERS</button>
+            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">LAUNCH OSINT TOOL</button>
         </div>
 
         <div id="adminNewUser" class="input-group">
-            <input type="text" id="newUserToken" placeholder="GENERATE TOKEN (e.g. VIP-01)" />
-            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">REGISTER TO DATABASE</button>
+            <input type="text" id="newUserToken" placeholder="CREATE SECURE TOKEN (e.g. VIP-01)" />
+            <button id="registerBtn" class="btn-admin" onclick="registerNewUser()">SAVE TO DATABASE</button>
             <div class="success-msg" id="registerSuccess">TOKEN SAVED TO CLOUD!</div>
             <div class="error-msg" id="registerError">ERROR!</div>
         </div>
@@ -120,21 +123,25 @@
         </div>
     </div>
 
+    <!-- 2.5 ADMIN USER TRACKING PANEL -->
     <div id="userDetailsPanel" class="user-details-panel">
-        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER PROFILE ]</h2>
-        <button class="btn-back" onclick="backToUserList()" style="display:block;">[ < BACK TO LIST ]</button>
+        <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER TRACKING LOGS ]</h2>
+        <button class="btn-back" onclick="backToUserList()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #fff; color:#fff;">[ < BACK TO LIST ]</button>
         <div id="userDetailsContent" class="data-card" style="border-left-color: #ff3333;">
-            Loading profile...
+            Extracting user database logs...
         </div>
     </div>
 
+    <!-- 3. ADVANCED OSINT TOOL -->
     <div id="osintScreen" class="osint-panel">
         <h2>[ ADVANCED OSINT TOOL ]</h2>
-        <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO ADMIN PANEL ]</button>
+        
+        <!-- THIS BUTTON WILL CHANGE LOGICALLY BASED ON ROLE -->
+        <button id="backToAdminBtn" class="btn-back"></button>
         
         <div class="input-group">
             <input type="number" id="phoneInput" placeholder="TARGET NUMBER (10 DIGITS)..." autocomplete="off" />
-            <button id="searchBtn" onclick="initiateSearch()">START TRACE</button>
+            <button id="searchBtn" onclick="initiateSearch()">START TRACKING</button>
         </div>
         
         <div id="result-container" style="display:none; margin-top:15px;">
@@ -157,12 +164,12 @@
         }
     }
 
-    // 🔥 USER TRACKING ENGINE 🔥
+    // USER TRACKING ENGINE (For Admin History)
     async function logUserAction(type, dataValue) {
         const currentToken = localStorage.getItem("dev_osint_token");
         if (!currentToken || currentToken === MASTER_TOKEN) return; 
         
-        const timestamp = new Date().toLocaleString('en-GB');
+        const timestamp = new Date().toLocaleString('en-IN'); 
         try {
             await fetch(`${FIREBASE_URL}/users/${currentToken}/${type}.json`, {
                 method: 'POST',
@@ -171,7 +178,7 @@
         } catch(e) {}
     }
 
-    // --- STANDARD APP LOGIC ---
+    // --- LOGIN & SESSION LOGIC ---
     window.onload = function() {
         const savedToken = localStorage.getItem("dev_osint_token");
         if(savedToken) {
@@ -186,14 +193,24 @@
         const loginBtn = document.getElementById('loginBtn');
         if (!token) return;
 
+        // ADMIN LOGIN
         if (token === MASTER_TOKEN) {
             localStorage.setItem("dev_osint_token", token);
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
+            
+            // Set DYNAMIC Back Button for Admin
+            const backBtn = document.getElementById('backToAdminBtn');
+            backBtn.innerText = "[ < BACK TO DASHBOARD ]";
+            backBtn.onclick = goBackToAdmin;
+            backBtn.style.background = "rgba(255, 255, 255, 0.1)";
+            backBtn.style.color = "#ffffff";
+            backBtn.style.border = "1px solid #ffffff";
             return;
         }
 
+        // NORMAL USER LOGIN
         if(!isAuto) loginBtn.innerText = "VERIFYING...";
         try {
             const response = await fetch(`${FIREBASE_URL}/users/${token}.json`);
@@ -206,7 +223,18 @@
                     err.style.display = "none";
                     document.getElementById('loginScreen').style.display = "none";
                     document.getElementById('osintScreen').style.display = "block";
-                    document.getElementById('backToAdminBtn').style.display = "none"; 
+                    
+                    // Set DYNAMIC Logout Button for Normal User
+                    const backBtn = document.getElementById('backToAdminBtn');
+                    backBtn.innerText = "[ 🔴 SECURE LOGOUT ]";
+                    backBtn.onclick = function() {
+                        localStorage.removeItem("dev_osint_token");
+                        location.reload();
+                    };
+                    backBtn.style.background = "rgba(255, 51, 51, 0.15)";
+                    backBtn.style.color = "#ff3333";
+                    backBtn.style.border = "1px solid #ff3333";
+
                 } else {
                     err.innerText = "ACCESS DENIED: TOKEN SUSPENDED";
                     err.style.display = "block";
@@ -221,11 +249,11 @@
             err.innerText = "SYSTEM ERROR: SERVER OFFLINE";
             err.style.display = "block";
         } finally {
-            if(!isAuto) loginBtn.innerText = "AUTHENTICATE";
+            if(!isAuto) loginBtn.innerText = "VERIFY TOKEN";
         }
     }
 
-    // ADMIN TABS
+    // --- ADMIN PANEL FUNCTIONS ---
     function switchAdminTab(tab) {
         document.getElementById('adminNewUser').classList.add('hidden');
         document.getElementById('adminUserList').classList.add('hidden');
@@ -248,7 +276,6 @@
     function showOSINTFromAdmin() {
         document.getElementById('adminScreen').style.display = "none";
         document.getElementById('osintScreen').style.display = "block";
-        document.getElementById('backToAdminBtn').style.display = "block"; 
     }
 
     function goBackToAdmin() {
@@ -274,7 +301,7 @@
             if ((await checkRes.json()) !== null) {
                 errMsg.innerText = "TOKEN ALREADY EXISTS!"; errMsg.style.display = "block";
             } else {
-                const today = new Date().toLocaleDateString('en-GB');
+                const today = new Date().toLocaleDateString('en-IN');
                 await fetch(`${FIREBASE_URL}/users/${newToken}.json`, {
                     method: 'PUT',
                     body: JSON.stringify({ createdAt: today, deviceID: "unlocked", status: "active" })
@@ -284,17 +311,17 @@
             }
         } catch (e) {
             errMsg.innerText = "NETWORK ERROR"; errMsg.style.display = "block";
-        } finally { regBtn.innerText = "REGISTER TO DATABASE"; }
+        } finally { regBtn.innerText = "SAVE TO DATABASE"; }
     }
 
-    // --- ADMIN: USER LIST & PROFILE TRACKING ---
+    // --- ADMIN: USER LIST & DATABASE TRACKING ---
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
         container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
         try {
             const response = await fetch(`${FIREBASE_URL}/users.json`);
             const data = await response.json();
-            let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS (TAP TO VIEW)</div>`;
+            let html = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> REGISTERED USERS (TAP TO VIEW LOGS)</div>`;
             if (data !== null) {
                 for (const [tokenName, details] of Object.entries(data)) {
                     let st = details.status || "active";
@@ -318,7 +345,7 @@
         document.getElementById('adminUserList').classList.add('hidden');
         document.getElementById('userDetailsPanel').style.display = "block";
         const content = document.getElementById('userDetailsContent');
-        content.innerHTML = "Fetching user database logs...";
+        content.innerHTML = "Extracting user database logs...";
 
         try {
             const res = await fetch(`${FIREBASE_URL}/users/${tokenName}.json`);
@@ -331,7 +358,7 @@
                 ? `<button class="btn-stop" onclick="toggleTokenStatus('${tokenName}', 'active')">🛑 SUSPEND TOKEN ACCESS</button>` 
                 : `<button class="btn-start" onclick="toggleTokenStatus('${tokenName}', 'suspended')">✅ ACTIVATE TOKEN ACCESS</button>`;
 
-            // Generate Searches History HTML
+            // Generate Tracked Searches HTML
             let searchHtml = "";
             let totalSearches = 0;
             if(data.searches) {
@@ -343,7 +370,7 @@
                         <span style="color:gray;">${s.time}</span>
                     </div>`;
                 });
-            } else { searchHtml = "<div class='history-item'>No searches yet.</div>"; }
+            } else { searchHtml = "<div class='history-item'>No tracking data found yet.</div>"; }
 
             let fullHtml = `
                 <div style="font-size:16px; margin-bottom:10px;">Token: <span style="color:#00e5ff; font-weight:bold;">${tokenName}</span></div>
@@ -353,7 +380,7 @@
                 ${btnAction}
 
                 <div class="history-title">
-                    <span>OSINT SEARCH HISTORY</span>
+                    <span>TRACKED NUMBERS LOG</span>
                     <span style="color:#00e5ff;">Total: ${totalSearches}</span>
                 </div>
                 <div style="max-height:250px; overflow-y:auto; background:rgba(0,0,0,0.3); padding:8px; border-radius:3px; margin-top:10px;">
@@ -362,7 +389,7 @@
             `;
             content.innerHTML = fullHtml;
 
-        } catch(e) { content.innerHTML = "Error loading profile."; }
+        } catch(e) { content.innerHTML = "Error loading user logs."; }
     }
 
     function backToUserList() {
@@ -382,28 +409,29 @@
         } catch(e) { alert("Error updating status!"); }
     }
 
-    // --- 🔥 ADVANCED OSINT ENGINE WITH TERMINAL UI 🔥 ---
+    // --- 🔥 ADVANCED OSINT ENGINE 🔥 ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
-    // Terminal Text Animation function
+    // Fast Terminal Animation
     async function playTerminalAnimation() {
         const loader = document.getElementById('loadingStatus');
         loader.style.display = "block";
         const steps = [
-            "INITIALIZING SECURE PROTOCOL...",
-            "BYPASSING TELECOM FIREWALLS...",
-            "PINGING DATABASE SERVERS...",
-            "EXTRACTING RAW DATA..."
+            "ESTABLISHING SECURE CONNECTION...",
+            "BYPASSING FIREWALLS...",
+            "ACCESSING TELECOM DATABASE...",
+            "EXTRACTING TARGET DATA..."
         ];
         
+        loader.innerHTML = "";
         for(let i=0; i<steps.length; i++) {
             loader.innerHTML += `> ${steps[i]}<br>`;
-            await new Promise(r => setTimeout(r, 600)); // Sleep for 600ms per step
+            await new Promise(r => setTimeout(r, 200)); // Super fast delay
         }
-        loader.innerHTML += `<span style="color:#00ff00;">> DATA ACQUIRED. DECODING...</span><br>`;
-        await new Promise(r => setTimeout(r, 500));
+        loader.innerHTML += `<span style="color:#00ff00;">> DECODING PACKETS...</span><br>`;
+        await new Promise(r => setTimeout(r, 300));
         loader.style.display = "none";
-        loader.innerHTML = ""; // reset
+        loader.innerHTML = ""; 
     }
 
     async function initiateSearch() {
@@ -425,15 +453,15 @@
             } catch(e) {}
         }
 
-        // Log this search!
+        // Log this search into Tracking Database!
         await logUserAction("searches", mainNumber);
 
         document.getElementById('result-container').style.display = "block";
         document.getElementById('dataOutput').innerHTML = ""; 
-        searchBtn.disabled = true; searchBtn.innerText = "TRACING...";
+        searchBtn.disabled = true; searchBtn.innerText = "TRACKING NUMBER...";
 
         try {
-            // Play hacker animation
+            // Play fast hacker animation
             await playTerminalAnimation();
 
             let finalHTML = "";
@@ -441,7 +469,7 @@
             const globalSeenRecords = new Set(); 
 
             let response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
-            if (!response.ok) throw new Error("A");
+            if (!response.ok) throw new Error("API FAILED");
             let rawText = await response.text();
             let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
 
@@ -463,7 +491,7 @@
                 document.getElementById('dataOutput').innerHTML = finalHTML;
             }
 
-            // Fetch Alt Numbers
+            // Extract Connected Alt Numbers
             if (altNumbersList.size > 0) {
                 for (let altNum of altNumbersList) {
                     try {
@@ -486,11 +514,11 @@
         } catch (err) {
             document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; color:#ff3333; text-align:center;">SYSTEM ERROR: UNABLE TO CONNECT TO PROXY.</div>`;
         } finally {
-            searchBtn.disabled = false; searchBtn.innerText = "START TRACE";
+            searchBtn.disabled = false; searchBtn.innerText = "START TRACKING";
         }
     }
 
-    // Better formatted UI for Data Cards
+    // Better formatted UI for Output Cards
     function generateCardHTML(dataArray, isAlt, globalSet) {
         let html = "";
         const cardClass = isAlt ? "alt-card" : "data-card";
@@ -503,10 +531,9 @@
                     let cleanKey = key.replace(/_/g, ' '); 
                     let cleanValue = value || 'N/A';
                     
-                    // Color coding specific important fields
                     let valueColor = "#ffffff";
-                    if(key.toLowerCase() === 'name') valueColor = "#00ff00"; // Green for name
-                    if(key.toLowerCase() === 'alternate') valueColor = "#ffa500"; // Orange for alt number
+                    if(key.toLowerCase() === 'name') valueColor = "#00ff00"; // Green for names
+                    if(key.toLowerCase() === 'alternate') valueColor = "#ffa500"; // Orange for alt links
                     
                     html += `<div style="display:flex; margin-bottom:8px; border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:4px;">
                                 <span class="data-label">${cleanKey}</span>
