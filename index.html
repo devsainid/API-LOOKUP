@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEV OSINT TERMINAL - PRO</title>
+    <title>DEV SECURE TERMINAL</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Courier New", Courier, monospace; }
         body {
@@ -57,7 +57,7 @@
         .error-msg { color: #ff3333; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         .success-msg { color: #00ff00; text-align: center; margin-top: 8px; font-weight: bold; display: none; font-size: 13px; }
         
-        .admin-panel, .osint-panel, .user-details-panel { display: none; }
+        .admin-panel, .tracker-panel, .user-details-panel { display: none; }
         
         .tab-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 15px; }
         .tab-admin, .tab-tool { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: 0.3s; border-radius: 4px; text-align: center; display: block; }
@@ -66,65 +66,70 @@
         .tab-tool { background: rgba(0, 229, 255, 0.1); color: #00e5ff; border: 1px solid #00e5ff; }
         .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
 
-        /* Admin Panels CSS */
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.3); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 4px;}
         .user-list-item:hover { background: rgba(255,51,51,0.15); }
-        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 13px; color: #fff; display: flex; justify-content: space-between; align-items: center; font-family: monospace;}
+        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 13px; color: #fff; display: flex; justify-content: space-between; align-items: center;}
         .history-title { color: #00e5ff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #00e5ff; padding-bottom: 5px; display: flex; justify-content: space-between;}
         
-        /* 🔥 CLASSIFIED DOSSIER FILE UI (Hacker Theme) 🔥 */
-        .dossier-card {
-            background: #020810;
-            border: 1px solid #00e5ff;
-            margin-top: 25px;
-            position: relative;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        /* 🔥 CLEAN FILE UI 🔥 */
+        .clean-file-card {
+            background: rgba(0, 10, 20, 0.8);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            border-top: 3px solid #00e5ff;
+            margin-top: 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        .dossier-header {
-            background: rgba(0, 229, 255, 0.15);
-            border-bottom: 1px solid #00e5ff;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
+        .file-header {
+            background: rgba(0, 229, 255, 0.1);
+            padding: 8px 15px;
+            font-size: 12px;
             font-weight: bold;
             color: #00e5ff;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            text-transform: uppercase;
             letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
         }
-        .dossier-tag {
-            background: #ff3333;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 2px;
-            font-size: 10px;
-            animation: blinker 2s linear infinite;
-        }
-        @keyframes blinker { 50% { opacity: 0.5; } }
-        .dossier-body {
+        .file-body {
             padding: 15px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
             font-size: 13px;
         }
-        .cmd-line {
-            margin-bottom: 10px;
+        .data-row:last-child { border-bottom: none; }
+        .data-label {
+            color: #00e5ff;
+            width: 35%;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .data-value {
+            color: #ffffff;
+            width: 65%;
+            text-align: right;
+            word-break: break-word;
+        }
+        .data-value.highlight { color: #00ff00; }
+
+        /* USER HELP SECTION */
+        .help-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #ccc;
             line-height: 1.5;
-            border-bottom: 1px dotted rgba(255,255,255,0.1);
-            padding-bottom: 5px;
         }
-        .cmd-line:last-child { border-bottom: none; }
-        .cmd-prompt { color: #ff3333; margin-right: 8px; font-weight: normal;}
-        .cmd-key { color: #00e5ff; font-weight: bold; margin-right: 8px; text-transform: uppercase;}
-        .cmd-val { color: #00ff00; font-weight: bold; word-break: break-word;}
-        .cmd-val.alt { color: #ffa500; }
-        .cmd-val.address { 
-            display: block; 
-            color: #cccccc; 
-            margin-top: 4px; 
-            margin-left: 20px; 
-            padding-left: 10px; 
-            border-left: 2px solid rgba(0, 229, 255, 0.3);
-            font-weight: normal;
-        }
+        .help-box strong { color: #00e5ff; }
 
         .terminal-loader { font-family: "Courier New", Courier, monospace; color: #00ff00; font-size: 13px; text-align: left; padding: 15px; background: #051005; border-radius: 4px; border: 1px solid #00ff00; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,0,0.2);}
     </style>
@@ -154,7 +159,7 @@
         <div class="tab-container">
             <button class="tab-admin active" id="tab-new" onclick="switchAdminTab('new')">CREATE USER</button>
             <button class="tab-admin" id="tab-list" onclick="switchAdminTab('list')">MANAGE USERS</button>
-            <button class="tab-tool" id="tab-tool" onclick="showOSINTFromAdmin()">OPEN OSINT TOOL</button>
+            <button class="tab-tool" id="tab-tool" onclick="showTrackerFromAdmin()">OPEN TRACKER</button>
         </div>
 
         <div id="adminNewUser" class="input-group">
@@ -179,16 +184,25 @@
         </div>
     </div>
 
-    <!-- 3. ADVANCED OSINT TOOL -->
-    <div id="osintScreen" class="osint-panel">
-        <h2>[ ADVANCED OSINT TOOL ]</h2>
+    <!-- 3. ADVANCED TRACKER TOOL -->
+    <div id="trackerScreen" class="tracker-panel">
+        <h2>[ ADVANCED TRACKING SYSTEM ]</h2>
         
         <!-- Only visible to ADMIN -->
         <button id="backToAdminBtn" class="btn-back" onclick="goBackToAdmin()">[ < BACK TO DASHBOARD ]</button>
         
         <div class="input-group">
             <input type="number" id="phoneInput" placeholder="TARGET NUMBER..." autocomplete="off" />
-            <button id="searchBtn" onclick="initiateSearch()">START TRACKING</button>
+            <button id="searchBtn" onclick="initiateSearch()">TRACK NUMBER</button>
+        </div>
+
+        <!-- USER GUIDE / HELP SECTION -->
+        <div id="userHelpBox" class="help-box">
+            <strong>System Instructions:</strong><br><br>
+            1. Enter a valid 10-digit mobile number in the box above.<br>
+            2. Tap on "TRACK NUMBER" to initiate database extraction.<br>
+            3. Please wait while the system securely fetches the records.<br>
+            4. If you face issues or need a new token, tap the green support button.
         </div>
         
         <div id="result-container" style="display:none; margin-top:20px;">
@@ -289,9 +303,9 @@
                     localStorage.setItem("dev_osint_token", token);
                     err.style.display = "none";
                     document.getElementById('loginScreen').style.display = "none";
-                    document.getElementById('osintScreen').style.display = "block";
+                    document.getElementById('trackerScreen').style.display = "block";
                     
-                    // User ko back/logout button NAHI dikhega
+                    // NORMAL USER HAS NO BACK BUTTON
                     document.getElementById('backToAdminBtn').style.display = "none"; 
 
                 } else {
@@ -331,13 +345,13 @@
         }
     }
 
-    function showOSINTFromAdmin() {
+    function showTrackerFromAdmin() {
         document.getElementById('adminScreen').style.display = "none";
-        document.getElementById('osintScreen').style.display = "block";
+        document.getElementById('trackerScreen').style.display = "block";
     }
 
     function goBackToAdmin() {
-        document.getElementById('osintScreen').style.display = "none";
+        document.getElementById('trackerScreen').style.display = "none";
         document.getElementById('adminScreen').style.display = "block";
     }
 
@@ -468,7 +482,7 @@
         } catch(e) { alert("Error updating status!"); }
     }
 
-    // --- 🔥 ADVANCED OSINT ENGINE (CLASSIFIED FILE UI) 🔥 ---
+    // --- 🔥 DATA ENGINE 🔥 ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
     async function playTerminalAnimation() {
@@ -477,7 +491,7 @@
         const steps = [
             "ESTABLISHING SECURE CONNECTION...",
             "BYPASSING FIREWALLS...",
-            "ACCESSING TELECOM DATABASE...",
+            "ACCESSING DATABASE...",
             "EXTRACTING TARGET DATA..."
         ];
         
@@ -513,6 +527,7 @@
 
         await logUserAction("searches", mainNumber);
 
+        document.getElementById('userHelpBox').style.display = "none"; // Hide help when searching
         document.getElementById('result-container').style.display = "block";
         document.getElementById('dataOutput').innerHTML = ""; 
         searchBtn.disabled = true; searchBtn.innerText = "TRACKING...";
@@ -526,54 +541,50 @@
             let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
 
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                // Generate Hacker Style File Output
-                document.getElementById('dataOutput').innerHTML = generateHackerFileHTML(primaryData.results);
+                document.getElementById('dataOutput').innerHTML = generateCleanFileHTML(primaryData.results);
             } else {
-                document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8);">[ ERROR: TARGET NOT FOUND IN DATABASE ]</div>`;
+                document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8); border-radius: 4px;">[ ERROR: RECORD NOT FOUND ]</div>`;
             }
 
         } catch (err) {
-            document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8);">[ SYSTEM ERROR: TARGET BLOCKED REQUEST ]</div>`;
+            document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8); border-radius: 4px;">[ SYSTEM ERROR: CONNECTION BLOCKED ]</div>`;
         } finally {
             searchBtn.disabled = false; searchBtn.innerText = "TRACK NUMBER";
         }
     }
 
-    // 🔥 NEW: CLASSIFIED FILE HTML GENERATOR 🔥
-    function generateHackerFileHTML(dataArray) {
+    // 🔥 CLEAN, PROFESSIONAL DATA FILE UI 🔥
+    function generateCleanFileHTML(dataArray) {
         let html = "";
         let recordCount = 1;
         
         dataArray.forEach((item) => {
-            let fileId = Math.random().toString(36).substr(2, 8).toUpperCase();
+            let fileId = Math.random().toString(36).substr(2, 6).toUpperCase();
             
             html += `
-            <div class="dossier-card">
-                <div class="dossier-header">
-                    <span>📁 FILE_RECORD_0${recordCount}</span>
-                    <span class="dossier-tag">CLASSIFIED</span>
+            <div class="clean-file-card">
+                <div class="file-header">
+                    <span>[ RECORD 0${recordCount} ]</span>
                     <span>ID: ${fileId}</span>
                 </div>
-                <div class="dossier-body">`;
+                <div class="file-body">`;
                 
             for (const [key, value] of Object.entries(item)) {
                 let cleanKey = key.replace(/_/g, ' '); 
-                let cleanValue = value || 'NULL';
+                let cleanValue = value || 'N/A';
                 
-                // Address Beautifier: Replace ! with comma to make it look clean
+                // Formatter: Replace ! with comma for addresses to make it clean
                 if (typeof cleanValue === 'string') {
                     cleanValue = cleanValue.replace(/!/g, ', ');
                 }
                 
-                let valClass = "cmd-val";
-                if(key.toLowerCase() === 'alternate') valClass += " alt";
-                if(key.toLowerCase() === 'address') valClass += " address";
+                let highlightClass = "";
+                if(key.toLowerCase() === 'name') highlightClass = "highlight"; 
                 
                 html += `
-                    <div class="cmd-line">
-                        <span class="cmd-prompt">root@osint:~$</span>
-                        <span class="cmd-key">${cleanKey}:</span>
-                        <span class="${valClass}">${cleanValue}</span>
+                    <div class="data-row">
+                        <div class="data-label">${cleanKey}</div>
+                        <div class="data-value ${highlightClass}">${cleanValue}</div>
                     </div>`;
             }
             
