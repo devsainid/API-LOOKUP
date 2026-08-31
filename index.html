@@ -12,7 +12,7 @@
             background-size: 20px 20px; color: #00e5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
         .card {
-            background: linear-gradient(145deg, rgba(0, 15, 35, 0.9), rgba(0, 5, 15, 0.95)); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
+            background: linear-gradient(145deg, rgba(0, 15, 35, 0.95), rgba(0, 5, 15, 0.98)); backdrop-filter: blur(10px); width: 100%; max-width: 480px;
             padding: 30px 20px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.3);
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 229, 255, 0.05);
         }
@@ -59,29 +59,6 @@
         
         .admin-panel, .osint-panel, .user-details-panel { display: none; }
         
-        /* 🔥 PREMIUM DATA CARD UI 🔥 */
-        .data-card { 
-            background: linear-gradient(180deg, rgba(0, 30, 60, 0.8) 0%, rgba(0, 10, 25, 0.9) 100%); 
-            border: 1px solid rgba(0, 229, 255, 0.3); 
-            border-left: 4px solid #00e5ff; 
-            padding: 20px; margin-top: 20px; border-radius: 6px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            position: relative; overflow: hidden;
-        }
-        .data-card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, #00e5ff, transparent);
-        }
-        
-        .data-row { 
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; 
-        }
-        .data-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        
-        .data-label { color: #00e5ff; width: 40%; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,229,255,0.4);}
-        .data-value { color: #ffffff; width: 60%; font-size: 14px; text-align: right; word-break: break-word; font-family: monospace; }
-        
         .tab-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed rgba(0, 229, 255, 0.3); padding-bottom: 15px; }
         .tab-admin, .tab-tool { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: 0.3s; border-radius: 4px; text-align: center; display: block; }
         .tab-admin { background: rgba(255, 51, 51, 0.1); color: #ff3333; border: 1px solid #ff3333; }
@@ -89,12 +66,66 @@
         .tab-tool { background: rgba(0, 229, 255, 0.1); color: #00e5ff; border: 1px solid #00e5ff; }
         .tab-tool.active, .tab-tool:active { background: #00e5ff; color: #000; text-shadow: none; }
 
+        /* Admin Panels CSS */
         .user-list-item { border-bottom: 1px dashed rgba(255, 51, 51, 0.3); padding: 12px; font-size: 13px; color: #fff; cursor: pointer; background: rgba(255,51,51,0.05); transition: 0.3s; margin-bottom: 8px; border-radius: 4px;}
         .user-list-item:hover { background: rgba(255,51,51,0.15); }
-        
         .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 13px; color: #fff; display: flex; justify-content: space-between; align-items: center; font-family: monospace;}
         .history-title { color: #00e5ff; font-weight: bold; font-size: 13px; margin-top: 20px; border-bottom: 1px solid #00e5ff; padding-bottom: 5px; display: flex; justify-content: space-between;}
         
+        /* 🔥 CLASSIFIED DOSSIER FILE UI (Hacker Theme) 🔥 */
+        .dossier-card {
+            background: #020810;
+            border: 1px solid #00e5ff;
+            margin-top: 25px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+        .dossier-header {
+            background: rgba(0, 229, 255, 0.15);
+            border-bottom: 1px solid #00e5ff;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #00e5ff;
+            letter-spacing: 1px;
+        }
+        .dossier-tag {
+            background: #ff3333;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 10px;
+            animation: blinker 2s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0.5; } }
+        .dossier-body {
+            padding: 15px;
+            font-size: 13px;
+        }
+        .cmd-line {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            border-bottom: 1px dotted rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        .cmd-line:last-child { border-bottom: none; }
+        .cmd-prompt { color: #ff3333; margin-right: 8px; font-weight: normal;}
+        .cmd-key { color: #00e5ff; font-weight: bold; margin-right: 8px; text-transform: uppercase;}
+        .cmd-val { color: #00ff00; font-weight: bold; word-break: break-word;}
+        .cmd-val.alt { color: #ffa500; }
+        .cmd-val.address { 
+            display: block; 
+            color: #cccccc; 
+            margin-top: 4px; 
+            margin-left: 20px; 
+            padding-left: 10px; 
+            border-left: 2px solid rgba(0, 229, 255, 0.3);
+            font-weight: normal;
+        }
+
         .terminal-loader { font-family: "Courier New", Courier, monospace; color: #00ff00; font-size: 13px; text-align: left; padding: 15px; background: #051005; border-radius: 4px; border: 1px solid #00ff00; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,0,0.2);}
     </style>
 </head>
@@ -142,8 +173,8 @@
     <!-- 2.5 ADMIN USER TRACKING PANEL -->
     <div id="userDetailsPanel" class="user-details-panel">
         <h2 style="color: #ff3333; text-shadow: 0 0 10px #ff3333;">[ USER TRACKING LOGS ]</h2>
-        <button class="btn-back" onclick="backToUserList()" style="display:block;">[ < BACK TO LIST ]</button>
-        <div id="userDetailsContent" class="data-card" style="border-left-color: #ff3333; background: rgba(0,0,0,0.8);">
+        <button class="btn-back" onclick="backToUserList()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #fff; color:#fff; display:block;">[ < BACK TO LIST ]</button>
+        <div id="userDetailsContent" style="background: rgba(0,0,0,0.8); border: 1px solid #ff3333; padding: 15px; margin-top: 15px; border-radius: 5px;">
             Extracting database logs...
         </div>
     </div>
@@ -157,7 +188,7 @@
         
         <div class="input-group">
             <input type="number" id="phoneInput" placeholder="TARGET NUMBER..." autocomplete="off" />
-            <button id="searchBtn" onclick="initiateSearch()">TRACK NUMBER</button>
+            <button id="searchBtn" onclick="initiateSearch()">START TRACKING</button>
         </div>
         
         <div id="result-container" style="display:none; margin-top:20px;">
@@ -180,7 +211,7 @@
         }
     }
 
-    // 🔥 DEVICE ID GENERATOR (For Multi-Device Ban) 🔥
+    // DEVICE ID GENERATOR
     function getDeviceID() {
         let id = localStorage.getItem("my_secret_device_id");
         if (!id) {
@@ -190,13 +221,13 @@
         return id;
     }
 
-    // 🔥 FIXED USER TRACKING ENGINE (Now guaranteed to save) 🔥
+    // USER TRACKING ENGINE
     async function logUserAction(type, dataValue) {
         const currentToken = localStorage.getItem("dev_osint_token");
         if (!currentToken || currentToken === MASTER_TOKEN) return; 
         
         const timestamp = new Date().toLocaleString('en-IN'); 
-        const logId = Date.now(); // Unique ID fixes WebView POST blocking
+        const logId = Date.now(); 
         try {
             await fetch(`${FIREBASE_URL}/users/${currentToken}/${type}/${logId}.json`, {
                 method: 'PUT',
@@ -226,7 +257,7 @@
             err.style.display = "none";
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('adminScreen').style.display = "block";
-            document.getElementById('backToAdminBtn').style.display = "block"; // Show Admin Back Button
+            document.getElementById('backToAdminBtn').style.display = "block"; 
             return;
         }
 
@@ -240,16 +271,14 @@
                 const status = data.status || "active";
                 if (status === "active") {
                     
-                    // 🔒 DEVICE LOCKING LOGIC 🔒
+                    // DEVICE LOCKING
                     let myDevice = getDeviceID();
                     if(data.deviceID === "unlocked") {
-                        // First login: Lock to this device
                         await fetch(`${FIREBASE_URL}/users/${token}.json`, {
                             method: 'PATCH',
                             body: JSON.stringify({ deviceID: myDevice })
                         });
                     } else if(data.deviceID !== myDevice) {
-                        // Token being used on another phone
                         err.innerText = "ACCESS DENIED: TOKEN LOCKED TO ANOTHER DEVICE";
                         err.style.display = "block";
                         localStorage.removeItem("dev_osint_token");
@@ -262,7 +291,7 @@
                     document.getElementById('loginScreen').style.display = "none";
                     document.getElementById('osintScreen').style.display = "block";
                     
-                    // HIDE ADMIN BUTTON FOR NORMAL USER
+                    // User ko back/logout button NAHI dikhega
                     document.getElementById('backToAdminBtn').style.display = "none"; 
 
                 } else {
@@ -343,7 +372,6 @@
         } finally { regBtn.innerText = "REGISTER DEVICE"; }
     }
 
-    // --- ADMIN: USER LIST & DATABASE TRACKING ---
     async function fetchUsersList() {
         const container = document.getElementById('usersListContainer');
         container.innerHTML = `<div style="color:#ff3333; margin-bottom:10px; text-align:center;">> FETCHING CLOUD DATA...</div>`;
@@ -390,11 +418,9 @@
                 ? `<button class="btn-stop" onclick="toggleTokenStatus('${tokenName}', 'active')">🛑 SUSPEND TOKEN ACCESS</button>` 
                 : `<button class="btn-start" onclick="toggleTokenStatus('${tokenName}', 'suspended')">✅ ACTIVATE TOKEN ACCESS</button>`;
 
-            // Generate Tracked Searches HTML
             let searchHtml = "";
             let totalSearches = 0;
             if(data.searches) {
-                // Object.values to Array, then reverse for Latest First
                 const searchObj = Object.values(data.searches).reverse();
                 totalSearches = searchObj.length;
                 searchObj.forEach(s => {
@@ -442,7 +468,7 @@
         } catch(e) { alert("Error updating status!"); }
     }
 
-    // --- 🔥 ADVANCED OSINT ENGINE (PRIMARY NUMBER ONLY) 🔥 ---
+    // --- 🔥 ADVANCED OSINT ENGINE (CLASSIFIED FILE UI) 🔥 ---
     const API_BASE = atob("aHR0cHM6Ly9seW54Lm1pcmVpYXJpb3Nzcy53b3JrZXJzLmRldi9hcGkvc2VhcmNoLw==");
 
     async function playTerminalAnimation() {
@@ -485,7 +511,6 @@
             } catch(e) {}
         }
 
-        // Log this search into Tracking Database!
         await logUserAction("searches", mainNumber);
 
         document.getElementById('result-container').style.display = "block";
@@ -495,45 +520,69 @@
         try {
             await playTerminalAnimation();
 
-            let finalHTML = "";
             let response = await fetch(`${API_BASE}${encodeURIComponent(mainNumber)}`);
             if (!response.ok) throw new Error("API FAILED");
             let rawText = await response.text();
             let primaryData = JSON.parse(rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1));
 
             if (primaryData && primaryData.results && primaryData.results.length > 0) {
-                // PREMIUM UI CARD GENERATION
-                finalHTML += `<div class="data-card">
-                                <div style="font-weight:bold; font-size:14px; margin-bottom:15px; color:#00e5ff; border-bottom:1px solid rgba(0,229,255,0.3); padding-bottom:10px; text-align:center; letter-spacing:1px;">[ TARGET ACQUIRED ]</div>`;
-                
-                primaryData.results.forEach((item) => {
-                    for (const [key, value] of Object.entries(item)) {
-                        let cleanKey = key.replace(/_/g, ' '); 
-                        let cleanValue = value || 'N/A';
-                        
-                        let valueColor = "#ffffff";
-                        if(key.toLowerCase() === 'name') valueColor = "#00ff00"; 
-                        if(key.toLowerCase() === 'alternate') valueColor = "#ffa500"; 
-                        
-                        finalHTML += `
-                            <div class="data-row">
-                                <span class="data-label">${cleanKey}</span>
-                                <span class="data-value" style="color:${valueColor};">${cleanValue}</span>
-                            </div>`;
-                    }
-                });
-                finalHTML += `</div>`;
-                document.getElementById('dataOutput').innerHTML = finalHTML;
+                // Generate Hacker Style File Output
+                document.getElementById('dataOutput').innerHTML = generateHackerFileHTML(primaryData.results);
             } else {
-                document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; text-align:center; color:#ff3333;">TARGET NOT FOUND IN DATABASE.</div>`;
+                document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8);">[ ERROR: TARGET NOT FOUND IN DATABASE ]</div>`;
             }
 
         } catch (err) {
-            document.getElementById('dataOutput').innerHTML = `<div class="data-card" style="border-left-color:#ff3333; color:#ff3333; text-align:center;">SYSTEM ERROR: TARGET BLOCKED REQUEST.</div>`;
+            document.getElementById('dataOutput').innerHTML = `<div style="color:#ff3333; text-align:center; padding: 20px; border: 1px solid #ff3333; background: rgba(0,0,0,0.8);">[ SYSTEM ERROR: TARGET BLOCKED REQUEST ]</div>`;
         } finally {
             searchBtn.disabled = false; searchBtn.innerText = "TRACK NUMBER";
         }
     }
+
+    // 🔥 NEW: CLASSIFIED FILE HTML GENERATOR 🔥
+    function generateHackerFileHTML(dataArray) {
+        let html = "";
+        let recordCount = 1;
+        
+        dataArray.forEach((item) => {
+            let fileId = Math.random().toString(36).substr(2, 8).toUpperCase();
+            
+            html += `
+            <div class="dossier-card">
+                <div class="dossier-header">
+                    <span>📁 FILE_RECORD_0${recordCount}</span>
+                    <span class="dossier-tag">CLASSIFIED</span>
+                    <span>ID: ${fileId}</span>
+                </div>
+                <div class="dossier-body">`;
+                
+            for (const [key, value] of Object.entries(item)) {
+                let cleanKey = key.replace(/_/g, ' '); 
+                let cleanValue = value || 'NULL';
+                
+                // Address Beautifier: Replace ! with comma to make it look clean
+                if (typeof cleanValue === 'string') {
+                    cleanValue = cleanValue.replace(/!/g, ', ');
+                }
+                
+                let valClass = "cmd-val";
+                if(key.toLowerCase() === 'alternate') valClass += " alt";
+                if(key.toLowerCase() === 'address') valClass += " address";
+                
+                html += `
+                    <div class="cmd-line">
+                        <span class="cmd-prompt">root@osint:~$</span>
+                        <span class="cmd-key">${cleanKey}:</span>
+                        <span class="${valClass}">${cleanValue}</span>
+                    </div>`;
+            }
+            
+            html += `</div></div>`;
+            recordCount++;
+        });
+        
+        return html;
+    }
 </script>
 </body>
-                </html>
+    </html>
